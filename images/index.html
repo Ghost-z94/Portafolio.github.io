@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | Unity Developer</title>
+    <!-- Google Fonts: Inter para texto, Orbitron para títulos de estilo futurista -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos de tecnología -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS GLOBALES (Futurista Celeste & Negro Puro) --- */
+        :root {
+            --bg-color: #000000;         /* Negro puro */
+            --card-bg: #080a0f;          /* Gris azulado ultra oscuro para elevación */
+            --accent-celeste: #00f0ff;   /* Celeste neón principal */
+            --accent-blue: #0072ff;      /* Azul cibernético de apoyo */
+            --text-main: #f0f9ff;        /* Celeste/Blanco de alto contraste */
+            --text-muted: #7da5b8;       /* Celeste grisáceo apagado */
+            --border-neon: rgba(0, 240, 255, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --neon-glow: 0 0 15px rgba(0, 240, 255, 0.25);
+            --neon-glow-strong: 0 0 25px rgba(0, 240, 255, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- NAVEGACIÓN FUTURISTA --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--accent-celeste);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-celeste);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* --- SECCIÓN HERO --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem 2rem;
+            position: relative;
+            /* Cuadrícula holográfica de fondo */
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 850px;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            font-family: 'Orbitron', sans-serif;
+            background: rgba(0, 240, 255, 0.05);
+            color: var(--accent-celeste);
+            border: 1px solid var(--accent-celeste);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 2rem;
+            box-shadow: var(--neon-glow);
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .hero-title span {
+            color: var(--accent-celeste);
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Orbitron', sans-serif;
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-celeste);
+            color: #000000;
+            box-shadow: var(--neon-glow);
+            border: 1px solid var(--accent-celeste);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background-color: #000000;
+            color: var(--accent-celeste);
+            box-shadow: var(--neon-glow-strong);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            background: rgba(0, 240, 255, 0.02);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-celeste);
+            background: rgba(0, 240, 255, 0.08);
+            transform: translateY(-3px);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* --- CONTENEDOR GENERAL DE SECCIÓN --- */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 7rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 3.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title span {
+            color: var(--accent-celeste);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* --- SECCIÓN SOBRE MÍ --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .about-text p strong {
+            color: var(--accent-celeste);
+        }
+
+        .about-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .about-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 4px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+        }
+
+        .about-card:hover {
+            border-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+            transform: translateX(5px);
+        }
+
+        .about-card i {
+            font-size: 2rem;
+            color: var(--accent-celeste);
+            margin-bottom: 1rem;
+            text-shadow: var(--neon-glow);
+        }
+
+        .about-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .about-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- SECCIÓN HABILIDADES (Software) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            padding: 1.8rem 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .skill-item:hover {
+            border-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+            transform: translateY(-5px);
+        }
+
+        .skill-item i {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent-celeste);
+            transition: var(--transition);
+        }
+
+        .skill-item:hover i {
+            text-shadow: var(--neon-glow-strong);
+            transform: scale(1.1);
+        }
+
+        .skill-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .skill-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .badge-advanced {
+            background-color: rgba(0, 240, 255, 0.1);
+            color: var(--accent-celeste);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+        }
+
+        .badge-medium {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- SECCIÓN PROTOTIPOS (Proyectos) --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Contenedor de Imagen */
+        .project-image-container {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            background-color: #020406;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-neon);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            opacity: 0.75;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.08);
+            opacity: 1;
+        }
+
+        /* Imagen Marcador de Posición (Placeholder) */
+        .project-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #020406 0%, #080d1a 100%);
+            color: rgba(0, 240, 255, 0.4);
+            gap: 1rem;
+        }
+
+        .project-placeholder i {
+            font-size: 3.5rem;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .project-placeholder span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .project-info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .project-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            text-align: justify;
+        }
+
+        .project-techs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-pill {
+            background-color: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            color: var(--accent-celeste);
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.2rem;
+            border-top: 1px solid var(--border-neon);
+            padding-top: 1.2rem;
+        }
+
+        .project-link {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent-celeste);
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .project-link:hover {
+            color: var(--text-main);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* --- SECCIÓN HABILIDADES VR/XR --- */
+        .vr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .vr-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-top: 3px solid var(--accent-celeste);
+            border-radius: 4px;
+            padding: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .vr-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-celeste);
+            box-shadow: var(--neon-glow);
+        }
+
+        .vr-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .vr-card h4 i {
+            color: var(--accent-celeste);
+            text-shadow: var(--neon-glow);
+        }
+
+        .vr-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        /* --- SECCIÓN CONTACTO --- */
+        #contact {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+            border-top: 1px solid var(--border-neon);
+        }
+
+        .contact-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .contact-container p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-neon);
+            padding: 3.5rem 2rem;
+            text-align: center;
+            background-color: #020305;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-socials {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            font-size: 1.6rem;
+        }
+
+        .footer-socials a {
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .footer-socials a:hover {
+            color: var(--accent-celeste);
+            text-shadow: var(--neon-glow-strong);
+            transform: translateY(-3px) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">PORTFOLIO</div>
+            <ul class="nav-links">
+                <li><a href="#about">Sobre Mí</a></li>
+                <li><a href="#skills">Habilidades</a></li>
+                <li><a href="#model-skills">Modelos</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="hero-content">
+            <span class="hero-badge">SISTEMA ONLINE - LISTO PARA PROYECTOS</span>
+            <h1 class="hero-title">Hola, soy <span>Bernardo Urrutia</span></h1>
+            <p class="hero-subtitle">Unity Developer & Especialista en Tecnologías</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Enviar Mensaje</a>
+                <a href="#model-skills" class="btn btn-secondary"><i class="fa-solid fa-terminal"></i> Ver modelos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section id="about">
+        <h2 class="section-title">SOBRE <span>MÍ</span></h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    Soy un desarrollador de Unity con 4 años de experiencia en programación y modelado 3D. Cuento con una profunda especialización en control de calidad de videojuegos.
+                </p>
+                <p>
+                    Manejo gran conocimiento sobre QA Tester (Quality Assurance Tester), lo cual me permite ver errores y solucionarlos.
+                </p>
+            </div>
+            <div class="about-cards-container">
+                <div class="about-card">
+                    <i class="fa-solid fa-cube"></i>
+                    <h4>Trayectoria</h4>
+                    <p>4 Años de Desarrollo Activo en Unity</p>
+                </div>
+                <div class="about-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>Formación Académica</h4>
+                    <p>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales("Diseño y Desarrollo de Videojuegos") – Universidad Bernardo O'Higgins(UBO) </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="skills">
+        <h2 class="section-title">SISTEMAS <span>Y SOFTWARE</span></h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <i class="fa-brands fa-unity"></i>
+                <h4>Unity</h4>
+                <span class="skill-badge badge-advanced">Avanzado</span>
+            </div>
+            <div class="skill-item">
+                <i class="fa-solid fa-cubes"></i>
+                <h4>Blender</h4>
+                <span class="skill-badge badge-advanced">Avanzado</span>
+            </div>
+            <div class="skill-item">
+                <i class="fa-solid fa-code"></i>
+                <h4>C# / VS Code</h4>
+                <span class="skill-badge badge-advanced">Avanzado</span>
+            </div>
+            <div class="skill-item">
+                <i class="fa-brands fa-github"></i>
+                <h4>GitHub / Git</h4>
+                <span class="skill-badge badge-medium">Medio</span>
+            </div>
+            <div class="skill-item">
+                <i class="fa-solid fa-circle-nodes"></i>
+                <h4>Unreal Engine</h4>
+                <span class="skill-badge badge-medium">Medio</span>
+            </div>
+            <div class="skill-item">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <h4>Photoshop</h4>
+                <span class="skill-badge badge-medium">Medio</span>
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="model-skills">
+        <h2 class="section-title">MODELOS<span>/PROYECTOS</span></h2>
+        <div class="vr-grid">
+                <div class="project-image-container">
+                    <div class="project-escenario">
+                        <img src="Escenario.png" alt="Escenario" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span>[ Escenario Modelo ]</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Escenario Diorama</h3>
+                    <p class="project-desc">Escenario desarrolado en tiempo de estudio, Diorama .</p>
+                    <div class="project-techs">
+                        <span class="tech-pill">Blender</span>
+                        <span class="tech-pill">Modelo</span>
+                        <span class="tech-pill">Diorama</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-image-container">
+                    <div class="project-repo">
+                        <img src="repo.png" alt="R.E.P.O" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span>[ R.E.P.O Diorama ]</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">R.e.p.o Diorama</h3>
+                    <p class="project-desc">Escenario desarrolado en tiempo de estudio, Diorama .</p>
+                    <div class="project-techs">
+                        <span class="tech-pill">Blender</span>
+                        <span class="tech-pill">Modelo</span>
+                        <span class="tech-pill">Diorama</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-image-container">
+                    <div class="project-nivel">
+                        <img src="image.png" alt="R.E.P.O" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span>[ Diseño de nivel ]</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">diseño de nivel</h3>
+                    <p class="project-desc">Proyecto, diseño de nivel basado en juegos de parkour y puzzle.</p>
+                    <div class="project-techs">
+                        <span class="tech-pill">Unity</span>
+                        <span class="tech-pill">Diseño</span>
+                        <span class="tech-pill">C#</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-image-container">
+                    <div class="project-Enemy">
+                        <img src="image.png" alt="R.E.P.O" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span>[ Creacion de enemigo ]</span>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Enemigo</h3>
+                    <p class="project-desc">Enemigo el cual te persigue y te ataca si es que estan en la vista.</p>
+                    <div class="project-techs">
+                        <span class="tech-pill">Unity</span>
+                        <span class="tech-pill">Creacion</span>
+                        <span class="tech-pill">C#</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contact">
+        <div class="contact-container">
+            <h2 class="section-title"><span>CONTACTO</span></h2>
+            <p>¿Buscas un desarrollador para tu equipo de videojuegos, o tienes un proyecto en mente? ¡Conectemos!</p>
+            <a href="mailto:brebolledo437@gmail.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> brebolledo437@gmail.com</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Copyright &copy; 2026 Bernardo Urrutia. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
