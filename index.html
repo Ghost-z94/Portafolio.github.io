@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio | Unity Developer</title>
-    <!-- Google Fonts: Inter para texto, Orbitron para títulos de estilo futurista -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome para iconos de tecnología -->
+    <title>Bernardo Urrutia | Unity & Game Developer Portfolio</title>
+    <!-- Google Fonts: Fredoka (Playful/Gaming) & Lexend (Super Clean Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Lexend:wght@300;400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Gaming Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- ESTILOS GLOBALES (Futurista Celeste & Negro Puro) --- */
+        /* --- ESTILOS DE VIDEOJUEGOS Y ANIMADOS (Paleta Arcade/Cozy Purple) --- */
         :root {
-            --bg-color: #000000;         /* Negro puro */
-            --card-bg: #080a0f;          /* Gris azulado ultra oscuro para elevación */
-            --accent-celeste: #00f0ff;   /* Celeste neón principal */
-            --accent-blue: #0072ff;      /* Azul cibernético de apoyo */
-            --text-main: #f0f9ff;        /* Celeste/Blanco de alto contraste */
-            --text-muted: #7da5b8;       /* Celeste grisáceo apagado */
-            --border-neon: rgba(0, 240, 255, 0.15);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --neon-glow: 0 0 15px rgba(0, 240, 255, 0.25);
-            --neon-glow-strong: 0 0 25px rgba(0, 240, 255, 0.6);
+            --bg-color: #0c081f;          /* Fondo morado espacial muy oscuro */
+            --bg-grid: rgba(157, 78, 221, 0.05); /* Cuadrícula arcade sutil */
+            --card-bg: #1a123a;           /* Cartas morado uva/consola */
+            --card-hover-bg: #241a4e;     /* Brillo al hover */
+
+            /* Colores divertidos y animados */
+            --accent-pink: #ff477e;       /* Botones secundarios/detalles */
+            --accent-purple: #9d4edd;     /* Glows principales */
+            --accent-yellow: #ffb703;     /* Monedas/Logros/Highlights */
+            --accent-green: #390099;      /* Contraste */
+            --accent-mint: #2ec4b6;       /* Detalles técnicos */
+
+            /* Estilo flat 3D / Cómic de Videojuegos */
+            --arcade-shadow: 0px 6px 0px #05030d;
+            --arcade-shadow-hover: 0px 8px 0px #05030d;
+            --arcade-shadow-pressed: 0px 2px 0px #05030d;
+
+            --text-main: #f5f3ff;         /* Texto principal brillante */
+            --text-muted: #b4aed6;        /* Lavanda apagado para descripciones */
+            --border-game: 3px solid #100a26; /* Bordes gruesos animados */
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Lexend', sans-serif;
         }
 
         html {
@@ -37,9 +48,29 @@
 
         body {
             background-color: var(--bg-color);
+            background-image:
+                linear-gradient(var(--bg-grid) 2px, transparent 2px),
+                linear-gradient(90deg, var(--bg-grid) 2px, transparent 2px);
+            background-size: 40px 40px;
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- DECORACIONES ANIMADAS DE FONDO --- */
+        .bg-star {
+            position: absolute;
+            color: var(--accent-yellow);
+            font-size: 1.2rem;
+            opacity: 0.3;
+            animation: float-star 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes float-star {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-20px) rotate(180deg) scale(1.2); opacity: 0.6; }
         }
 
         a {
@@ -47,126 +78,147 @@
             text-decoration: none;
         }
 
-        /* --- NAVEGACIÓN FUTURISTA --- */
+        /* --- BARRA DE NAVEGACIÓN (Estilo Control Remoto / Arcade) --- */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 1000px;
+            background-color: rgba(26, 18, 58, 0.9);
+            backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            border: var(--border-game);
+            border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            transition: var(--transition-bounce);
         }
 
         .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 2rem;
+            padding: 0.8rem 2rem;
         }
 
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            color: var(--accent-celeste);
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--accent-yellow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 2px 2px 0px #05030d;
+        }
+
+        .logo i {
+            animation: controller-wag 2s ease-in-out infinite;
+        }
+
+        @keyframes controller-wag {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             list-style: none;
         }
 
         .nav-links a {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            transition: var(--transition);
-            text-transform: uppercase;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            transition: var(--transition-bounce);
         }
 
         .nav-links a:hover {
-            color: var(--accent-celeste);
-            text-shadow: var(--neon-glow);
+            background-color: var(--accent-pink);
+            color: #fff;
+            transform: scale(1.1) rotate(-2deg);
         }
 
-        /* --- SECCIÓN HERO --- */
+        /* --- ANIMACIÓN DE APARICIÓN/DESAPARICIÓN CON SCROLL (Scroll reveal) --- */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            transition: opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform, opacity;
+        }
+
+        /* Clase activa para cuando está en pantalla */
+        .reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* --- HERO SECTION --- */
         #hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 2rem 4rem 2rem;
+            padding: 9rem 2rem 4rem 2rem;
+            text-align: center;
             position: relative;
-            /* Cuadrícula holográfica de fondo */
-            background-image:
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: center;
-        }
-
-        #hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
-            pointer-events: none;
         }
 
         .hero-content {
-            text-align: center;
-            max-width: 850px;
+            max-width: 800px;
             z-index: 10;
         }
 
+        /* Medallón de nivel de juego */
         .hero-badge {
-            font-family: 'Orbitron', sans-serif;
-            background: rgba(0, 240, 255, 0.05);
-            color: var(--accent-celeste);
-            border: 1px solid var(--accent-celeste);
+            font-family: 'Press Start 2P', monospace;
+            background: #ff477e;
+            color: #fff;
+            border: var(--border-game);
             padding: 0.6rem 1.2rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
             display: inline-block;
             margin-bottom: 2rem;
-            box-shadow: var(--neon-glow);
+            box-shadow: var(--arcade-shadow);
+            animation: pulse-badge 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-badge {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05) rotate(2deg); }
         }
 
         .hero-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.8rem;
-            font-weight: 900;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            text-shadow: 4px 4px 0px #100a26, 8px 8px 0px rgba(0,0,0,0.3);
         }
 
         .hero-title span {
-            color: var(--accent-celeste);
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            color: var(--accent-yellow);
+            text-shadow: 4px 4px 0px #100a26;
         }
 
         .hero-subtitle {
             font-size: 1.4rem;
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            margin-bottom: 3rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero-buttons {
@@ -176,86 +228,83 @@
             flex-wrap: wrap;
         }
 
+        /* --- BOTONES CON ESTILO DE ARCADE/CONSOLA 3D --- */
         .btn {
-            font-family: 'Orbitron', sans-serif;
-            padding: 0.9rem 2.2rem;
-            border-radius: 4px;
+            font-family: 'Fredoka', sans-serif;
             font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 1.5px;
-            transition: var(--transition);
+            font-size: 1.1rem;
+            padding: 1rem 2.2rem;
+            border-radius: 20px;
+            border: var(--border-game);
+            box-shadow: var(--arcade-shadow);
+            transition: var(--transition-bounce);
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.8rem;
+            cursor: pointer;
             text-transform: uppercase;
         }
 
         .btn-primary {
-            background-color: var(--accent-celeste);
-            color: #000000;
-            box-shadow: var(--neon-glow);
-            border: 1px solid var(--accent-celeste);
+            background-color: var(--accent-yellow);
+            color: #0c081f;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            background-color: #000000;
-            color: var(--accent-celeste);
-            box-shadow: var(--neon-glow-strong);
+            transform: translateY(-4px);
+            box-shadow: var(--arcade-shadow-hover);
+            background-color: #ffd166;
+        }
+
+        .btn-primary:active {
+            transform: translateY(4px);
+            box-shadow: var(--arcade-shadow-pressed);
         }
 
         .btn-secondary {
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            background: rgba(0, 240, 255, 0.02);
-            color: var(--text-main);
+            background-color: var(--accent-pink);
+            color: #ffffff;
         }
 
         .btn-secondary:hover {
-            border-color: var(--accent-celeste);
-            background: rgba(0, 240, 255, 0.08);
-            transform: translateY(-3px);
-            box-shadow: var(--neon-glow);
+            transform: translateY(-4px);
+            box-shadow: var(--arcade-shadow-hover);
+            background-color: #ff7096;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(4px);
+            box-shadow: var(--arcade-shadow-pressed);
         }
 
         /* --- CONTENEDOR GENERAL DE SECCIÓN --- */
         section {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 7rem 2rem;
+            padding: 8rem 2rem;
         }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            margin-bottom: 3.5rem;
-            letter-spacing: 2px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 4rem;
+            text-align: center;
             text-transform: uppercase;
-            position: relative;
-            display: inline-block;
+            letter-spacing: 1px;
+            text-shadow: 3px 3px 0px #100a26;
         }
 
         .section-title span {
-            color: var(--accent-celeste);
+            color: var(--accent-yellow);
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
-        }
-
-        /* --- SECCIÓN SOBRE MÍ --- */
+        /* --- SECCIÓN SOBRE MÍ (Estilo Tarjeta de Personaje/RPG) --- */
         .about-grid {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
-            gap: 4rem;
-            align-items: start;
+            gap: 3.5rem;
+            align-items: center;
         }
 
         @media (max-width: 768px) {
@@ -265,15 +314,40 @@
             }
         }
 
+        .about-text {
+            background-color: var(--card-bg);
+            border: var(--border-game);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--arcade-shadow);
+            position: relative;
+        }
+
+        /* Decoración de ventana de juego para el cuadro de diálogo */
+        .about-text::before {
+            content: '🎮 ARCHIVO_PERSONAJE.SYS';
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: var(--accent-pink);
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem;
+            padding: 0.4rem 1rem;
+            border: var(--border-game);
+            border-radius: 8px;
+            box-shadow: 2px 2px 0px #100a26;
+        }
+
         .about-text p {
-            color: var(--text-muted);
+            color: var(--text-main);
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
             text-align: justify;
         }
 
-        .about-text p strong {
-            color: var(--accent-celeste);
+        .about-text p:last-child {
+            margin-bottom: 0;
         }
 
         .about-cards-container {
@@ -284,209 +358,190 @@
 
         .about-card {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-neon);
-            border-radius: 4px;
-            padding: 2rem;
+            border: var(--border-game);
+            border-radius: 20px;
+            padding: 1.8rem;
             position: relative;
             overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
+            box-shadow: var(--arcade-shadow);
+            transition: var(--transition-bounce);
         }
 
         .about-card:hover {
-            border-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
-            transform: translateX(5px);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: var(--arcade-shadow-hover);
+            background-color: var(--card-hover-bg);
         }
 
         .about-card i {
-            font-size: 2rem;
-            color: var(--accent-celeste);
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
             margin-bottom: 1rem;
-            text-shadow: var(--neon-glow);
+            display: inline-block;
         }
 
         .about-card h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            color: var(--text-main);
         }
 
         .about-card p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
-        /* --- SECCIÓN HABILIDADES (Software) --- */
+        /* --- SECCIÓN HABILIDADES (Estilo Inventario / Items) --- */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
             gap: 1.5rem;
         }
 
         .skill-item {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-neon);
-            padding: 1.8rem 1.5rem;
-            border-radius: 4px;
+            border: var(--border-game);
+            border-radius: 20px;
+            padding: 2rem 1.2rem;
             text-align: center;
-            transition: var(--transition);
+            box-shadow: var(--arcade-shadow);
+            transition: var(--transition-bounce);
+            position: relative;
         }
 
         .skill-item:hover {
-            border-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
-            transform: translateY(-5px);
+            transform: translateY(-8px) rotate(3deg);
+            box-shadow: var(--arcade-shadow-hover);
+            border-color: var(--accent-yellow);
         }
 
         .skill-item i {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             margin-bottom: 1.2rem;
-            color: var(--accent-celeste);
-            transition: var(--transition);
+            color: var(--accent-pink);
+            transition: var(--transition-bounce);
         }
 
         .skill-item:hover i {
-            text-shadow: var(--neon-glow-strong);
-            transform: scale(1.1);
+            color: var(--accent-yellow);
+            transform: scale(1.15) rotate(-5deg);
         }
 
         .skill-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
         }
 
+        /* Badge de barra de salud o XP en videojuegos */
         .skill-badge {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.55rem;
+            font-weight: bold;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
             display: inline-block;
-            letter-spacing: 1px;
+            border: 2px solid #100a26;
         }
 
         .badge-advanced {
-            background-color: rgba(0, 240, 255, 0.1);
-            color: var(--accent-celeste);
-            border: 1px solid rgba(0, 240, 255, 0.3);
+            background-color: #38b000;
+            color: #fff;
         }
 
         .badge-medium {
-            background-color: rgba(255, 255, 255, 0.02);
-            color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #ff9f1c;
+            color: #fff;
         }
 
-        /* --- SECCIÓN PROTOTIPOS (Proyectos) --- */
+        /* --- SECCIÓN DIORAMAS Y PROYECTOS (Tarjetas de Niveles) --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 2.5rem;
         }
 
         .project-card {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-neon);
-            border-radius: 4px;
+            border: var(--border-game);
+            border-radius: 24px;
             overflow: hidden;
-            transition: var(--transition);
+            box-shadow: var(--arcade-shadow);
+            transition: var(--transition-bounce);
             display: flex;
             flex-direction: column;
             height: 100%;
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--arcade-shadow-hover);
+            border-color: var(--accent-pink);
         }
 
         /* Contenedor de Imagen */
         .project-image-container {
             width: 100%;
-            height: 200px;
+            height: 220px;
             position: relative;
-            background-color: #020406;
+            background-color: #0c081f;
             overflow: hidden;
-            border-bottom: 1px solid var(--border-neon);
+            border-bottom: var(--border-game);
         }
 
         .project-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
-            opacity: 0.75;
+            transition: var(--transition-bounce);
         }
 
         .project-card:hover .project-img {
-            transform: scale(1.08);
-            opacity: 1;
+            transform: scale(1.1);
         }
 
-        /* Imagen Marcador de Posición (Placeholder) */
-        .project-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #020406 0%, #080d1a 100%);
-            color: rgba(0, 240, 255, 0.4);
-            gap: 1rem;
-        }
-
-        .project-placeholder i {
-            font-size: 3.5rem;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-        }
-
-        .project-placeholder span {
-            font-family: 'Orbitron', sans-serif;
+        /* Sello animado tipo "Logro" encima de la imagen */
+        .project-tag-sticker {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-yellow);
+            color: #0c081f;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 800;
             font-size: 0.75rem;
-            letter-spacing: 1px;
             text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 10px;
+            border: var(--border-game);
+            box-shadow: 2px 2px 0px #100a26;
+            z-index: 5;
+            transform: rotate(5deg);
         }
 
         .project-info {
-            padding: 2rem;
+            padding: 1.8rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .project-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
             margin-bottom: 0.8rem;
-            letter-spacing: 0.5px;
+            color: var(--accent-yellow);
         }
 
         .project-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             margin-bottom: 1.5rem;
             flex-grow: 1;
-            text-align: justify;
         }
 
         .project-techs {
@@ -497,315 +552,313 @@
         }
 
         .tech-pill {
-            background-color: rgba(0, 240, 255, 0.05);
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            color: var(--accent-celeste);
+            background-color: rgba(255, 71, 126, 0.15);
+            border: 2px solid var(--accent-pink);
+            color: #fff;
             padding: 0.2rem 0.6rem;
-            border-radius: 2px;
+            border-radius: 10px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .project-links {
-            display: flex;
-            gap: 1.2rem;
-            border-top: 1px solid var(--border-neon);
-            padding-top: 1.2rem;
-        }
-
-        .project-link {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: var(--accent-celeste);
-            transition: var(--transition);
-            text-transform: uppercase;
-        }
-
-        .project-link:hover {
-            color: var(--text-main);
-            text-shadow: var(--neon-glow);
-        }
-
-        /* --- SECCIÓN HABILIDADES VR/XR --- */
-        .vr-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .vr-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-neon);
-            border-top: 3px solid var(--accent-celeste);
-            border-radius: 4px;
-            padding: 1.8rem;
-            transition: var(--transition);
-        }
-
-        .vr-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-celeste);
-            box-shadow: var(--neon-glow);
-        }
-
-        .vr-card h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            color: var(--text-main);
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .vr-card h4 i {
-            color: var(--accent-celeste);
-            text-shadow: var(--neon-glow);
-        }
-
-        .vr-card p {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            text-align: justify;
-        }
-
-        /* --- SECCIÓN CONTACTO --- */
+        /* --- CONTACTO (Estilo Boss Fight / Nivel Final) --- */
         #contact {
             text-align: center;
             padding: 8rem 2rem;
+            background-color: var(--card-bg);
+            border: var(--border-game);
+            border-radius: 40px;
+            box-shadow: var(--arcade-shadow);
+            margin: 4rem auto;
+            max-width: 900px;
             position: relative;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
-            border-top: 1px solid var(--border-neon);
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '👾 STAGE CLEAR!';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            background: var(--accent-yellow);
+            color: #0c081f;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            padding: 0.5rem 1.5rem;
+            border: var(--border-game);
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px #100a26;
         }
 
         .contact-container {
-            max-width: 650px;
-            margin: 0 auto;
+            max-width: 600px;
+            margin: 2rem auto 0 auto;
         }
 
         .contact-container p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
         }
 
         /* --- FOOTER --- */
         footer {
-            border-top: 1px solid var(--border-neon);
-            padding: 3.5rem 2rem;
+            border-top: var(--border-game);
+            padding: 4rem 2rem;
             text-align: center;
-            background-color: #020305;
+            background-color: #070414;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 1rem;
         }
 
-        .footer-socials {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 1.8rem;
-            font-size: 1.6rem;
+        footer p {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 500;
         }
 
-        .footer-socials a {
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        .footer-socials a:hover {
-            color: var(--accent-celeste);
-            text-shadow: var(--neon-glow-strong);
-            transform: translateY(-3px) scale(1.1);
+        /* --- RESPONSIVIDAD --- */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .nav-links {
+                display: none; /* Simplificado para móviles en una página estática */
+            }
+            header {
+                width: calc(100% - 20px);
+                top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- DECORACIONES DE ESTRELLAS DE FONDO -->
+    <div class="bg-star" style="top: 15%; left: 10%;"><i class="fa-solid fa-star"></i></div>
+    <div class="bg-star" style="top: 40%; right: 12%; animation-delay: 2s;"><i class="fa-solid fa-gamepad"></i></div>
+    <div class="bg-star" style="top: 75%; left: 8%; animation-delay: 4s;"><i class="fa-solid fa-ghost"></i></div>
+    <div class="bg-star" style="top: 90%; right: 15%; animation-delay: 1s;"><i class="fa-solid fa-bolt"></i></div>
+
     <!-- NAVEGACIÓN -->
     <header>
         <div class="nav-container">
-            <div class="logo">PORTFOLIO</div>
+            <div class="logo"><i class="fa-solid fa-gamepad"></i> BERNARDO.DEV</div>
             <ul class="nav-links">
                 <li><a href="#about">Sobre Mí</a></li>
                 <li><a href="#skills">Habilidades</a></li>
-                <li><a href="#model-skills">Modelos</a></li>
+                <li><a href="#model-skills">Dioramas</a></li>
                 <li><a href="#contact">Contacto</a></li>
             </ul>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION (PANTALLA DE INICIO) -->
     <section id="hero">
-        <div class="hero-content">
-            <span class="hero-badge">SISTEMA ONLINE - LISTO PARA PROYECTOS</span>
-            <h1 class="hero-title">Hola, soy <span>Bernardo Urrutia</span></h1>
-            <p class="hero-subtitle">Unity Developer & Especialista en Tecnologías</p>
+        <div class="hero-content reveal-element">
+            <span class="hero-badge">READY PLAYER ONE</span>
+            <h1 class="hero-title">Hola, soy <br><span>Bernardo Urrutia</span></h1>
+            <p class="hero-subtitle">Unity Developer & Especialista en Creación de Videojuegos y Entornos Interactivos 🎮</p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Enviar Mensaje</a>
-                <a href="#model-skills" class="btn btn-secondary"><i class="fa-solid fa-terminal"></i> Ver modelos</a>
+                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-circle-play"></i> Enviar Mensaje</a>
+                <a href="#model-skills" class="btn btn-secondary"><i class="fa-solid fa-trophy"></i> Ver Dioramas</a>
             </div>
         </div>
     </section>
 
-    <!-- SOBRE MÍ -->
+    <!-- SOBRE MÍ (CUADRO DE DIÁLOGO RPG) -->
     <section id="about">
-        <h2 class="section-title">SOBRE <span>MÍ</span></h2>
+        <h2 class="section-title reveal-element">SOBRE <span>MÍ</span></h2>
         <div class="about-grid">
-            <div class="about-text">
+            <div class="about-text reveal-element">
                 <p>
-                    Soy un desarrollador de Unity con 4 años de experiencia en programación y modelado 3D. Cuento con una profunda especialización en control de calidad de videojuegos.
+                    ¡Hola! Soy un desarrollador de Unity con <strong>4 años de experiencia</strong> activa en programación y modelado 3D, enfocado en diseñar experiencias jugables inmersivas y técnicamente impecables.
                 </p>
                 <p>
-                    Manejo gran conocimiento sobre QA Tester (Quality Assurance Tester), lo cual me permite ver errores y solucionarlos.
+                    Además de la programación, cuento con una profunda especialización en <strong>QA Tester (Quality Assurance)</strong>. Esto me da una súper habilidad clave: detectar fallas críticas en fases tempranas, analizar el rendimiento de código y resolver bugs de manera eficiente para entregar productos finales pulidos.
                 </p>
             </div>
             <div class="about-cards-container">
-                <div class="about-card">
-                    <i class="fa-solid fa-cube"></i>
+                <!-- Tarjeta Trayectoria -->
+                <div class="about-card reveal-element">
+                    <i class="fa-solid fa-gamepad"></i>
                     <h4>Trayectoria</h4>
-                    <p>4 Años de Desarrollo Activo en Unity</p>
+                    <p>4 años desarrollando activamente y puliendo dinámicas jugables en Unity.</p>
                 </div>
-                <div class="about-card">
-                    <i class="fa-solid fa-shield-halved"></i>
+                <!-- Tarjeta Universidad -->
+                <div class="about-card reveal-element">
+                    <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Formación Académica</h4>
-                    <p>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales("Diseño y Desarrollo de Videojuegos") – Universidad Bernardo O'Higgins(UBO) </p>
+                    <p>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad de Videojuegos) – Universidad Bernardo O'Higgins (UBO).</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- HABILIDADES -->
+    <!-- HABILIDADES (INVENTARIO DE ITEMS) -->
     <section id="skills">
-        <h2 class="section-title">SISTEMAS <span>Y SOFTWARE</span></h2>
+        <h2 class="section-title reveal-element">INVENTARIO <span>DE HABILIDADES</span></h2>
         <div class="skills-grid">
-            <div class="skill-item">
+            <!-- Unity -->
+            <div class="skill-item reveal-element">
                 <i class="fa-brands fa-unity"></i>
                 <h4>Unity</h4>
                 <span class="skill-badge badge-advanced">Avanzado</span>
             </div>
-            <div class="skill-item">
+            <!-- Blender -->
+            <div class="skill-item reveal-element">
                 <i class="fa-solid fa-cubes"></i>
                 <h4>Blender</h4>
                 <span class="skill-badge badge-advanced">Avanzado</span>
             </div>
-            <div class="skill-item">
+            <!-- C# -->
+            <div class="skill-item reveal-element">
                 <i class="fa-solid fa-code"></i>
                 <h4>C# / VS Code</h4>
                 <span class="skill-badge badge-advanced">Avanzado</span>
             </div>
-            <div class="skill-item">
+            <!-- GitHub -->
+            <div class="skill-item reveal-element">
                 <i class="fa-brands fa-github"></i>
                 <h4>GitHub / Git</h4>
                 <span class="skill-badge badge-medium">Medio</span>
             </div>
-            <div class="skill-item">
+            <!-- Unreal Engine -->
+            <div class="skill-item reveal-element">
                 <i class="fa-solid fa-circle-nodes"></i>
                 <h4>Unreal Engine</h4>
                 <span class="skill-badge badge-medium">Medio</span>
             </div>
-            <div class="skill-item">
+            <!-- Photoshop -->
+            <div class="skill-item reveal-element">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <h4>Photoshop</h4>
                 <span class="skill-badge badge-medium">Medio</span>
             </div>
         </div>
     </section>
-    </section>
 
-    <!-- HABILIDADES -->
+    <!-- SECCIÓN MODELOS / PROYECTOS (SELECCIÓN DE NIVEL) -->
     <section id="model-skills">
-        <h2 class="section-title">MODELOS<span>/PROYECTOS</span></h2>
-        <div class="vr-grid">
+        <h2 class="section-title reveal-element">GALERÍA DE <span>NIVELES Y MODELOS</span></h2>
+        <div class="projects-grid">
+
+            <!-- Escenario Diorama -->
+            <div class="project-card reveal-element">
                 <div class="project-image-container">
-                    <div class="project-escenario">
-                        <img src="Escenario.png" alt="Escenario" style="width: 100%; height: 100%; object-fit: cover;">
-                        <span>[ Diorama]</span>
-                    </div>
+                    <img src="Escenario.png" alt="Escenario Diorama" class="project-img">
+                    <span class="project-tag-sticker">Diorama</span>
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">Escenario Diorama</h3>
-                    <p class="project-desc">Escenario desarrolado en tiempo de estudio, Diorama enfocado en dar sensacion de paz y tranquilidad en un hogar.</p>
+                    <p class="project-desc">Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante.</p>
                     <div class="project-techs">
                         <span class="tech-pill">Blender</span>
-                        <span class="tech-pill">Modelo</span>
+                        <span class="tech-pill">Diseño 3D</span>
                         <span class="tech-pill">Diorama</span>
                     </div>
                 </div>
             </div>
-         <div class="vr-grid">
-            <div class="project-image-container">
-                    <div class="project-repo">
-                        <img src="repo.png" alt="R.E.P.O" style="width: 100%; height: 100%; object-fit: cover;">
-                        <span>[ Diorama ]</span>
-                    </div>
+
+            <!-- R.E.P.O Diorama -->
+            <div class="project-card reveal-element">
+                <div class="project-image-container">
+                    <img src="repo.png" alt="R.E.P.O Diorama" class="project-img">
+                    <span class="project-tag-sticker">Diorama</span>
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">R.e.p.o Diorama</h3>
-                    <p class="project-desc">Diorama enfocado en la recreacion de escenario de juego conocido.</p>
+                    <p class="project-desc">Diorama optimizado que recrea de manera artística y precisa una sección de escenario de juego popular y conocido.</p>
                     <div class="project-techs">
                         <span class="tech-pill">Blender</span>
-                        <span class="tech-pill">Modelo</span>
-                        <span class="tech-pill">Diorama</span>
+                        <span class="tech-pill">Modelado 3D</span>
+                        <span class="tech-pill">Recreación</span>
                     </div>
                 </div>
             </div>
-         <div class="vr-grid">
-            <div class="project-image-container">
-                    <div class="project-nivel">
-                        <img src="image.png" alt="Nivel" style="width: 100%; height: 100%; object-fit: cover;">
-                        <span>[ Diseño de nivel ]</span>
-                    </div>
+
+            <!-- Diseño de Nivel -->
+            <div class="project-card reveal-element">
+                <div class="project-image-container">
+                    <img src="image.png" alt="Diseño de nivel" class="project-img">
+                    <span class="project-tag-sticker">Level Design</span>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">diseño de nivel</h3>
-                    <p class="project-desc">Proyecto, diseño de nivel basado en juegos de parkour y puzzle.</p>
+                    <h3 class="project-title">Diseño de Nivel Parkour</h3>
+                    <p class="project-desc">Estructuración y diseño de nivel dinámico basado en mecánicas desafiantes de parkour, plataformas y resolución de puzzles interactivos.</p>
                     <div class="project-techs">
                         <span class="tech-pill">Unity</span>
-                        <span class="tech-pill">Diseño</span>
+                        <span class="tech-pill">Level Design</span>
                         <span class="tech-pill">C#</span>
                     </div>
                 </div>
             </div>
-             <div class="vr-grid">
-            <div class="project-image-container">
-                    <div class="project-Enemy">
-                        <img src="image-3.png" alt="Enemys" style="width: 100%; height: 100%; object-fit: cover;">
-                        <span>[ Creacion de enemigo ]</span>
-                    </div>
+
+            <!-- Creación de Enemigo -->
+            <div class="project-card reveal-element">
+                <div class="project-image-container">
+                    <img src="image-3.png" alt="Creación de enemigo" class="project-img">
+                    <span class="project-tag-sticker">Programación IA</span>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">Enemigo</h3>
-                    <p class="project-desc">Enemigo el cual te persigue y te ataca si es que estan en la vista.</p>
+                    <h3 class="project-title">Enemigo Inteligente IA</h3>
+                    <p class="project-desc">Mecanismo programado para IA enemiga que patrulla y activa estados de persecución y ataque fluido si el jugador entra dentro de su campo visual.</p>
                     <div class="project-techs">
                         <span class="tech-pill">Unity</span>
-                        <span class="tech-pill">Creacion</span>
-                        <span class="tech-pill">C#</span>
+                        <span class="tech-pill">IA C#</span>
+                        <span class="tech-pill">Mecánicas</span>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section id="contact">
+    <!-- SECCIÓN CONTACTO (PANTALLA BOSS CLEAR) -->
+    <section id="contact" class="reveal-element">
         <div class="contact-container">
-            <h2 class="section-title"><span>CONTACTO</span></h2>
-            <p>¿Buscas un desarrollador para tu equipo de videojuegos, o tienes un proyecto en mente? ¡Conectemos!</p>
-            <a href="mailto:brebolledo437@gmail.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> brebolledo437@gmail.com</a>
+            <h2 class="section-title">¡CONECTEMOS!</h2>
+            <p>¿Quieres agregar un Unity Developer y QA con talento a tu gremio de desarrollo, o tienes un proyecto de videojuego que quieres llevar a cabo? ¡Comencemos el juego!</p>
+            <a href="mailto:brebolledo437@gmail.com" class="btn btn-primary"><i class="fa-solid fa-gamepad"></i> brebolledo437@gmail.com</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>Copyright &copy; 2026 Bernardo Urrutia. Todos los derechos reservados.</p>
+        <p>🎮 Bernardo Urrutia © 2026. Todos los derechos reservados. | Diseñado al estilo Gremio de Desarrollo 🚀</p>
     </footer>
+
+    <!-- SCRIPT DE JAVASCRIPT: ANIMACIONES DE APARICIÓN Y DESAPARICIÓN CON EL SCROLL (INTERSECTION OBSERVER) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal-element');
+
+            // Configuración del Observer:
+            // threshold: 0.1 indica que se activa cuando al menos el 10% del elemento está en pantalla.
+            const observerOptions = {
+                root: null, // usa la pantalla como viewport
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // El elemento entra en el viewport -> se activa la animación de aparición
+                        entry.target.classList.add('reveal-active');
+                    } else {
+                        // El elemento sale del viewport (ya sea subiendo o bajando) -> se oculta
+                        entry.target.classList.remove('reveal-active');
+                    }
+                });
+            }, observerOptions);
+
+            // Observamos cada uno de los elementos marcados
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        });
+    </script>
 
 </body>
 </html>
