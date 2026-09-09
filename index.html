@@ -647,7 +647,7 @@
             <ul class="nav-links">
                 <li><a href="#about">Sobre Mí</a></li>
                 <li><a href="#skills">Habilidades</a></li>
-                <li><a href="#model-skills">Dioramas</a></li>
+                <li><a href="#model-skills">Proyectos</a></li>
                 <li><a href="#contact">Contacto</a></li>
             </ul>
         </div>
@@ -659,10 +659,17 @@
             <span class="hero-badge">READY PLAYER ONE</span>
             <h1 class="hero-title">Hola, soy <br><span>Bernardo Urrutia</span></h1>
             <p class="hero-subtitle">Unity Developer & Especialista en Creación de Videojuegos y Entornos Interactivos 🎮</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary"><i class="fa-solid fa-circle-play"></i> Enviar Mensaje</a>
-                <a href="#model-skills" class="btn btn-secondary"><i class="fa-solid fa-trophy"></i> Ver Dioramas</a>
-            </div>
+<div class="hero-buttons">
+    <a href="https://github.com/Ghost-z94" target="_blank" class="btn btn-secondary">
+        <i class="fa-brands fa-github"></i> GitHub
+    </a>
+    <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" class="btn btn-secondary">
+        <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube
+    </a>
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" class="btn btn-primary">
+        <i class="fa-solid fa-envelope"></i> Contactame
+    </a>
+</div>
         </div>
     </section>
 
@@ -744,10 +751,25 @@
         <div class="projects-grid">
 
             <!-- Escenario Diorama -->
-            <div class="project-card reveal-element">
-                <div class="project-image-container">
-                    <img src="Escenario.png" alt="Escenario Diorama" class="project-img">
-                    <span class="project-tag-sticker">Diorama</span>
+<div class="project-card reveal-element">
+                <!-- Aumentamos la altura a 250px para que el visor 3D sea cómodo de mover -->
+                <div class="project-image-container" style="height: 250px;">
+                    <iframe 
+                        title="Escenario Diorama" 
+                        frameborder="0" 
+                        allowfullscreen 
+                        mozallowfullscreen="true" 
+                        webkitallowfullscreen="true" 
+                        allow="autoplay; fullscreen; xr-spatial-tracking" 
+                        xr-spatial-tracking 
+                        execution-while-out-of-viewport 
+                        execution-while-not-rendered 
+                        web-share 
+                        style="width: 100%; height: 100%; border: none;"
+                        src="https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark">
+                    </iframe>
+                    <!-- Dejamos el sticker de Diorama flotando arriba en la esquina, pero le decimos al navegador que no interfiera con los clics en el modelo 3D -->
+                    <span class="project-tag-sticker" style="z-index: 10; pointer-events: none;">Diorama 3D</span>
                 </div>
                 <div class="project-info">
                     <h3 class="project-title">Escenario Diorama</h3>
@@ -760,19 +782,26 @@
                 </div>
             </div>
 
-            <!-- R.E.P.O Diorama -->
+            <!-- Agreas whiteboxing -->
             <div class="project-card reveal-element">
-                <div class="project-image-container">
-                    <img src="repo.png" alt="R.E.P.O Diorama" class="project-img">
-                    <span class="project-tag-sticker">Diorama</span>
+                <div class="project-image-container" style="height: 250px; position: relative;">
+                    <iframe 
+                        src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=0&modestbranding=1" 
+                        title="Agreas Video" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen 
+                        style="width: 100%; height: 100%; border: none;">
+                    </iframe>
+                    <span class="project-tag-sticker" style="z-index: 10; pointer-events: none;">Gameplay 60fps</span>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">R.e.p.o Diorama</h3>
-                    <p class="project-desc">Diorama optimizado que recrea de manera artística y precisa una sección de escenario de juego popular y conocido.</p>
+                    <h3 class="project-title">Agreas — Horror Multijugador</h3>
+                    <p class="project-desc">Prototipado rápido de escenario <i>(whiteboxing / blockout)</i> para <strong>Agreas</strong>, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.</p>
                     <div class="project-techs">
-                        <span class="tech-pill">Blender</span>
-                        <span class="tech-pill">Modelado 3D</span>
-                        <span class="tech-pill">Recreación</span>
+                        <span class="tech-pill">Unity</span>
+                        <span class="tech-pill">IA C#</span>
+                        <span class="tech-pill">Mecanicas</span>
                     </div>
                 </div>
             </div>
@@ -780,12 +809,12 @@
             <!-- Diseño de Nivel -->
             <div class="project-card reveal-element">
                 <div class="project-image-container">
-                    <img src="image.png" alt="Diseño de nivel" class="project-img">
+                    <img src="LevelDesing.gif" alt="Diseño de nivel" class="project-img">
                     <span class="project-tag-sticker">Level Design</span>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">Diseño de Nivel Parkour</h3>
-                    <p class="project-desc">Estructuración y diseño de nivel dinámico basado en mecánicas desafiantes de parkour, plataformas y resolución de puzzles interactivos.</p>
+                    <h3 class="project-title">Diseño de Nivel</h3>
+                    <p class="project-desc">Estructuración y diseño de nivel dinámico basado en mecánicas desafiantes de terror, laberinto y resolución de puzzles interactivos.</p>
                     <div class="project-techs">
                         <span class="tech-pill">Unity</span>
                         <span class="tech-pill">Level Design</span>
@@ -794,19 +823,31 @@
                 </div>
             </div>
 
-            <!-- Creación de Enemigo -->
+            <!-- Creación de Mundo -->
             <div class="project-card reveal-element">
-                <div class="project-image-container">
-                    <img src="image-3.png" alt="Creación de enemigo" class="project-img">
-                    <span class="project-tag-sticker">Programación IA</span>
+                <div class="project-image-container" style="height: 250px;">
+                    <iframe 
+                        title="Edificio Futurista - Enemigo" 
+                        src="https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; xr-spatial-tracking" 
+                        xr-spatial-tracking 
+                        execution-while-out-of-viewport 
+                        execution-while-not-rendered 
+                        web-share 
+                        allowfullscreen 
+                        style="width: 100%; height: 100%; border: none;">
+                    </iframe>
+                    <span class="project-tag-sticker" style="z-index: 10; pointer-events: none;">Modelo 3D</span>
                 </div>
                 <div class="project-info">
-                    <h3 class="project-title">Enemigo Inteligente IA</h3>
-                    <p class="project-desc">Mecanismo programado para IA enemiga que patrulla y activa estados de persecución y ataque fluido si el jugador entra dentro de su campo visual.</p>
+                    <h3 class="project-title">Creación de Mundo Inmersivo</h3>
+                    <p class="project-desc">Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.</p>
                     <div class="project-techs">
-                        <span class="tech-pill">Unity</span>
-                        <span class="tech-pill">IA C#</span>
-                        <span class="tech-pill">Mecánicas</span>
+                        <span class="tech-pill">Modelo</span>
+                        <span class="tech-pill">Creación</span>
+                        <span class="tech-pill">Mundo</span>
+                        <span class="tech-pill">Blender</span>
                     </div>
                 </div>
             </div>
@@ -815,15 +856,24 @@
     </section>
 
     <!-- SECCIÓN CONTACTO (PANTALLA BOSS CLEAR) -->
-    <section id="contact" class="reveal-element">
-        <div class="contact-container">
-            <h2 class="section-title">¡CONECTEMOS!</h2>
-            <p>¿Quieres agregar un Unity Developer y QA con talento a tu gremio de desarrollo, o tienes un proyecto de videojuego que quieres llevar a cabo? ¡Comencemos el juego!</p>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com&su=Contacto%20desde%20tu%20Portafolio" target="_blank" class="btn btn-primary">
-    <i class="fa-solid fa-envelope"></i> brebolledo437@gmail.com
-</a>
+<section id="contact">
+    <div class="contact-container reveal-element">
+        <h2 class="section-title">¡CONECTEMOS!</h2>
+        <p>¿Quieres agregar un Unity Developer y QA a tu equipo de desarrollo, o tienes un proyecto de videojuego en mente? ¡Conectemos en mis redes o escríbeme directamente!</p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+            <a href="https://github.com/Ghost-z94" target="_blank" class="btn btn-secondary">
+                <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" class="btn btn-secondary">
+                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> YouTube
+            </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" class="btn btn-primary">
+                <i class="fa-solid fa-envelope"></i> Enviar Correo
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- FOOTER -->
     <footer>
