@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bernardo Urrutia — Unity & Game Developer</title>
-  <meta name="description" content="Portafolio profesional de Bernardo Urrutia: desarrollo de videojuegos en Unity, programación en C#, modelado 3D en Blender y diseño de niveles." />
+  <title>Bernardo Urrutia | Unity Developer, Modelador 3D &amp; QA Tester</title>
+  <meta name="description" content="Portafolio de Bernardo Urrutia — Unity Developer, Modelador 3D y especialista QA. Conoce Agreas, entornos 3D, comportamiento de IA en C# y sistemas interactivos." />
+
+  <!-- Fuentes Arcade / Gaming -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lexend:wght@300;400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lexend:wght@300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
     :root {
@@ -20,21 +24,29 @@
       --accent-pink: #ff477e;
       --accent-purple: #9d4edd;
       --accent-yellow: #ffb703;
+      --accent-blue: #0a66c2;
       --accent-green: #38b000;
       --text-main: #f5f3ff;
+      --text-soft: #d7d2f2;
       --text-muted: #b4aed6;
+      --border-color: #100a26;
       --border-game: 3px solid #100a26;
-      --arcade-shadow: 0px 6px 0px #05030d;
-      --arcade-shadow-hover: 0px 8px 0px #05030d;
+      --shadow-arcade: 0px 6px 0px #05030d;
+      --shadow-arcade-hover: 0px 8px 0px #05030d;
+      --shadow-btn: 0px 5px 0px #05030d;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     html {
       scroll-behavior: smooth;
       background-color: var(--bg-color);
       color: var(--text-main);
-      font-family: 'Lexend', sans-serif;
+      font-family: 'Lexend', system-ui, sans-serif;
       scrollbar-width: thin;
       scrollbar-color: #9d4edd #100a26;
     }
@@ -48,434 +60,1367 @@
       color: var(--text-main);
       line-height: 1.6;
       overflow-x: hidden;
+      min-height: 100vh;
     }
-
-    h1, h2, h3, h4, .font-display { font-family: 'Fredoka', sans-serif; }
-    .font-pixel { font-family: 'Press Start 2P', monospace; }
-    a { color: inherit; text-decoration: none; }
 
     /* Scrollbar estético Arcade Purple */
     html::-webkit-scrollbar,
-    .arcade-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+    .arcade-scroll::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
     html::-webkit-scrollbar-track,
-    .arcade-scroll::-webkit-scrollbar-track { background: #100a26; border-left: 2px solid #05030d; }
+    .arcade-scroll::-webkit-scrollbar-track {
+      background: #100a26;
+      border-left: 2px solid #05030d;
+    }
+
     html::-webkit-scrollbar-thumb,
     .arcade-scroll::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, #9d4edd 0%, #ff477e 100%);
       border-radius: 9999px;
       border: 2px solid #100a26;
     }
-    html::-webkit-scrollbar-thumb:hover,
-    .arcade-scroll::-webkit-scrollbar-thumb:hover { background: #ffb703; }
-    .arcade-scroll { scrollbar-width: thin; scrollbar-color: #9d4edd #100a26; }
 
-    /* Clases base arcade */
-    .arcade-card {
-      background: var(--card-bg);
-      border: var(--border-game);
-      border-radius: 24px;
-      box-shadow: var(--arcade-shadow);
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow 0.25s ease, background-color 0.2s ease, border-color 0.2s ease;
+    html::-webkit-scrollbar-thumb:hover,
+    .arcade-scroll::-webkit-scrollbar-thumb:hover {
+      background: #ffb703;
     }
-    .arcade-card:hover { background: var(--card-hover-bg); box-shadow: var(--arcade-shadow-hover); }
+
+    .arcade-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: #9d4edd #100a26;
+    }
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Fredoka', system-ui, sans-serif;
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1152px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Decoraciones de fondo */
+    .bg-decorations {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bg-icon {
+      position: absolute;
+      opacity: 0.14;
+      animation: floatStar 6s ease-in-out infinite;
+    }
+
+    @keyframes floatStar {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-16px) rotate(12deg) scale(1.1); }
+    }
+
+    @keyframes controllerWag {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(8deg); }
+    }
+
+    .controller-wag {
+      animation: controllerWag 2.4s ease-in-out infinite;
+    }
+
+    /* Componentes base Arcade */
+    .arcade-card {
+      background-color: var(--card-bg);
+      border: var(--border-game);
+      box-shadow: var(--shadow-arcade);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .arcade-card:hover {
+      background-color: var(--card-hover-bg);
+      box-shadow: var(--shadow-arcade-hover);
+    }
 
     .arcade-btn {
       font-family: 'Fredoka', sans-serif;
       font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.82rem;
-      padding: 0.75rem 1.25rem;
-      border-radius: 16px;
       border: var(--border-game);
-      box-shadow: 0px 5px 0px #05030d;
+      box-shadow: var(--shadow-btn);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, background-color 0.2s ease;
-    }
-    .arcade-btn:hover { transform: translateY(-3px); box-shadow: 0px 7px 0px #05030d; }
-    .arcade-btn:active { transform: translateY(3px); box-shadow: 0px 2px 0px #05030d; }
-
-    .btn-yellow { background: var(--accent-yellow); color: #0c081f; }
-    .btn-yellow:hover { background: #ffd166; }
-    .btn-pink { background: var(--accent-pink); color: #fff; }
-    .btn-pink:hover { background: #ff7096; }
-    .btn-green { background: var(--accent-green); color: #fff; }
-    .btn-green:hover { background: #46cc08; }
-    .btn-dark { background: #241a4e; color: #f5f3ff; }
-    .btn-dark:hover { background: #312468; }
-
-    .tech-pill {
-      display: inline-block;
-      background: rgba(255, 71, 126, 0.15);
-      border: 2px solid var(--accent-pink);
-      color: #fff;
-      padding: 0.2rem 0.65rem;
-      border-radius: 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      gap: 8px;
+      text-transform: uppercase;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
     }
 
-    /* Decoración flotante */
-    .bg-deco {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.22;
-      animation: floatStar 6s ease-in-out infinite;
+    .arcade-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0px 7px 0px #05030d;
     }
-    @keyframes floatStar {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-16px) rotate(12deg); }
+
+    .arcade-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0px 2px 0px #05030d;
     }
+
+    .btn-yellow {
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+    }
+    .btn-yellow:hover { background-color: #ffd166; }
+
+    .btn-pink {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+    }
+    .btn-pink:hover { background-color: #ff7096; }
+
+    .btn-dark {
+      background-color: #241a4e;
+      color: #f5f3ff;
+    }
+    .btn-dark:hover { background-color: #312468; }
+
+    .btn-linkedin {
+      background-color: var(--accent-blue);
+      color: #ffffff;
+    }
+    .btn-linkedin:hover { background-color: #1978d8; }
+
+    .btn-green {
+      background-color: var(--accent-green);
+      color: #ffffff;
+    }
+    .btn-green:hover { background-color: #46cc08; }
 
     /* Navbar */
-    header {
+    .navbar {
       position: fixed;
       top: 16px;
       left: 50%;
       transform: translateX(-50%);
       width: calc(100% - 24px);
       max-width: 1024px;
-      background: rgba(26, 18, 58, 0.92);
-      backdrop-filter: blur(10px);
-      border: var(--border-game);
-      border-radius: 9999px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
       z-index: 40;
+      border-radius: 9999px;
+      border: var(--border-game);
+      background-color: rgba(26, 18, 58, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
-    .nav-wrap {
+
+    .navbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.75rem 1.5rem;
-      gap: 1rem;
+      gap: 20px;
+      padding: 12px 24px;
     }
-    .logo {
+
+    .brand {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 8px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--accent-yellow);
       text-shadow: 2px 2px 0px #05030d;
       white-space: nowrap;
     }
-    .nav-links { display: flex; list-style: none; gap: 0.75rem; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+    }
+
     .nav-links a {
+      border-radius: 9999px;
+      padding: 6px 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .nav-cta {
+      border-radius: 9999px;
+      border: 2px solid var(--border-color);
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+      padding: 7px 16px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 #05030d;
+      white-space: nowrap;
+    }
+
+    .mobile-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      border: 2px solid var(--border-color);
+      background-color: #241a4e;
+      color: var(--text-main);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu {
+      display: none;
+      margin: 0 12px 12px;
+      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      background-color: #150e31;
+      padding: 12px;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      padding: 10px 14px;
+      border-radius: 12px;
       font-family: 'Fredoka', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.4rem 0.9rem;
-      border-radius: 9999px;
-      transition: background 0.2s, transform 0.2s;
     }
-    .nav-links a:hover { background: var(--accent-pink); color: #fff; transform: scale(1.05); }
 
-    /* Layout general */
-    .container { max-width: 1150px; margin: 0 auto; padding: 0 1.25rem; position: relative; z-index: 10; }
-    section { padding: 4.5rem 0; }
+    .mobile-menu a:hover {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+    }
+
+    /* Main Layout */
+    main {
+      position: relative;
+      z-index: 10;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
     .section-title {
       text-align: center;
-      font-size: 2.25rem;
+      font-size: 2.2rem;
+      font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 2.5rem;
-      text-shadow: 3px 3px 0 #100a26;
+      letter-spacing: 0.04em;
+      text-shadow: 3px 3px 0px #100a26;
+      margin-bottom: 36px;
     }
-    .section-title span { color: var(--accent-yellow); }
 
-    /* Hero con Agreas arriba */
-    #inicio { padding-top: 7.5rem; padding-bottom: 4rem; }
-    .hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
-    @media (min-width: 960px) { .hero-grid { grid-template-columns: 5fr 7fr; } }
+    .section-title span {
+      color: var(--accent-yellow);
+    }
 
-    .badge-pixel {
+    /* Hero */
+    #inicio {
+      padding-top: 128px;
+      padding-bottom: 72px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
       display: inline-block;
-      background: var(--accent-pink);
-      color: #fff;
-      border: var(--border-game);
       border-radius: 12px;
-      padding: 0.5rem 1rem;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.65rem;
-      box-shadow: var(--arcade-shadow);
+      border: var(--border-game);
+      background-color: var(--accent-pink);
+      color: #ffffff;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: var(--shadow-arcade);
     }
+
     .hero-title {
-      font-size: clamp(2.4rem, 4vw, 3.4rem);
-      line-height: 1.1;
-      margin-top: 1.25rem;
-      text-shadow: 4px 4px 0 #100a26;
+      margin-top: 24px;
+      font-size: 3.25rem;
+      font-weight: 700;
+      line-height: 1.08;
+      text-shadow: 4px 4px 0px #100a26;
     }
-    .hero-title span { color: var(--accent-yellow); }
-    .hero-desc { color: var(--text-muted); margin-top: 1rem; font-size: 1.05rem; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1.75rem; }
+
+    .hero-title span {
+      color: var(--accent-yellow);
+    }
+
+    .hero-desc {
+      margin-top: 16px;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 540px;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-actions .arcade-btn {
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 0.85rem;
+    }
+
+    .featured-card {
+      border-radius: 24px;
+      overflow: hidden;
+    }
 
     .featured-header {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
-      background: var(--panel-dark);
+      gap: 12px;
       border-bottom: var(--border-game);
-      padding: 0.85rem 1.25rem;
+      background-color: var(--panel-dark);
+      padding: 14px 20px;
     }
-    .featured-video { aspect-ratio: 16/9; width: 100%; border-bottom: var(--border-game); background: #0c081f; }
-    .featured-video iframe { width: 100%; height: 100%; border: none; display: block; }
-    .featured-body { padding: 1.35rem; }
+
+    .featured-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-yellow);
+      font-size: 11px;
+    }
+
+    .featured-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      padding: 6px 12px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .mini-btn-dark {
+      background-color: #241a4e;
+      color: var(--text-main);
+    }
+
+    .mini-btn-dark:hover {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
+
+    .mini-btn-yellow {
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+    }
+
+    .mini-btn-yellow:hover {
+      background-color: #ffd166;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-bottom: var(--border-game);
+      background-color: var(--bg-color);
+    }
+
+    .video-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .featured-body {
+      padding: 22px 24px;
+    }
+
+    .featured-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .featured-top h2 {
+      font-size: 1.7rem;
+      color: var(--accent-yellow);
+    }
+
+    .badge-pill {
+      border-radius: 8px;
+      border: 2px solid var(--border-color);
+      background-color: var(--accent-pink);
+      color: #ffffff;
+      padding: 4px 12px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .featured-summary {
+      margin-top: 10px;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+    }
+
+    .featured-footer {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag-chip {
+      border-radius: 12px;
+      border: 2px solid var(--accent-pink);
+      background-color: rgba(255, 71, 126, 0.15);
+      color: #ffffff;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .link-yellow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--accent-yellow);
+    }
+
+    .link-yellow:hover {
+      text-decoration: underline;
+    }
 
     /* Sobre Mí */
-    .about-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
-    @media (min-width: 860px) { .about-grid { grid-template-columns: 7fr 5fr; } }
-    .rpg-box { position: relative; padding: 2.25rem 2rem 2rem; }
-    .rpg-tag {
-      position: absolute;
-      top: -14px;
-      left: 24px;
-      background: var(--accent-pink);
-      color: #fff;
-      border: var(--border-game);
-      border-radius: 8px;
-      padding: 0.35rem 0.85rem;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.6rem;
-      box-shadow: 2px 2px 0 #100a26;
+    .about-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 32px;
+      align-items: center;
     }
 
-    /* Tabs y grids */
+    .rpg-box {
+      position: relative;
+      border-radius: 24px;
+      padding: 38px 32px 28px;
+    }
+
+    .rpg-label {
+      position: absolute;
+      top: -15px;
+      left: 24px;
+      border-radius: 8px;
+      border: var(--border-game);
+      background-color: var(--accent-pink);
+      color: #ffffff;
+      padding: 6px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px #100a26;
+    }
+
+    .rpg-box p + p {
+      margin-top: 16px;
+      color: var(--text-soft);
+    }
+
+    .about-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .about-mini-card {
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .about-mini-card i {
+      font-size: 2rem;
+      color: var(--accent-yellow);
+      margin-bottom: 12px;
+    }
+
+    .about-mini-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .about-mini-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Tabs de filtro */
+    .filter-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+
     .filter-bar {
       display: inline-flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      background: var(--card-bg);
-      border: var(--border-game);
+      justify-content: center;
+      gap: 8px;
       border-radius: 16px;
-      padding: 0.4rem;
+      border: var(--border-game);
+      background-color: var(--card-bg);
+      padding: 6px;
       box-shadow: 0 5px 0 #05030d;
-      margin-bottom: 2rem;
     }
-    .filter-btn {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 700;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-    .filter-btn.active { background: var(--accent-yellow); color: #0c081f; }
-    .filter-btn.active-pink { background: var(--accent-pink); color: #fff; }
 
+    .filter-btn {
+      border: 0;
+      background: transparent;
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      color: #ffffff;
+    }
+
+    .filter-btn.active-yellow {
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+      box-shadow: 0 2px 0 #05030d;
+    }
+
+    .filter-btn.active-pink {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+      box-shadow: 0 2px 0 #05030d;
+    }
+
+    /* Habilidades */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-      gap: 1.25rem;
-    }
-    .skill-card { padding: 1.5rem 1.15rem; text-align: center; display: flex; flex-direction: column; align-items: center; }
-    .skill-card i { font-size: 2.4rem; color: var(--accent-pink); margin-bottom: 0.9rem; }
-    .skill-card:hover i { color: var(--accent-yellow); }
-    .skill-badge {
-      margin-top: auto;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.55rem;
-      padding: 0.35rem 0.6rem;
-      border: 2px solid #100a26;
-      border-radius: 6px;
-      color: #fff;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
     }
 
-    .projects-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; }
-    @media (min-width: 820px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
-    .project-card { overflow: hidden; display: flex; flex-direction: column; }
-    .project-media { position: relative; height: 256px; border-bottom: var(--border-game); background: #0c081f; }
-    .project-media iframe { width: 100%; height: 100%; border: none; display: block; }
-    .sticker {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      transform: rotate(3deg);
-      background: var(--accent-yellow);
-      color: #0c081f;
-      border: var(--border-game);
-      border-radius: 8px;
-      padding: 0.25rem 0.7rem;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 700;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      pointer-events: none;
+    .skill-card {
+      border-radius: 18px;
+      padding: 24px 18px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .project-body { padding: 1.5rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-yellow);
+    }
+
+    .skill-icon {
+      font-size: 2.5rem;
+      color: var(--accent-pink);
+      margin-bottom: 14px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .skill-card:hover .skill-icon {
+      color: var(--accent-yellow);
+      transform: scale(1.1) rotate(-6deg);
+    }
+
+    .skill-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+    }
+
+    .skill-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .skill-level {
+      margin-top: 16px;
+      display: inline-block;
+      border-radius: 6px;
+      border: 2px solid var(--border-color);
+      padding: 4px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .level-adv { background-color: #38b000; }
+    .level-mid { background-color: #ff9f1c; }
+
+    /* Proyectos */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .project-card {
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-pink);
+    }
+
+    .project-media {
+      position: relative;
+      height: 256px;
+      width: 100%;
+      border-bottom: var(--border-game);
+      background-color: var(--bg-color);
+      overflow: hidden;
+    }
+
+    .project-media iframe,
+    .project-media img {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-sticker {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      pointer-events: none;
+      transform: rotate(3deg);
+      border-radius: 8px;
+      border: var(--border-game);
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+      padding: 4px 12px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0px #100a26;
+    }
+
+    .project-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .project-content h3 {
+      font-size: 1.5rem;
+      color: var(--accent-yellow);
+    }
+
+    .project-content p {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .project-bottom {
+      margin-top: 20px;
+    }
+
+    .project-actions {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .inspect-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: #241a4e;
+      color: var(--text-main);
+      padding: 8px 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .inspect-btn:hover {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
 
     /* Contacto */
     .contact-box {
       position: relative;
-      max-width: 860px;
+      max-width: 896px;
       margin: 0 auto;
       border-radius: 36px;
-      padding: 4.5rem 1.75rem 3rem;
+      padding: 64px 40px 48px;
       text-align: center;
+      overflow: hidden;
     }
-    .stage-clear {
+
+    .stage-clear-badge {
       position: absolute;
       top: 20px;
       left: 50%;
       transform: translateX(-50%) rotate(-2deg);
-      background: var(--accent-yellow);
-      color: #0c081f;
-      border: var(--border-game);
       border-radius: 8px;
-      padding: 0.4rem 1.2rem;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.68rem;
-      box-shadow: 4px 4px 0 #100a26;
+      border: var(--border-game);
+      background-color: var(--accent-yellow);
+      color: #0c081f;
+      padding: 6px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 4px 4px 0px #100a26;
       white-space: nowrap;
     }
 
+    .contact-box h2 {
+      margin-top: 16px;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0px #100a26;
+    }
+
+    .contact-box p {
+      margin: 16px auto 0;
+      max-width: 580px;
+      font-size: 1.05rem;
+      color: var(--text-main);
+    }
+
+    .contact-actions {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .contact-actions .arcade-btn {
+      border-radius: 16px;
+      padding: 12px 20px;
+      font-size: 0.88rem;
+    }
+
+    .copy-email-btn {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: var(--panel-dark);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .copy-email-btn:hover {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
+
+    /* Footer */
     footer {
+      position: relative;
+      z-index: 10;
       border-top: var(--border-game);
-      background: #070414;
-      padding: 2.5rem 1.25rem;
+      background-color: #070414;
+      padding: 36px 20px;
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.88rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .footer-icon-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .footer-icon-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
+
+    .footer-icon-link.linkedin:hover {
+      border-color: var(--accent-blue);
+      background-color: var(--accent-blue);
+      color: #ffffff;
     }
 
     /* Modal Ficha Completa */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      z-index: 60;
-      background: rgba(5, 3, 13, 0.86);
-      backdrop-filter: blur(4px);
+      z-index: 50;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal-window {
-      width: 100%;
-      max-width: 1040px;
-      max-height: 92vh;
-      background: var(--card-bg);
-      border: var(--border-game);
-      border-radius: 24px;
-      box-shadow: 0 12px 0 #05030d;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      background: var(--panel-dark);
-      border-bottom: var(--border-game);
-      padding: 1rem 1.5rem;
-    }
-    .modal-body { overflow-y: auto; flex: 1; }
-    .modal-media { height: 380px; width: 100%; border-bottom: var(--border-game); background: #0c081f; }
-    .modal-media iframe { width: 100%; height: 100%; border: none; }
-    .modal-cols { display: grid; grid-template-columns: 1fr; gap: 1.75rem; padding: 1.5rem; }
-    @media (min-width: 900px) { .modal-cols { grid-template-columns: 7fr 5fr; } }
-    .panel-box {
-      background: var(--panel-dark);
-      border: var(--border-game);
-      border-radius: 16px;
-      padding: 1rem;
+      background-color: rgba(5, 3, 13, 0.85);
+      backdrop-filter: blur(6px);
+      padding: 16px;
     }
 
-    @media (max-width: 760px) {
-      .nav-links { display: none; }
-      .modal-media { height: 240px; }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-shell {
+      display: flex;
+      flex-direction: column;
+      max-height: 92vh;
+      width: 100%;
+      max-width: 1024px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: var(--border-game);
+      background-color: var(--card-bg);
+      box-shadow: 0 12px 0 #05030d;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: var(--border-game);
+      background-color: var(--panel-dark);
+      padding: 16px 24px;
+    }
+
+    .modal-meta {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--accent-pink);
+    }
+
+    .modal-title {
+      margin-top: 4px;
+      font-size: 1.45rem;
+      color: var(--accent-yellow);
+    }
+
+    .modal-close {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: #241a4e;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-close:hover {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+    }
+
+    .modal-body {
+      overflow-y: auto;
+    }
+
+    .modal-media {
+      height: 390px;
+      width: 100%;
+      border-bottom: var(--border-game);
+      background-color: var(--bg-color);
+    }
+
+    .modal-media iframe,
+    .modal-media img {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      object-fit: contain;
+      display: block;
+    }
+
+    .modal-content {
+      padding: 24px;
+    }
+
+    .modal-columns {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 28px;
+    }
+
+    .modal-block + .modal-block {
+      margin-top: 22px;
+    }
+
+    .modal-block h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .modal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .modal-list i {
+      color: var(--accent-yellow);
+      margin-top: 4px;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .role-card {
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background-color: var(--panel-dark);
+      padding: 12px;
+    }
+
+    .role-card strong {
+      display: block;
+      font-family: 'Fredoka', sans-serif;
+      color: var(--accent-yellow);
+      font-size: 0.9rem;
+    }
+
+    .role-card span {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .controls-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .control-key {
+      border-radius: 10px;
+      border: 2px solid var(--border-color);
+      background-color: var(--panel-dark);
+      padding: 6px 12px;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: var(--text-main);
+    }
+
+    .sidebar-card {
+      border-radius: 16px;
+      border: var(--border-game);
+      background-color: var(--panel-dark);
+      padding: 18px;
+    }
+
+    .sidebar-card + .sidebar-card {
+      margin-top: 16px;
+    }
+
+    .sidebar-card h4 {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      color: var(--accent-yellow);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-card p {
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .sidebar-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .sidebar-btn-row .arcade-btn {
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.75rem;
+      flex: 1;
+    }
+
+    /* Informe Técnico UX en documento */
+    .report-panel {
+      margin-top: 28px;
+      border-radius: 20px;
+      border: var(--border-game);
+      background-color: #ffffff;
+      color: #1e293b;
+      padding: 28px;
+      display: none;
+    }
+
+    .report-panel.open {
+      display: block;
+    }
+
+    .report-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .report-doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 10px;
+      border: 2px solid #0f172a;
+      padding: 8px 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .report-doc-section {
+      margin-bottom: 20px;
+    }
+
+    .report-doc-section h4 {
+      color: #4c1d95;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      border-left: 4px solid #ff477e;
+      padding-left: 10px;
+    }
+
+    .report-doc-section p,
+    .report-doc-section li {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: #334155;
+    }
+
+    .report-doc-section ul {
+      padding-left: 20px;
+      margin-top: 6px;
+    }
+
+    /* Responsividad */
+    @media (max-width: 960px) {
+      .hero-grid,
+      .about-grid,
+      .modal-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: inline-flex;
+      }
+
+      .hero-title {
+        font-size: 2.35rem;
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-media {
+        height: 240px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #0f172a !important;
+      }
+
+      header, main, footer, .bg-decorations, .modal-header, .modal-media, .modal-columns, .report-toolbar {
+        display: none !important;
+      }
+
+      .modal-backdrop {
+        position: static !important;
+        display: block !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+
+      .modal-shell {
+        max-height: none !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .report-panel {
+        display: block !important;
+        border: none !important;
+        padding: 0 !important;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Decoraciones flotantes -->
-  <i class="fa-solid fa-star bg-deco" style="top:16%;left:7%;color:#ffb703;"></i>
-  <i class="fa-solid fa-gamepad bg-deco" style="top:42%;right:8%;color:#9d4edd;animation-delay:2s;"></i>
-  <i class="fa-solid fa-ghost bg-deco" style="top:74%;left:6%;color:#ff477e;animation-delay:3.5s;"></i>
 
-  <!-- Navbar -->
-  <header>
-    <div class="nav-wrap">
-      <a href="#inicio" class="logo"><i class="fa-solid fa-gamepad"></i> Portafolio.DEV</a>
+  <!-- Decoraciones sutiles -->
+  <div class="bg-decorations" aria-hidden="true">
+    <i class="fa-solid fa-star bg-icon" style="top:14%; left:6%; font-size:28px; color:#ffb703;"></i>
+    <i class="fa-solid fa-gamepad bg-icon" style="top:42%; right:6%; font-size:32px; color:#9d4edd; animation-delay:1.8s;"></i>
+    <i class="fa-solid fa-bolt bg-icon" style="top:76%; left:7%; font-size:24px; color:#ff477e; animation-delay:3.2s;"></i>
+  </div>
+
+  <!-- Navegación -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#inicio" class="brand">
+        <i class="fa-solid fa-gamepad controller-wag"></i>
+        <span>Portafolio.DEV</span>
+      </a>
+
       <ul class="nav-links">
         <li><a href="#sobre-mi">Sobre Mí</a></li>
         <li><a href="#habilidades">Habilidades</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
-      <a href="#contacto" class="arcade-btn btn-yellow" style="padding:0.45rem 1rem;font-size:0.75rem;border-radius:9999px;">Contactame</a>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <a href="#contacto" class="nav-cta">Contactame</a>
+        <button id="mobile-menu-btn" class="mobile-toggle" type="button" aria-label="Abrir menú">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="#sobre-mi">Sobre Mí</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
     </div>
   </header>
 
-  <main class="container">
-    <!-- HERO CON AGREAS DESTACADO ARRIBA -->
+  <main>
+    <!-- HERO SECTION -->
     <section id="inicio">
-      <div class="hero-grid">
-        <div>
-          <span class="badge-pixel">READY PLAYER ONE</span>
-          <h1 class="hero-title">Hola, soy <span>Bernardo Urrutia</span></h1>
-          <p class="hero-desc">
-            Unity Developer, creador de videojuegos, entornos 3D y especialista QA. Conoce mi proyecto principal jugable justo aquí arriba.
-          </p>
-          <div class="hero-actions">
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">
-              <i class="fa-solid fa-envelope"></i> Contactame
-            </a>
-            <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink">
-              <i class="fa-brands fa-github"></i> GitHub
-            </a>
-            <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
-              <i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube
-            </a>
-          </div>
-        </div>
-
-        <div class="arcade-card" style="overflow:hidden;">
-          <div class="featured-header">
-            <span class="font-pixel" style="font-size:0.65rem;color:#ffb703;">
-              <i class="fa-solid fa-gamepad"></i> JUEGO DESARROLLADO
-            </span>
-            <div style="display:flex;gap:0.5rem;">
-              <button type="button" id="toggle-hero-audio" class="arcade-btn btn-dark" style="padding:0.4rem 0.75rem;font-size:0.72rem;border-radius:10px;">
-                <i class="fa-solid fa-volume-xmark"></i> Sin audio
-              </button>
-              <button type="button" onclick="openProjectModal('agreas-horror')" class="arcade-btn btn-yellow" style="padding:0.4rem 0.85rem;font-size:0.72rem;border-radius:10px;">
-                <i class="fa-solid fa-maximize"></i> Ficha completa
-              </button>
-            </div>
-          </div>
-
-          <div class="featured-video">
-            <iframe id="hero-agreas-iframe" src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0" title="Agreas Gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-
-          <div class="featured-body">
-            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.75rem;">
-              <h2 style="font-size:1.6rem;color:#ffb703;">Agreas — Horror Multijugador</h2>
-              <span class="tech-pill" style="background:#ff477e;border-color:#100a26;">Unity · C# · IA</span>
-            </div>
-            <p style="color:#d7d2f2;font-size:0.92rem;margin-top:0.6rem;">
-              Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, Inteligencia Artificial en C# y maquetación espacial en tiempo real.
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <span class="hero-badge font-pixel">READY PLAYER ONE</span>
+            <h1 class="hero-title">Hola, soy <span>Bernardo Urrutia</span></h1>
+            <p class="hero-desc">
+              Unity Developer, creador de videojuegos, entornos 3D y especialista QA. Conoce mi proyecto principal jugable justo aquí arriba.
             </p>
-            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1rem;">
-              <span class="tech-pill">Unity</span>
-              <span class="tech-pill">C#</span>
-              <span class="tech-pill">NavMesh AI</span>
-              <span class="tech-pill">Whiteboxing</span>
-              <span class="tech-pill">QA Playtesting</span>
+
+            <div class="hero-actions">
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">
+                <i class="fa-solid fa-envelope"></i> Contactame
+              </a>
+              <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink">
+                <i class="fa-brands fa-github"></i> GitHub
+              </a>
+              <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
+                <i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube
+              </a>
+              <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-linkedin">
+                <i class="fa-brands fa-linkedin"></i> LinkedIn
+              </a>
+            </div>
+          </div>
+
+          <!-- Juego Desarrollado en Portada -->
+          <div>
+            <div class="arcade-card featured-card">
+              <div class="featured-header">
+                <div class="featured-header-left font-pixel">
+                  <i class="fa-solid fa-gamepad"></i>
+                  <span>JUEGO DESARROLLADO</span>
+                </div>
+                <div class="featured-header-actions">
+                  <button id="toggle-audio-btn" type="button" class="mini-btn mini-btn-dark">
+                    <i id="audio-icon" class="fa-solid fa-volume-xmark"></i>
+                    <span id="audio-label">Sin audio</span>
+                  </button>
+                  <button type="button" onclick="openProjectModal('agreas-horror')" class="mini-btn mini-btn-yellow">
+                    <i class="fa-solid fa-expand"></i>
+                    <span>Ficha completa</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="video-wrapper">
+                <iframe
+                  id="hero-gameplay-frame"
+                  src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0"
+                  title="Agreas — Horror Multijugador Gameplay"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
+
+              <div class="featured-body">
+                <div class="featured-top">
+                  <h2>Agreas — Horror Multijugador</h2>
+                  <span class="badge-pill">Unity · C# · IA</span>
+                </div>
+                <p class="featured-summary">
+                  Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.
+                </p>
+                <div class="featured-footer">
+                  <div class="tags-list">
+                    <span class="tag-chip">Unity</span>
+                    <span class="tag-chip">C#</span>
+                    <span class="tag-chip">NavMesh AI</span>
+                    <span class="tag-chip">Whiteboxing</span>
+                    <span class="tag-chip">QA Playtesting</span>
+                  </div>
+                  <a href="https://www.youtube.com/watch?v=TzulSeYVWsY" target="_blank" rel="noopener noreferrer" class="link-yellow">
+                    Ver en YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -484,408 +1429,686 @@
 
     <!-- SOBRE MÍ -->
     <section id="sobre-mi">
-      <h2 class="section-title">SOBRE <span>MÍ</span></h2>
-      <div class="about-grid">
-        <div class="arcade-card rpg-box">
-          <span class="rpg-tag">INFO PERSONAJE</span>
-          <p style="margin-bottom:1rem;">
-            ¡Hola! Soy un desarrollador de Unity con <strong style="color:#ffb703;">4 años de experiencia</strong> activa en programación y modelado 3D, enfocado en diseñar experiencias jugables inmersivas y técnicamente impecables.
-          </p>
-          <p style="color:#d7d2f2;">
-            Además de la programación, cuento con una profunda especialización en <strong style="color:#ffb703;">QA Tester (Quality Assurance)</strong>. Esto me permite detectar fallas críticas en fases tempranas, analizar el rendimiento de código y resolver bugs de manera eficiente para entregar productos finales pulidos.
-          </p>
-        </div>
+      <div class="container">
+        <h2 class="section-title">SOBRE <span>MÍ</span></h2>
 
-        <div style="display:flex;flex-direction:column;gap:1.25rem;">
-          <div class="arcade-card" style="padding:1.5rem;">
-            <i class="fa-solid fa-gamepad" style="font-size:2rem;color:#ffb703;margin-bottom:0.6rem;"></i>
-            <h3 style="font-size:1.2rem;">Trayectoria</h3>
-            <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.3rem;">4 años desarrollando activamente y puliendo dinámicas jugables en Unity.</p>
+        <div class="about-grid">
+          <div class="arcade-card rpg-box">
+            <span class="rpg-label font-pixel">INFO PERSONAJE</span>
+            <p>
+              ¡Hola! Soy un desarrollador de Unity con <strong style="color:#ffb703;">4 años de experiencia</strong> activa en programación y modelado 3D, enfocado en diseñar experiencias jugables inmersivas y técnicamente impecables.
+            </p>
+            <p>
+              Además de la programación, cuento con una profunda especialización en <strong style="color:#ffb703;">QA Tester (Quality Assurance)</strong>. Esto me da una habilidad clave: detectar fallas críticas en fases tempranas, analizar el rendimiento de código y resolver bugs de manera eficiente para entregar productos finales pulidos.
+            </p>
           </div>
-          <div class="arcade-card" style="padding:1.5rem;">
-            <i class="fa-solid fa-graduation-cap" style="font-size:2rem;color:#ffb703;margin-bottom:0.6rem;"></i>
-            <h3 style="font-size:1.2rem;">Formación Académica</h3>
-            <p style="color:var(--text-muted);font-size:0.9rem;margin-top:0.3rem;">Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad en Videojuegos) — Universidad Bernardo O'Higgins (UBO).</p>
+
+          <div class="about-cards">
+            <div class="arcade-card about-mini-card">
+              <i class="fa-solid fa-gamepad"></i>
+              <h3>Trayectoria</h3>
+              <p>4 años desarrollando activamente y puliendo dinámicas jugables en Unity.</p>
+            </div>
+
+            <div class="arcade-card about-mini-card">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <h3>Formación Académica</h3>
+              <p>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad en Videojuegos) — Universidad Bernardo O'Higgins (UBO).</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INVENTARIO DE HABILIDADES (5 ITEMS) -->
+    <!-- INVENTARIO DE HABILIDADES -->
     <section id="habilidades">
-      <h2 class="section-title">INVENTARIO <span>DE HABILIDADES</span></h2>
-      <div style="text-align:center;">
-        <div class="filter-bar" id="skill-filters">
-          <button class="filter-btn active" data-skill-filter="todas">Todas</button>
-          <button class="filter-btn" data-skill-filter="motor">Motor y Código</button>
-          <button class="filter-btn" data-skill-filter="arte">Arte 3D y Diseño</button>
+      <div class="container">
+        <h2 class="section-title">INVENTARIO <span>DE HABILIDADES</span></h2>
+
+        <div class="filter-wrap">
+          <div class="filter-bar" role="tablist" aria-label="Filtrar habilidades">
+            <button type="button" class="filter-btn active-yellow" data-skill-filter="todas">Todas</button>
+            <button type="button" class="filter-btn" data-skill-filter="motor">Motor y Código</button>
+            <button type="button" class="filter-btn" data-skill-filter="arte">Arte 3D y Diseño</button>
+          </div>
+        </div>
+
+        <div id="skills-grid" class="skills-grid">
+          <article class="arcade-card skill-card" data-skill-group="motor">
+            <i class="fa-brands fa-unity skill-icon"></i>
+            <h3>Unity Engine</h3>
+            <p>Arquitectura de escenas, físicas, NavMesh, prefabs y optimización de frame-time.</p>
+            <span class="skill-level level-adv font-pixel">Avanzado</span>
+          </article>
+
+          <article class="arcade-card skill-card" data-skill-group="motor">
+            <i class="fa-solid fa-code skill-icon"></i>
+            <h3>C# / VS Code</h3>
+            <p>Máquinas de estado, IA de enemigos, controladores y patrones limpios orientados a componentes.</p>
+            <span class="skill-level level-adv font-pixel">Avanzado</span>
+          </article>
+
+          <article class="arcade-card skill-card" data-skill-group="arte">
+            <i class="fa-solid fa-cubes skill-icon"></i>
+            <h3>Blender 3D</h3>
+            <p>Modelado hard-surface y estilizado, retopología, UVs e iluminación de dioramas.</p>
+            <span class="skill-level level-adv font-pixel">Avanzado</span>
+          </article>
+
+          <article class="arcade-card skill-card" data-skill-group="motor">
+            <i class="fa-solid fa-circle-nodes skill-icon"></i>
+            <h3>Unreal Engine</h3>
+            <p>Prototipado de niveles, Blueprints e iluminación en tiempo real.</p>
+            <span class="skill-level level-mid font-pixel">Intermedio</span>
+          </article>
+
+          <article class="arcade-card skill-card" data-skill-group="arte">
+            <i class="fa-solid fa-wand-magic-sparkles skill-icon"></i>
+            <h3>Adobe Photoshop</h3>
+            <p>Edición de texturas PBR, sprites de interfaz y composición de presentaciones.</p>
+            <span class="skill-level level-mid font-pixel">Intermedio</span>
+          </article>
         </div>
       </div>
-      <div class="skills-grid" id="skills-grid"></div>
     </section>
 
-    <!-- GALERÍA DE PROYECTOS -->
+    <!-- GALERÍA DE NIVELES Y MODELOS -->
     <section id="proyectos">
-      <h2 class="section-title">GALERÍA DE <span>NIVELES Y MODELOS</span></h2>
-      <div style="text-align:center;">
-        <div class="filter-bar" id="project-filters">
-          <button class="filter-btn active-pink" data-project-filter="todos">Todos</button>
-          <button class="filter-btn" data-project-filter="unity">Unity & Gameplay</button>
-          <button class="filter-btn" data-project-filter="3d">Modelado 3D</button>
-          <button class="filter-btn" data-project-filter="level-design">Level Design</button>
+      <div class="container">
+        <h2 class="section-title">GALERÍA DE <span>NIVELES Y MODELOS</span></h2>
+
+        <div class="filter-wrap">
+          <div class="filter-bar" role="tablist" aria-label="Filtrar proyectos">
+            <button type="button" class="filter-btn active-pink" data-project-filter="todos">Todos</button>
+            <button type="button" class="filter-btn" data-project-filter="unity">Unity &amp; Gameplay</button>
+            <button type="button" class="filter-btn" data-project-filter="3d">Modelado 3D</button>
+            <button type="button" class="filter-btn" data-project-filter="ia">IA y Comportamiento</button>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          <!-- 1. Agreas -->
+          <article class="arcade-card project-card" data-project-category="unity">
+            <div class="project-media">
+              <iframe
+                src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=0&modestbranding=1&rel=0"
+                title="Agreas — Horror Multijugador"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+              <span class="project-sticker">Gameplay 60fps</span>
+            </div>
+            <div class="project-content">
+              <div>
+                <h3>Agreas — Horror Multijugador</h3>
+                <p>Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en mecánicas de persecución, IA en C# y maquetación espacial en tiempo real.</p>
+              </div>
+              <div class="project-bottom">
+                <div class="tags-list">
+                  <span class="tag-chip">Unity</span>
+                  <span class="tag-chip">C#</span>
+                  <span class="tag-chip">NavMesh AI</span>
+                  <span class="tag-chip">QA Playtesting</span>
+                </div>
+                <div class="project-actions">
+                  <button type="button" class="inspect-btn" onclick="openProjectModal('agreas-horror')">
+                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
+                  </button>
+                  <a href="https://www.youtube.com/watch?v=TzulSeYVWsY" target="_blank" rel="noopener noreferrer" class="link-yellow">
+                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Escenario Diorama -->
+          <article class="arcade-card project-card" data-project-category="3d">
+            <div class="project-media">
+              <iframe
+                src="https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark"
+                title="Escenario Diorama"
+                allow="autoplay; fullscreen; xr-spatial-tracking"
+                allowfullscreen></iframe>
+              <span class="project-sticker">Diorama 3D</span>
+            </div>
+            <div class="project-content">
+              <div>
+                <h3>Escenario Diorama</h3>
+                <p>Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante mediante composición modular y balance cromático.</p>
+              </div>
+              <div class="project-bottom">
+                <div class="tags-list">
+                  <span class="tag-chip">Blender</span>
+                  <span class="tag-chip">Modelado 3D</span>
+                  <span class="tag-chip">Iluminación</span>
+                  <span class="tag-chip">Diorama</span>
+                </div>
+                <div class="project-actions">
+                  <button type="button" class="inspect-btn" onclick="openProjectModal('escenario-diorama')">
+                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
+                  </button>
+                  <a href="https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8" target="_blank" rel="noopener noreferrer" class="link-yellow">
+                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Comportamiento de IA -->
+          <article class="arcade-card project-card" data-project-category="ia">
+            <div class="project-media">
+              <img src="ComportamientoIA.gif" alt="Comportamiento de IA — Rutas y Patrullaje" />
+              <span class="project-sticker">IA &amp; C#</span>
+            </div>
+            <div class="project-content">
+              <div>
+                <h3>Comportamiento de IA — Rutas y Patrullaje</h3>
+                <p>Desarrollo del comportamiento de Inteligencia Artificial en Unity y C#, enfocado en rutas dinámicas de patrullaje, detección por línea de visión, transición de estados (patrulla, alerta y persecución) y navegación fluida sobre obstáculos.</p>
+              </div>
+              <div class="project-bottom">
+                <div class="tags-list">
+                  <span class="tag-chip">Unity</span>
+                  <span class="tag-chip">IA en C#</span>
+                  <span class="tag-chip">NavMesh</span>
+                  <span class="tag-chip">State Machine</span>
+                </div>
+                <div class="project-actions">
+                  <button type="button" class="inspect-btn" onclick="openProjectModal('comportamiento-ia')">
+                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Creación de Mundo Inmersivo -->
+          <article class="arcade-card project-card" data-project-category="3d">
+            <div class="project-media">
+              <iframe
+                src="https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark"
+                title="Creación de Mundo Inmersivo"
+                allow="autoplay; fullscreen; xr-spatial-tracking"
+                allowfullscreen></iframe>
+              <span class="project-sticker">Modelo 3D</span>
+            </div>
+            <div class="project-content">
+              <div>
+                <h3>Creación de Mundo Inmersivo</h3>
+                <p>Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.</p>
+              </div>
+              <div class="project-bottom">
+                <div class="tags-list">
+                  <span class="tag-chip">Blender</span>
+                  <span class="tag-chip">World Building</span>
+                  <span class="tag-chip">Modular Assets</span>
+                  <span class="tag-chip">Diseño 3D</span>
+                </div>
+                <div class="project-actions">
+                  <button type="button" class="inspect-btn" onclick="openProjectModal('creacion-mundo-inmersivo')">
+                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
+                  </button>
+                  <a href="https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272" target="_blank" rel="noopener noreferrer" class="link-yellow">
+                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="projects-grid" id="projects-grid"></div>
     </section>
 
     <!-- CONTACTO -->
     <section id="contacto">
-      <div class="arcade-card contact-box">
-        <span class="stage-clear">STAGE CLEAR!</span>
-        <h2 class="section-title" style="margin-bottom:1rem;">¡CONECTEMOS!</h2>
-        <p style="max-width:560px;margin:0 auto;color:#f5f3ff;">
-          ¿Quieres agregar un Unity Developer y QA a tu equipo de desarrollo, o tienes un proyecto de videojuego en mente? ¡Conectemos en mis redes o escríbeme directamente!
-        </p>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.9rem;margin-top:1.75rem;">
-          <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark"><i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube</a>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow"><i class="fa-solid fa-envelope"></i> Enviar Correo</a>
-        </div>
-        <div style="margin-top:1.25rem;">
-          <button type="button" id="copy-email-btn" class="arcade-btn btn-dark" style="font-size:0.75rem;padding:0.55rem 1rem;">
-            <i class="fa-solid fa-copy"></i> Copiar correo (brebolledo437@gmail.com)
+      <div class="container">
+        <div class="arcade-card contact-box">
+          <span class="stage-clear-badge font-pixel">STAGE CLEAR!</span>
+          <h2>¡CONECTEMOS!</h2>
+          <p>
+            ¿Quieres agregar un Unity Developer y QA a tu equipo de desarrollo, o tienes un proyecto de videojuego en mente? ¡Conectemos en mis redes o escríbeme directamente!
+          </p>
+
+          <div class="contact-actions">
+            <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
+              <i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube
+            </a>
+            <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-linkedin">
+              <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">
+              <i class="fa-solid fa-envelope"></i> Enviar Correo
+            </a>
+          </div>
+
+          <button id="copy-email-btn" type="button" class="copy-email-btn">
+            <i id="copy-email-icon" class="fa-regular fa-copy"></i>
+            <span id="copy-email-text">Copiar correo (brebolledo437@gmail.com)</span>
           </button>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    <p>Bernardo Urrutia © 2026. Todos los derechos reservados. · Unity Developer & QA Tester</p>
+    <div class="container">
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Bernardo Urrutia" class="footer-icon-link linkedin">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Bernardo Urrutia" class="footer-icon-link">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" aria-label="YouTube de Bernardo Urrutia" class="footer-icon-link">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+      </div>
+      <p class="font-display" style="color:#f5f3ff; font-size:0.92rem; font-weight:500;">
+        Bernardo Urrutia © 2026. Todos los derechos reservados. · Unity Developer &amp; QA Tester
+      </p>
+    </div>
   </footer>
 
   <!-- MODAL FICHA COMPLETA -->
-  <div id="project-modal" class="modal-backdrop" role="dialog" aria-modal="true">
-    <div class="modal-window" onclick="event.stopPropagation()">
+  <div id="project-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+    <div class="modal-shell" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div>
-          <p id="modal-meta" style="font-size:0.75rem;font-weight:700;color:#ff477e;text-transform:uppercase;"></p>
-          <h2 id="modal-title" style="font-size:1.5rem;color:#ffb703;margin-top:0.2rem;"></h2>
+          <p id="modal-project-meta" class="modal-meta"></p>
+          <h2 id="modal-project-title" class="modal-title"></h2>
         </div>
-        <button type="button" onclick="closeProjectModal()" class="arcade-btn btn-dark" style="padding:0.5rem 0.75rem;border-radius:12px;" aria-label="Cerrar">
+        <button id="modal-close-btn" type="button" class="modal-close" aria-label="Cerrar visor">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-      <div class="modal-body arcade-scroll" id="modal-body-content"></div>
+
+      <div class="modal-body arcade-scroll">
+        <div id="modal-media-box" class="modal-media"></div>
+        <div id="modal-content-box" class="modal-content"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    const SKILLS = [
-      { id: 'unity', name: 'Unity Engine', group: 'motor', level: 'Avanzado', icon: 'fa-brands fa-unity', detail: 'Arquitectura de escenas, físicas, NavMesh, prefabs y optimización de frame-time.' },
-      { id: 'csharp', name: 'C# / VS Code', group: 'motor', level: 'Avanzado', icon: 'fa-solid fa-code', detail: 'Máquinas de estado, IA de enemigos, controladores y patrones limpios.' },
-      { id: 'blender', name: 'Blender 3D', group: 'arte', level: 'Avanzado', icon: 'fa-solid fa-cubes', detail: 'Modelado hard-surface y estilizado, retopología, UVs e iluminación de dioramas.' },
-      { id: 'unreal', name: 'Unreal Engine', group: 'motor', level: 'Intermedio', icon: 'fa-solid fa-circle-nodes', detail: 'Prototipado de niveles, Blueprints e iluminación en tiempo real.' },
-      { id: 'photoshop', name: 'Adobe Photoshop', group: 'arte', level: 'Intermedio', icon: 'fa-solid fa-wand-magic-sparkles', detail: 'Edición de texturas PBR, sprites de interfaz y composición.' }
-    ];
-
-    const PROJECTS = [
-      {
-        id: 'agreas-horror',
+    // Datos completos de proyectos
+    const PROJECTS_DATA = {
+      'agreas-horror': {
+        meta: 'Unity & Gameplay · 2025 · Unity Developer & QA',
         title: 'Agreas — Horror Multijugador',
-        category: 'unity',
-        categoryLabel: 'Unity & Gameplay',
-        year: '2025',
-        role: 'Unity Developer & QA',
-        sticker: 'Gameplay 60fps',
+        mediaType: 'youtube',
+        mediaUrl: 'https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0',
+        externalUrl: 'https://www.youtube.com/watch?v=TzulSeYVWsY',
         summary: 'Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.',
-        qaFocus: 'Validación de colisiones en corredores estrechos, ajuste de línea de visión del agente perseguidor y prevención de bloqueos de navegación (NavMesh edge cases) en sesiones multijugador.',
-        tools: ['Unity', 'C#', 'NavMesh AI', 'Whiteboxing', 'QA Playtesting'],
         highlights: [
           'Máquina de estados en C# para patrullaje, alerta y persecución dinámica.',
           'Iteración rápida de blockout espacial para medir tiempos de escape y tensión.',
           'Pruebas de estrés de colisiones y sincronización en escenarios oscuros.'
         ],
-        mediaType: 'youtube',
-        embedUrl: 'https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=0&modestbranding=1&rel=0',
-        externalUrl: 'https://www.youtube.com/watch?v=TzulSeYVWsY',
-        zipUrl: 'https://github.com/Ghost-z94/Agrea/archive/refs/heads/main.zip',
-        repoUrl: 'https://github.com/Ghost-z94/Agrea/tree/main',
-        pdfUrl: 'Informe_tecnico_AGREAS.pdf',
+        qaFocus: 'Validación de colisiones en corredores estrechos, ajuste de línea de visión del agente perseguidor y prevención de bloqueos de navegación (NavMesh edge cases) en sesiones multijugador.',
+        tools: ['Unity', 'C#', 'NavMesh AI', 'Whiteboxing', 'QA Playtesting'],
         roles: [
           { name: 'Vida', effect: 'Cura aliados heridos y revive jugadores caídos en el último minuto.' },
           { name: 'Distracción', effect: 'Bengalas y bombas de ruido para atraer y desviar al demonio.' },
           { name: 'Exploración', effect: 'Mapa de las alcantarillas y spray para marcar rutas seguras.' },
           { name: 'Energía', effect: 'Recarga las linternas del equipo frente a recursos limitados.' }
         ],
-        controls: ['WASD · Movimiento', 'Shift · Correr', 'E · Interactuar', 'ESC · Salida']
+        controls: ['WASD · Movimiento', 'Shift · Correr', 'E · Interactuar', 'ESC · Salida'],
+        githubRepo: 'https://github.com/Ghost-z94/Agrea/tree/main',
+        githubZip: 'https://github.com/Ghost-z94/Agrea/archive/refs/heads/main.zip',
+        hasReport: true
       },
-      {
-        id: 'escenario-diorama',
+      'escenario-diorama': {
+        meta: 'Modelado 3D · 2024 · 3D Environment Artist',
         title: 'Escenario Diorama',
-        category: '3d',
-        categoryLabel: 'Modelado 3D',
-        year: '2024',
-        role: '3D Environment Artist',
-        sticker: 'Diorama 3D',
+        mediaType: 'sketchfab',
+        mediaUrl: 'https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark',
+        externalUrl: 'https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8',
         summary: 'Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante mediante composición modular y balance cromático.',
-        qaFocus: 'Optimización de topología y recuento poligonal para tiempo real, revisión de normales invertidas y UVs sin solapamiento.',
-        tools: ['Blender', 'Modelado 3D', 'Iluminación', 'Diorama'],
         highlights: [
           'Composición isométrica pensada para lectura inmediata desde múltiples ángulos.',
-          'Jerarquía lumínica cálida con contraste controlado entre sombras y puntos focales.',
+          'Jerarquía lumínica cálida con contraste controlado entre sombras suaves y puntos focales.',
           'Malla limpia lista para importación directa en motores en tiempo real.'
         ],
-        mediaType: 'sketchfab',
-        embedUrl: 'https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark',
-        externalUrl: 'https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8'
+        qaFocus: 'Optimización de topología y recuento poligonal para tiempo real, revisión de normales invertidas, UVs sin solapamiento y control de densidad de texels.',
+        tools: ['Blender', 'Modelado 3D', 'Iluminación', 'Diorama']
       },
-      {
-        id: 'diseno-nivel-laberinto',
-        title: 'Diseño de Nivel — Laberinto y Puzzles',
-        category: 'level-design',
-        categoryLabel: 'Level Design',
-        year: '2025',
-        role: 'Level Designer & C# Gameplay',
-        sticker: 'Level Design',
-        summary: 'Estructuración y diseño de nivel dinámico basado en mecánicas desafiantes de terror, navegación en laberinto y resolución de puzzles interactivos conectados a compuertas de seguridad.',
-        qaFocus: 'Verificación de secuencias de progresión para impedir soft-locks y comprobación de estados de interruptores.',
-        tools: ['Unity', 'Level Design', 'C#', 'Puzzle Systems'],
+      'comportamiento-ia': {
+        meta: 'IA y Comportamiento · 2025 · Unity AI & C# Programmer',
+        title: 'Comportamiento de IA — Rutas y Patrullaje',
+        mediaType: 'gif',
+        mediaUrl: 'ComportamientoIA.gif',
+        summary: 'Desarrollo del comportamiento de Inteligencia Artificial en Unity y C#, enfocado en rutas dinámicas de patrullaje, detección por línea de visión, transición de estados (patrulla, alerta y persecución) y navegación fluida sobre obstáculos.',
         highlights: [
-          'Arquitectura de bucles y atajos que recompensan la exploración bajo presión.',
-          'Sistema modular de triggers e interruptores para apertura progresiva de compuertas.',
-          'Visor interactivo en Canvas para inspeccionar geometría, rutas IA y activadores.'
+          'Máquina de estados finitos en C# para alternar entre patrullaje, sospecha y persecución.',
+          'Cálculo dinámico de rutas con NavMesh Agent y validación de línea de visión (Raycast).',
+          'Ajuste de radios de detección y velocidades para equilibrar la tensión del jugador.'
         ],
-        mediaType: 'blueprint'
+        qaFocus: 'Validación de trayectorias sobre NavMesh en pasillos estrechos, prevención de bloqueos entre waypoints, precisión de raycasts de visión y estabilidad de frame-rate.',
+        tools: ['Unity', 'IA en C#', 'NavMesh', 'State Machine']
       },
-      {
-        id: 'creacion-mundo-inmersivo',
+      'creacion-mundo-inmersivo': {
+        meta: 'Modelado 3D · 2024 · 3D World Builder',
         title: 'Creación de Mundo Inmersivo',
-        category: '3d',
-        categoryLabel: 'Modelado 3D',
-        year: '2024',
-        role: '3D World Builder',
-        sticker: 'Modelo 3D',
+        mediaType: 'sketchfab',
+        mediaUrl: 'https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark',
+        externalUrl: 'https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272',
         summary: 'Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.',
-        qaFocus: 'Validación de escala respecto al controlador de personaje y alineación precisa de piezas modulares en grilla.',
-        tools: ['Blender', 'World Building', 'Modular Assets', 'Diseño 3D'],
         highlights: [
           'Kit modular reutilizable que acelera la construcción de distritos urbanos.',
-          'Líneas visuales guía para orientar al jugador sin marcadores intrusivos.',
+          'Líneas visuales guía para orientar al jugador sin depender de marcadores intrusivos.',
           'Inspección interactiva en 360 grados con visor 3D integrado.'
         ],
-        mediaType: 'sketchfab',
-        embedUrl: 'https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark',
-        externalUrl: 'https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272'
+        qaFocus: 'Validación de escala respecto al controlador de personaje, alineación precisa de piezas modulares en grilla y prevención de costuras visibles (z-fighting).',
+        tools: ['Blender', 'World Building', 'Modular Assets', 'Diseño 3D']
       }
-    ];
+    };
 
-    // Render habilidades
-    function renderSkills(filter = 'todas') {
-      const grid = document.getElementById('skills-grid');
-      const list = filter === 'todas' ? SKILLS : SKILLS.filter(s => s.group === filter);
-      grid.innerHTML = list.map(s => `
-        <article class="arcade-card skill-card">
-          <i class="${s.icon}"></i>
-          <h3 style="font-size:1.1rem;">${s.name}</h3>
-          <p style="font-size:0.78rem;color:var(--text-muted);margin:0.5rem 0 1rem;">${s.detail}</p>
-          <span class="skill-badge" style="background:${s.level === 'Avanzado' ? '#38b000' : '#ff9f1c'};">${s.level}</span>
-        </article>
-      `).join('');
-    }
+    // Menú móvil
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
 
-    // Render proyectos
-    function renderProjects(filter = 'todos') {
-      const grid = document.getElementById('projects-grid');
-      const list = filter === 'todos' ? PROJECTS : PROJECTS.filter(p => p.category === filter);
-      grid.innerHTML = list.map(p => `
-        <article class="arcade-card project-card">
-          <div class="project-media">
-            ${p.mediaType === 'blueprint'
-              ? `<canvas id="card-blueprint" style="width:100%;height:100%;display:block;"></canvas>`
-              : `<iframe src="${p.embedUrl}" title="${p.title}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>`}
-            <span class="sticker">${p.sticker}</span>
-          </div>
-          <div class="project-body">
-            <div>
-              <h3 style="font-size:1.4rem;color:#ffb703;">${p.title}</h3>
-              <p style="font-size:0.88rem;color:var(--text-muted);margin-top:0.5rem;">${p.summary}</p>
-            </div>
-            <div style="margin-top:1.25rem;">
-              <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
-                ${p.tools.map(t => `<span class="tech-pill">${t}</span>`).join('')}
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;border-top:2px solid #100a26;margin-top:1rem;padding-top:0.9rem;gap:0.75rem;">
-                <button type="button" onclick="openProjectModal('${p.id}')" class="arcade-btn btn-dark" style="padding:0.5rem 0.9rem;font-size:0.75rem;">
-                  <i class="fa-solid fa-maximize"></i> Inspeccionar detalle
-                </button>
-                ${p.externalUrl ? `<a href="${p.externalUrl}" target="_blank" rel="noopener noreferrer" style="color:#ffb703;font-family:'Fredoka',sans-serif;font-weight:700;font-size:0.78rem;">ABRIR ENLACE ↗</a>` : ''}
-              </div>
-            </div>
-          </div>
-        </article>
-      `).join('');
-      drawLevelCanvas('card-blueprint');
-    }
+    // Toggle audio video principal Agreas
+    let heroMuted = true;
+    const toggleAudioBtn = document.getElementById('toggle-audio-btn');
+    const heroFrame = document.getElementById('hero-gameplay-frame');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioLabel = document.getElementById('audio-label');
 
-    // Simulador simple en Canvas para Diseño de Nivel
-    function drawLevelCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      canvas.width = canvas.offsetWidth || 500;
-      canvas.height = canvas.offsetHeight || 256;
-      const map = [
-        [1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,1,0,0,2,1,0,4,1],
-        [1,0,1,0,1,0,1,0,3,0,0,1],
-        [1,0,1,0,0,0,1,0,1,1,0,1],
-        [1,2,1,1,1,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,1,1,0,1,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1]
-      ];
-      const cell = Math.min((canvas.width - 32) / 12, (canvas.height - 32) / 7);
-      const ox = (canvas.width - cell * 12) / 2;
-      const oy = (canvas.height - cell * 7) / 2;
-      ctx.fillStyle = '#0c081f';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      map.forEach((row, r) => row.forEach((tile, c) => {
-        const x = ox + c * cell, y = oy + r * cell;
-        ctx.fillStyle = tile === 1 ? '#1e2028' : '#121318';
-        ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2);
-        if (tile === 2) { ctx.strokeStyle = '#ffb703'; ctx.beginPath(); ctx.arc(x + cell/2, y + cell/2, cell*0.26, 0, Math.PI*2); ctx.stroke(); }
-        if (tile === 3) { ctx.strokeStyle = '#ff477e'; ctx.lineWidth = 2; ctx.strokeRect(x + 3, y + 3, cell - 6, cell - 6); }
-        if (tile === 4) { ctx.fillStyle = 'rgba(255,183,3,0.2)'; ctx.fillRect(x + 3, y + 3, cell - 6, cell - 6); }
-      }));
-    }
+    toggleAudioBtn.addEventListener('click', () => {
+      heroMuted = !heroMuted;
+      heroFrame.src = `https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=${heroMuted ? 1 : 0}&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0`;
+      audioIcon.className = heroMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+      audioIcon.style.color = heroMuted ? '' : '#ffb703';
+      audioLabel.textContent = heroMuted ? 'Sin audio' : 'Con audio';
+    });
+
+    // Filtros de Habilidades
+    const skillButtons = document.querySelectorAll('[data-skill-filter]');
+    const skillCards = document.querySelectorAll('[data-skill-group]');
+    skillButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-skill-filter');
+        skillButtons.forEach(b => b.classList.remove('active-yellow'));
+        btn.classList.add('active-yellow');
+        skillCards.forEach(card => {
+          const group = card.getAttribute('data-skill-group');
+          card.style.display = (filter === 'todas' || group === filter) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    // Filtros de Proyectos
+    const projectButtons = document.querySelectorAll('[data-project-filter]');
+    const projectCards = document.querySelectorAll('[data-project-category]');
+    projectButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-project-filter');
+        projectButtons.forEach(b => b.classList.remove('active-pink'));
+        btn.classList.add('active-pink');
+        projectCards.forEach(card => {
+          const cat = card.getAttribute('data-project-category');
+          card.style.display = (filter === 'todos' || cat === filter) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    // Copiar correo
+    const copyBtn = document.getElementById('copy-email-btn');
+    const copyIcon = document.getElementById('copy-email-icon');
+    const copyText = document.getElementById('copy-email-text');
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText('brebolledo437@gmail.com');
+        copyIcon.className = 'fa-solid fa-check';
+        copyIcon.style.color = '#38b000';
+        copyText.textContent = 'Correo copiado: brebolledo437@gmail.com';
+        setTimeout(() => {
+          copyIcon.className = 'fa-regular fa-copy';
+          copyIcon.style.color = '';
+          copyText.textContent = 'Copiar correo (brebolledo437@gmail.com)';
+        }, 2500);
+      } catch (e) {}
+    });
 
     // Modal Ficha Completa
-    function openProjectModal(id) {
-      const p = PROJECTS.find(item => item.id === id);
-      if (!p) return;
-      document.getElementById('modal-meta').textContent = `${p.categoryLabel} · ${p.year} · ${p.role}`;
-      document.getElementById('modal-title').textContent = p.title;
-
-      const mediaHtml = p.mediaType === 'blueprint'
-        ? `<div class="modal-media"><canvas id="modal-blueprint" style="width:100%;height:100%;display:block;"></canvas></div>`
-        : `<div class="modal-media"><iframe src="${p.mediaType === 'youtube' ? p.embedUrl.replace('controls=0', 'controls=1') : p.embedUrl}" allowfullscreen></iframe></div>`;
-
-      const rolesHtml = p.roles ? `
-        <div style="margin-top:1.4rem;">
-          <h3 style="font-size:1rem;">Roles cooperativos y mecánicas</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-top:0.75rem;">
-            ${p.roles.map(r => `<div class="panel-box"><p class="font-display" style="color:#ffb703;font-weight:700;">${r.name}</p><p style="font-size:0.78rem;color:#d7d2f2;margin-top:0.25rem;">${r.effect}</p></div>`).join('')}
-          </div>
-        </div>` : '';
-
-      const controlsHtml = p.controls ? `
-        <div style="margin-top:1.4rem;">
-          <h3 style="font-size:0.78rem;text-transform:uppercase;color:var(--text-muted);">Esquema de controles</h3>
-          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.6rem;">
-            ${p.controls.map(c => `<span class="panel-box" style="padding:0.4rem 0.75rem;font-size:0.75rem;border-radius:10px;">${c}</span>`).join('')}
-          </div>
-        </div>` : '';
-
-      const downloadHtml = p.zipUrl ? `
-        <div class="panel-box">
-          <h3 style="font-size:0.95rem;"><i class="fa-brands fa-github" style="color:#ffb703;"></i> Proyecto Unity en GitHub</h3>
-          <p style="font-size:0.78rem;color:var(--text-muted);margin:0.4rem 0 0.9rem;">Descarga el proyecto completo del juego o explora las escenas y scripts C#.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-            <a href="${p.zipUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-green" style="flex:1;"><i class="fa-solid fa-download"></i> Descargar juego (.zip)</a>
-            <a href="${p.repoUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark"><i class="fa-brands fa-github"></i> Ver GitHub</a>
-          </div>
-        </div>` : '';
-
-      const reportHtml = p.pdfUrl ? `
-        <div class="panel-box">
-          <h3 style="font-size:0.95rem;"><i class="fa-solid fa-file-pdf" style="color:#ffb703;"></i> Documentación técnica UX</h3>
-          <p style="font-size:0.78rem;color:var(--text-muted);margin:0.4rem 0 0.9rem;">Informe completo con análisis heurístico, encuesta (n=17), perfiles persona y gráficos.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-            <a href="${p.pdfUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink" style="flex:1;"><i class="fa-solid fa-file-lines"></i> Ver informe PDF</a>
-            <a href="${p.pdfUrl}" download="Informe_Tecnico_UX_AGREAS.pdf" class="arcade-btn btn-dark"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-          </div>
-        </div>` : '';
-
-      document.getElementById('modal-body-content').innerHTML = `
-        ${mediaHtml}
-        <div class="modal-cols">
-          <div>
-            <h3 style="font-size:1rem;">Descripción del proyecto</h3>
-            <p style="font-size:0.9rem;color:#d7d2f2;margin-top:0.5rem;">${p.summary}</p>
-            <h3 style="font-size:1rem;margin-top:1.4rem;">Lo que se desarrolló</h3>
-            <ul style="list-style:none;margin-top:0.65rem;display:flex;flex-direction:column;gap:0.55rem;">
-              ${p.highlights.map(h => `<li style="font-size:0.88rem;display:flex;gap:0.5rem;"><i class="fa-solid fa-circle-check" style="color:#ffb703;margin-top:3px;"></i><span>${h}</span></li>`).join('')}
-            </ul>
-            ${rolesHtml}
-            ${controlsHtml}
-          </div>
-          <div style="display:flex;flex-direction:column;gap:1rem;">
-            <div class="panel-box">
-              <h3 style="font-size:0.85rem;color:#ffb703;text-transform:uppercase;">Enfoque QA y Optimización</h3>
-              <p style="font-size:0.85rem;color:#d7d2f2;margin-top:0.45rem;">${p.qaFocus}</p>
-            </div>
-            <div>
-              <h3 style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;">Tecnologías</h3>
-              <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.5rem;">
-                ${p.tools.map(t => `<span class="tech-pill">${t}</span>`).join('')}
-              </div>
-            </div>
-            ${downloadHtml}
-            ${reportHtml}
-            ${p.externalUrl ? `<a href="${p.externalUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">Abrir en plataforma original ↗</a>` : ''}
-          </div>
-        </div>`;
-
-      document.getElementById('project-modal').classList.add('open');
-      document.body.style.overflow = 'hidden';
-      drawLevelCanvas('modal-blueprint');
-    }
+    const modal = document.getElementById('project-modal');
+    const modalMeta = document.getElementById('modal-project-meta');
+    const modalTitle = document.getElementById('modal-project-title');
+    const modalMedia = document.getElementById('modal-media-box');
+    const modalContent = document.getElementById('modal-content-box');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
 
     function closeProjectModal() {
-      document.getElementById('project-modal').classList.remove('open');
+      modal.classList.remove('open');
+      modalMedia.innerHTML = '';
       document.body.style.overflow = '';
     }
 
-    // Eventos iniciales
-    document.getElementById('project-modal').addEventListener('click', closeProjectModal);
-    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeProjectModal(); });
-
-    let heroMuted = true;
-    document.getElementById('toggle-hero-audio').addEventListener('click', function () {
-      heroMuted = !heroMuted;
-      document.getElementById('hero-agreas-iframe').src =
-        `https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=${heroMuted ? 1 : 0}&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0`;
-      this.innerHTML = heroMuted
-        ? '<i class="fa-solid fa-volume-xmark"></i> Sin audio'
-        : '<i class="fa-solid fa-volume-high" style="color:#ffb703;"></i> Con audio';
+    modal.addEventListener('click', closeProjectModal);
+    modalCloseBtn.addEventListener('click', closeProjectModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeProjectModal();
+      }
     });
 
-    document.getElementById('copy-email-btn').addEventListener('click', async function () {
-      await navigator.clipboard.writeText('brebolledo437@gmail.com');
-      this.innerHTML = '<i class="fa-solid fa-check" style="color:#38b000;"></i> Correo copiado: brebolledo437@gmail.com';
-      setTimeout(() => {
-        this.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar correo (brebolledo437@gmail.com)';
-      }, 2500);
-    });
+    function buildTechnicalReportHtml() {
+      return `
+        <div id="agreas-report-panel" class="report-panel">
+          <div class="report-toolbar">
+            <div>
+              <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#6d28d9;">Informe Técnico UX · AGREAS</p>
+              <h3 style="font-size:1.2rem; color:#0f172a;">Análisis de Experiencia de Usuario en AGREAS</h3>
+              <p style="font-size:0.8rem; color:#475569;">Bernardo Axel Antonio Urrutia Rebolledo · UBO · 01 de julio del 2026</p>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" onclick="downloadReportDoc()" class="report-doc-btn" style="background:#0a66c2; color:#fff;">
+                <i class="fa-solid fa-file-word"></i> Descargar Word (.doc)
+              </button>
+              <button type="button" onclick="window.print()" class="report-doc-btn" style="background:#ffb703; color:#0c081f;">
+                <i class="fa-solid fa-print"></i> Imprimir / PDF
+              </button>
+            </div>
+          </div>
 
-    document.querySelectorAll('[data-skill-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-skill-filter]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderSkills(btn.dataset.skillFilter);
-      });
-    });
+          <div id="report-printable-body">
+            <div class="report-doc-section">
+              <h4>1. Introducción y Pregunta de Investigación</h4>
+              <p>Este informe analiza la experiencia de usuario (UX) y usabilidad de <strong>AGREAS</strong>, un Survival Horror Cooperativo Low Poly ambientado en alcantarillas en el año 2010. La restricción de dispositivos modernos obliga a depender de objetos físicos y coordinación cercana entre jugadores para reunir objetos rituales y sellar al demonio Agreas.</p>
+              <p style="margin-top:8px;"><strong>Pregunta de Investigación:</strong> ¿Cómo es que el diseño de la interfaz junto con el sistema de juego en AGREAS ayudan a aumentar la carga mental para que el jugador sienta terror en la experiencia?</p>
+            </div>
 
-    document.querySelectorAll('[data-project-filter]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-project-filter]').forEach(b => b.classList.remove('active-pink'));
-        btn.classList.add('active-pink');
-        renderProjects(btn.dataset.projectFilter);
-      });
-    });
+            <div class="report-doc-section">
+              <h4>2. Marco Conceptual (Jesse Schell, 2015)</h4>
+              <ul>
+                <li><strong>Escucha profunda (p. 52):</strong> Comprender la búsqueda de "tensión legible" sin romper el ciclo de control.</li>
+                <li><strong>Proyección empática (p. 54):</strong> Evaluar cómo la baja fidelidad visual puede provocar desorientación espacial en corredores oscuros.</li>
+                <li><strong>La lente del jugador (p. 57):</strong> Pensar como abogado del jugador respecto a expectativas y frustraciones reales.</li>
+              </ul>
+            </div>
 
-    renderSkills();
-    renderProjects();
+            <div class="report-doc-section">
+              <h4>3. Análisis Heurístico (Criterios de Nielsen)</h4>
+              <ul>
+                <li><strong>Visibilidad del estado del sistema (Logrado):</strong> HUD minimalista con objetos restantes del ritual, barra de vida y consumo de batería de linterna.</li>
+                <li><strong>Relación sistema y mundo real (Logrado):</strong> Controles estándar (WASD, Shift, E) y 4 roles aleatorios (Vida, Distracción, Exploración y Energía).</li>
+                <li><strong>Control y libertad del usuario (Mejorable):</strong> La salida funciona con tecla ESC pero carece de menú visible de pausa/salida dentro de pantalla.</li>
+                <li><strong>Consistencia y estándares (Logrado):</strong> Coherencia cromática Low Poly y retroalimentación ambiental sin romper la inmersión.</li>
+                <li><strong>Prevención de errores (Logrado):</strong> Generación aleatoria de objetos, pasadizos secretos y rutas alternativas para evitar bloqueos con el enemigo.</li>
+              </ul>
+            </div>
+
+            <div class="report-doc-section">
+              <h4>4. Investigación de Usuarios (Encuesta n=17 y Entrevista)</h4>
+              <p>Se encuestó a 17 jugadores y se entrevistó a una especialista en Criminología para profundizar en el miedo real y la toma de decisiones bajo presión. Se contrastaron dos perfiles persona (<strong>"Spooker"</strong>, jugador táctico de terror en grupo, y <strong>"Akin"</strong>, jugador inmersivo orientado a atmósfera y sonido).</p>
+            </div>
+
+            <div class="report-doc-section">
+              <h4>5. Propuesta de Valor y Conclusiones</h4>
+              <p>Equilibrar la tensión del terror minimalista con señalética sutil (spray, roles complementarios y claridad mínima en pausa/ESC) evita que la incertidumbre se convierta en frustración por desorientación, fortaleciendo la cooperación y la rejugabilidad.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    window.toggleReportPanel = function() {
+      const panel = document.getElementById('agreas-report-panel');
+      const btnLabel = document.getElementById('report-btn-label');
+      if (!panel) return;
+      const isOpen = panel.classList.toggle('open');
+      if (btnLabel) {
+        btnLabel.textContent = isOpen ? 'Ocultar informe técnico' : 'Abrir informe como documento';
+      }
+      if (isOpen) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    window.downloadReportDoc = function() {
+      const bodyEl = document.getElementById('report-printable-body');
+      if (!bodyEl) return;
+      const htmlDoc = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="es">
+        <head><meta charset="utf-8"><title>Informe Técnico UX - AGREAS</title></head>
+        <body style="font-family: Calibri, Arial, sans-serif; line-height: 1.5; color: #1e293b;">
+          <h1 style="color:#4c1d95;">Informe Técnico: Análisis de Experiencia de Usuario en AGREAS</h1>
+          <p><strong>Autor:</strong> Bernardo Axel Antonio Urrutia Rebolledo<br>
+          <strong>Carrera:</strong> Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (UBO)<br>
+          <strong>Fecha:</strong> 01 de julio del 2026</p>
+          <hr>
+          ${bodyEl.innerHTML}
+        </body>
+        </html>
+      `;
+      const blob = new Blob(['\ufeff', htmlDoc], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Informe_Tecnico_UX_AGREAS.doc';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    window.openProjectModal = function(projectId) {
+      const project = PROJECTS_DATA[projectId];
+      if (!project) return;
+
+      modalMeta.textContent = project.meta;
+      modalTitle.textContent = project.title;
+
+      if (project.mediaType === 'youtube' || project.mediaType === 'sketchfab') {
+        modalMedia.innerHTML = `<iframe src="${project.mediaUrl}" title="${project.title}" allow="autoplay; fullscreen; xr-spatial-tracking; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else if (project.mediaType === 'gif') {
+        modalMedia.innerHTML = `<img src="${project.mediaUrl}" alt="${project.title}" />`;
+      }
+
+      const rolesHtml = project.roles ? `
+        <div class="modal-block">
+          <h3>Roles cooperativos y mecánicas</h3>
+          <div class="roles-grid">
+            ${project.roles.map(r => `<div class="role-card"><strong>${r.name}</strong><span>${r.effect}</span></div>`).join('')}
+          </div>
+        </div>
+      ` : '';
+
+      const controlsHtml = project.controls ? `
+        <div class="modal-block">
+          <h3 style="font-size:0.78rem; text-transform:uppercase; color:#b4aed6;">Esquema de controles</h3>
+          <div class="controls-list">
+            ${project.controls.map(c => `<span class="control-key">${c}</span>`).join('')}
+          </div>
+        </div>
+      ` : '';
+
+      const githubHtml = project.githubRepo ? `
+        <div class="sidebar-card">
+          <h4><i class="fa-brands fa-github"></i> Proyecto Unity en GitHub</h4>
+          <p>Descarga el proyecto completo del juego o explora las escenas y scripts C# en el repositorio oficial.</p>
+          <div class="sidebar-btn-row">
+            <a href="${project.githubZip}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-green">
+              <i class="fa-solid fa-download"></i> Descargar (.zip)
+            </a>
+            <a href="${project.githubRepo}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
+              <i class="fa-brands fa-github"></i> Ver GitHub
+            </a>
+          </div>
+        </div>
+      ` : '';
+
+      const reportBtnHtml = project.hasReport ? `
+        <div class="sidebar-card">
+          <h4><i class="fa-solid fa-file-lines"></i> Documentación técnica UX</h4>
+          <p>Heurísticas de Nielsen, encuesta cuantitativa (n=17), entrevista, perfiles persona y propuesta de valor UX.</p>
+          <div class="sidebar-btn-row">
+            <button type="button" onclick="toggleReportPanel()" class="arcade-btn btn-pink" style="width:100%;">
+              <i class="fa-solid fa-book-open"></i> <span id="report-btn-label">Abrir informe como documento</span>
+            </button>
+          </div>
+        </div>
+      ` : '';
+
+      const externalBtnHtml = project.externalUrl ? `
+        <a href="${project.externalUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow" style="width:100%; border-radius:16px; padding:12px 16px; margin-top:16px; font-size:0.8rem;">
+          Abrir en plataforma original <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      ` : '';
+
+      modalContent.innerHTML = `
+        <div class="modal-columns">
+          <div>
+            <div class="modal-block">
+              <h3>Descripción del proyecto</h3>
+              <p style="font-size:0.92rem; color:#d7d2f2;">${project.summary}</p>
+            </div>
+
+            <div class="modal-block">
+              <h3>Lo que se desarrolló</h3>
+              <ul class="modal-list">
+                ${project.highlights.map(h => `<li><i class="fa-solid fa-circle-check"></i><span>${h}</span></li>`).join('')}
+              </ul>
+            </div>
+
+            ${rolesHtml}
+            ${controlsHtml}
+          </div>
+
+          <div>
+            <div class="sidebar-card">
+              <h4>Enfoque QA y Optimización</h4>
+              <p>${project.qaFocus}</p>
+            </div>
+
+            <div style="margin:16px 0;">
+              <h4 style="font-size:0.75rem; text-transform:uppercase; color:#b4aed6; margin-bottom:8px;">Tecnologías</h4>
+              <div class="tags-list">
+                ${project.tools.map(t => `<span class="tag-chip">${t}</span>`).join('')}
+              </div>
+            </div>
+
+            ${githubHtml}
+            ${reportBtnHtml}
+            ${externalBtnHtml}
+          </div>
+        </div>
+        ${project.hasReport ? buildTechnicalReportHtml() : ''}
+      `;
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
   </script>
 </body>
 </html>
