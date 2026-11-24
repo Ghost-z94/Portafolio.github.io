@@ -1,2461 +1,1270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bernardo Urrutia | Unity Developer, Modelador 3D &amp; QA Tester</title>
-  <meta name="description" content="Portafolio de Bernardo Urrutia — Unity Developer, Modelador 3D y especialista QA. Conoce Agreas, entornos 3D, comportamiento de IA en C#, currículum y sistemas interactivos." />
-
-  <!-- Fuentes Arcade / Gaming -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lexend:wght@300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <style>
-    :root {
-      --bg-color: #0c081f;
-      --bg-grid: rgba(157, 78, 221, 0.06);
-      --card-bg: #1a123a;
-      --card-hover-bg: #241a4e;
-      --panel-dark: #140d2e;
-      --accent-pink: #ff477e;
-      --accent-purple: #9d4edd;
-      --accent-yellow: #ffb703;
-      --accent-blue: #0a66c2;
-      --accent-green: #38b000;
-      --text-main: #f5f3ff;
-      --text-soft: #d7d2f2;
-      --text-muted: #b4aed6;
-      --border-color: #100a26;
-      --border-game: 3px solid #100a26;
-      --shadow-arcade: 0px 6px 0px #05030d;
-      --shadow-arcade-hover: 0px 8px 0px #05030d;
-      --shadow-btn: 0px 5px 0px #05030d;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Lexend', system-ui, sans-serif;
-      scrollbar-width: thin;
-      scrollbar-color: #9d4edd #100a26;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      background-image:
-        linear-gradient(var(--bg-grid) 2px, transparent 2px),
-        linear-gradient(90deg, var(--bg-grid) 2px, transparent 2px);
-      background-size: 40px 40px;
-      color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    /* Scrollbar estético Arcade Purple */
-    html::-webkit-scrollbar,
-    .arcade-scroll::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-
-    html::-webkit-scrollbar-track,
-    .arcade-scroll::-webkit-scrollbar-track {
-      background: #100a26;
-      border-left: 2px solid #05030d;
-    }
-
-    html::-webkit-scrollbar-thumb,
-    .arcade-scroll::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #9d4edd 0%, #ff477e 100%);
-      border-radius: 9999px;
-      border: 2px solid #100a26;
-    }
-
-    html::-webkit-scrollbar-thumb:hover,
-    .arcade-scroll::-webkit-scrollbar-thumb:hover {
-      background: #ffb703;
-    }
-
-    .arcade-scroll {
-      scrollbar-width: thin;
-      scrollbar-color: #9d4edd #100a26;
-    }
-
-    h1, h2, h3, h4, .font-display {
-      font-family: 'Fredoka', system-ui, sans-serif;
-    }
-
-    .font-pixel {
-      font-family: 'Press Start 2P', monospace;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1152px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Decoraciones de fondo */
-    .bg-decorations {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .bg-icon {
-      position: absolute;
-      opacity: 0.14;
-      animation: floatStar 6s ease-in-out infinite;
-    }
-
-    @keyframes floatStar {
-      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-      50% { transform: translateY(-16px) rotate(12deg) scale(1.1); }
-    }
-
-    @keyframes controllerWag {
-      0%, 100% { transform: rotate(-8deg); }
-      50% { transform: rotate(8deg); }
-    }
-
-    .controller-wag {
-      animation: controllerWag 2.4s ease-in-out infinite;
-    }
-
-    /* Componentes base Arcade */
-    .arcade-card {
-      background-color: var(--card-bg);
-      border: var(--border-game);
-      box-shadow: var(--shadow-arcade);
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-    }
-
-    .arcade-card:hover {
-      background-color: var(--card-hover-bg);
-      box-shadow: var(--shadow-arcade-hover);
-    }
-
-    .arcade-btn {
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 700;
-      border: var(--border-game);
-      box-shadow: var(--shadow-btn);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-transform: uppercase;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
-    }
-
-    .arcade-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0px 7px 0px #05030d;
-    }
-
-    .arcade-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0px 2px 0px #05030d;
-    }
-
-    .btn-yellow {
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-    }
-    .btn-yellow:hover { background-color: #ffd166; }
-
-    .btn-pink {
-      background-color: var(--accent-pink);
-      color: #ffffff;
-    }
-    .btn-pink:hover { background-color: #ff7096; }
-
-    .btn-purple {
-      background-color: var(--accent-purple);
-      color: #ffffff;
-    }
-    .btn-purple:hover { background-color: #b56bf2; }
-
-    .btn-dark {
-      background-color: #241a4e;
-      color: #f5f3ff;
-    }
-    .btn-dark:hover { background-color: #312468; }
-
-    .btn-linkedin {
-      background-color: var(--accent-blue);
-      color: #ffffff;
-    }
-    .btn-linkedin:hover { background-color: #1978d8; }
-
-    .btn-green {
-      background-color: var(--accent-green);
-      color: #ffffff;
-    }
-    .btn-green:hover { background-color: #46cc08; }
-
-    /* Navbar */
-    .navbar {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 24px);
-      max-width: 1024px;
-      z-index: 40;
-      border-radius: 9999px;
-      border: var(--border-game);
-      background-color: rgba(26, 18, 58, 0.92);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    }
-
-    .navbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 12px 24px;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--accent-yellow);
-      text-shadow: 2px 2px 0px #05030d;
-      white-space: nowrap;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      border-radius: 9999px;
-      padding: 6px 14px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-main);
-      transition: all 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      background-color: var(--accent-pink);
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-
-    .nav-cta {
-      border-radius: 9999px;
-      border: 2px solid var(--border-color);
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-      padding: 7px 16px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      box-shadow: 0 3px 0 #05030d;
-      white-space: nowrap;
-    }
-
-    .mobile-toggle {
-      display: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 9999px;
-      border: 2px solid var(--border-color);
-      background-color: #241a4e;
-      color: var(--text-main);
-      align-items: center;
-      justify-content: center;
-    }
-
-    .mobile-menu {
-      display: none;
-      margin: 0 12px 12px;
-      border-radius: 16px;
-      border: 2px solid var(--border-color);
-      background-color: #150e31;
-      padding: 12px;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .mobile-menu.open {
-      display: flex;
-    }
-
-    .mobile-menu a {
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-    }
-
-    .mobile-menu a:hover {
-      background-color: var(--accent-pink);
-      color: #ffffff;
-    }
-
-    /* Main Layout */
-    main {
-      position: relative;
-      z-index: 10;
-    }
-
-    section {
-      padding: 72px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.2rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      text-shadow: 3px 3px 0px #100a26;
-      margin-bottom: 36px;
-    }
-
-    .section-title span {
-      color: var(--accent-yellow);
-    }
-
-    /* Hero */
-    #inicio {
-      padding-top: 128px;
-      padding-bottom: 72px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 5fr 7fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      border-radius: 12px;
-      border: var(--border-game);
-      background-color: var(--accent-pink);
-      color: #ffffff;
-      padding: 8px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      box-shadow: var(--shadow-arcade);
-    }
-
-    .hero-title {
-      margin-top: 24px;
-      font-size: 3.25rem;
-      font-weight: 700;
-      line-height: 1.08;
-      text-shadow: 4px 4px 0px #100a26;
-    }
-
-    .hero-title span {
-      color: var(--accent-yellow);
-    }
-
-    .hero-desc {
-      margin-top: 16px;
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 540px;
-    }
-
-    .hero-actions {
-      margin-top: 28px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .hero-actions .arcade-btn {
-      border-radius: 16px;
-      padding: 12px 18px;
-      font-size: 0.85rem;
-    }
-
-    .featured-card {
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    .featured-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: var(--border-game);
-      background-color: var(--panel-dark);
-      padding: 14px 20px;
-    }
-
-    .featured-header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--accent-yellow);
-      font-size: 11px;
-    }
-
-    .featured-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mini-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      padding: 6px 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-
-    .mini-btn-dark {
-      background-color: #241a4e;
-      color: var(--text-main);
-    }
-
-    .mini-btn-dark:hover {
-      border-color: var(--accent-yellow);
-      color: var(--accent-yellow);
-    }
-
-    .mini-btn-yellow {
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-    }
-
-    .mini-btn-yellow:hover {
-      background-color: #ffd166;
-    }
-
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-bottom: var(--border-game);
-      background-color: var(--bg-color);
-    }
-
-    .video-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .featured-body {
-      padding: 22px 24px;
-    }
-
-    .featured-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .featured-top h2 {
-      font-size: 1.7rem;
-      color: var(--accent-yellow);
-    }
-
-    .badge-pill {
-      border-radius: 8px;
-      border: 2px solid var(--border-color);
-      background-color: var(--accent-pink);
-      color: #ffffff;
-      padding: 4px 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .featured-summary {
-      margin-top: 10px;
-      color: var(--text-soft);
-      font-size: 0.95rem;
-    }
-
-    .featured-footer {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 2px solid var(--border-color);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .tags-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag-chip {
-      border-radius: 12px;
-      border: 2px solid var(--accent-pink);
-      background-color: rgba(255, 71, 126, 0.15);
-      color: #ffffff;
-      padding: 2px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .link-yellow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--accent-yellow);
-    }
-
-    .link-yellow:hover {
-      text-decoration: underline;
-    }
-
-    /* Sobre Mí */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 7fr 5fr;
-      gap: 32px;
-      align-items: center;
-    }
-
-    .rpg-box {
-      position: relative;
-      border-radius: 24px;
-      padding: 38px 32px 28px;
-    }
-
-    .rpg-label {
-      position: absolute;
-      top: -15px;
-      left: 24px;
-      border-radius: 8px;
-      border: var(--border-game);
-      background-color: var(--accent-pink);
-      color: #ffffff;
-      padding: 6px 14px;
-      font-size: 10px;
-      font-weight: 700;
-      box-shadow: 2px 2px 0px #100a26;
-    }
-
-    .rpg-box p + p {
-      margin-top: 16px;
-      color: var(--text-soft);
-    }
-
-    .about-cv-bar {
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 2px solid var(--border-color);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .about-cv-bar .arcade-btn {
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-size: 0.78rem;
-    }
-
-    .about-cv-dl {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: #241a4e;
-      color: var(--accent-yellow);
-      padding: 10px 16px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      transition: border-color 0.2s ease;
-    }
-
-    .about-cv-dl:hover {
-      border-color: var(--accent-yellow);
-    }
-
-    .about-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .about-mini-card {
-      border-radius: 18px;
-      padding: 24px;
-    }
-
-    .about-mini-card i {
-      font-size: 2rem;
-      color: var(--accent-yellow);
-      margin-bottom: 12px;
-    }
-
-    .about-mini-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 6px;
-    }
-
-    .about-mini-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    /* Tabs de filtro */
-    .filter-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 36px;
-    }
-
-    .filter-bar {
-      display: inline-flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      border-radius: 16px;
-      border: var(--border-game);
-      background-color: var(--card-bg);
-      padding: 6px;
-      box-shadow: 0 5px 0 #05030d;
-    }
-
-    .filter-btn {
-      border: 0;
-      background: transparent;
-      border-radius: 12px;
-      padding: 8px 16px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      transition: all 0.2s ease;
-    }
-
-    .filter-btn:hover {
-      color: #ffffff;
-    }
-
-    .filter-btn.active-yellow {
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-      box-shadow: 0 2px 0 #05030d;
-    }
-
-    .filter-btn.active-pink {
-      background-color: var(--accent-pink);
-      color: #ffffff;
-      box-shadow: 0 2px 0 #05030d;
-    }
-
-    /* Habilidades */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-    }
-
-    .skill-card {
-      border-radius: 18px;
-      padding: 24px 18px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .skill-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent-yellow);
-    }
-
-    .skill-icon {
-      font-size: 2.5rem;
-      color: var(--accent-pink);
-      margin-bottom: 14px;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-
-    .skill-card:hover .skill-icon {
-      color: var(--accent-yellow);
-      transform: scale(1.1) rotate(-6deg);
-    }
-
-    .skill-card h3 {
-      font-size: 1.08rem;
-      margin-bottom: 6px;
-    }
-
-    .skill-card p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      flex: 1;
-    }
-
-    .skill-level {
-      margin-top: 16px;
-      display: inline-block;
-      border-radius: 6px;
-      border: 2px solid var(--border-color);
-      padding: 4px 10px;
-      font-size: 9px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .level-adv { background-color: #38b000; }
-    .level-mid { background-color: #ff9f1c; }
-
-    /* Proyectos */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-
-    .project-card {
-      border-radius: 24px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent-pink);
-    }
-
-    .project-media {
-      position: relative;
-      height: 256px;
-      width: 100%;
-      border-bottom: var(--border-game);
-      background-color: var(--bg-color);
-      overflow: hidden;
-    }
-
-    .project-media iframe,
-    .project-media img {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      object-fit: cover;
-      display: block;
-    }
-
-    .project-sticker {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      z-index: 10;
-      pointer-events: none;
-      transform: rotate(3deg);
-      border-radius: 8px;
-      border: var(--border-game);
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-      padding: 4px 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      box-shadow: 2px 2px 0px #100a26;
-    }
-
-    .project-content {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
-
-    .project-content h3 {
-      font-size: 1.5rem;
-      color: var(--accent-yellow);
-    }
-
-    .project-content p {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .project-bottom {
-      margin-top: 20px;
-    }
-
-    .project-actions {
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 2px solid var(--border-color);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .inspect-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: #241a4e;
-      color: var(--text-main);
-      padding: 8px 14px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .inspect-btn:hover {
-      border-color: var(--accent-yellow);
-      color: var(--accent-yellow);
-    }
-
-    /* Contacto */
-    .contact-box {
-      position: relative;
-      max-width: 896px;
-      margin: 0 auto;
-      border-radius: 36px;
-      padding: 64px 40px 48px;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .stage-clear-badge {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      border-radius: 8px;
-      border: var(--border-game);
-      background-color: var(--accent-yellow);
-      color: #0c081f;
-      padding: 6px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      box-shadow: 4px 4px 0px #100a26;
-      white-space: nowrap;
-    }
-
-    .contact-box h2 {
-      margin-top: 16px;
-      font-size: 2.2rem;
-      text-transform: uppercase;
-      text-shadow: 3px 3px 0px #100a26;
-    }
-
-    .contact-box p {
-      margin: 16px auto 0;
-      max-width: 580px;
-      font-size: 1.05rem;
-      color: var(--text-main);
-    }
-
-    .contact-actions {
-      margin-top: 32px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 14px;
-    }
-
-    .contact-actions .arcade-btn {
-      border-radius: 16px;
-      padding: 12px 20px;
-      font-size: 0.88rem;
-    }
-
-    .copy-email-btn {
-      margin-top: 24px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: var(--panel-dark);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    .copy-email-btn:hover {
-      border-color: var(--accent-yellow);
-      color: var(--accent-yellow);
-    }
-
-    /* Footer */
-    footer {
-      position: relative;
-      z-index: 10;
-      border-top: var(--border-game);
-      background-color: #070414;
-      padding: 36px 20px;
-      text-align: center;
-      color: var(--text-muted);
-    }
-
-    .footer-socials {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .footer-icon-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: var(--card-bg);
-      color: var(--text-main);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-
-    .footer-icon-link:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-yellow);
-      color: var(--accent-yellow);
-    }
-
-    .footer-icon-link.linkedin:hover {
-      border-color: var(--accent-blue);
-      background-color: var(--accent-blue);
-      color: #ffffff;
-    }
-
-    /* Modales (Proyectos y CV) */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(5, 3, 13, 0.85);
-      backdrop-filter: blur(6px);
-      padding: 16px;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-shell {
-      display: flex;
-      flex-direction: column;
-      max-height: 92vh;
-      width: 100%;
-      max-width: 1024px;
-      overflow: hidden;
-      border-radius: 24px;
-      border: var(--border-game);
-      background-color: var(--card-bg);
-      box-shadow: 0 12px 0 #05030d;
-    }
-
-    .modal-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      border-bottom: var(--border-game);
-      background-color: var(--panel-dark);
-      padding: 16px 24px;
-    }
-
-    .modal-meta {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--accent-pink);
-    }
-
-    .modal-title {
-      margin-top: 4px;
-      font-size: 1.45rem;
-      color: var(--accent-yellow);
-    }
-
-    .modal-close {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: #241a4e;
-      color: var(--text-main);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .modal-close:hover {
-      background-color: var(--accent-pink);
-      color: #ffffff;
-    }
-
-    .modal-body {
-      overflow-y: auto;
-    }
-
-    .modal-media {
-      height: 390px;
-      width: 100%;
-      border-bottom: var(--border-game);
-      background-color: var(--bg-color);
-    }
-
-    .modal-media iframe,
-    .modal-media img {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      object-fit: contain;
-      display: block;
-    }
-
-    .modal-content {
-      padding: 24px;
-    }
-
-    .modal-columns {
-      display: grid;
-      grid-template-columns: 7fr 5fr;
-      gap: 28px;
-    }
-
-    .modal-block + .modal-block {
-      margin-top: 22px;
-    }
-
-    .modal-block h3 {
-      font-size: 1rem;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    .modal-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .modal-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    .modal-list i {
-      color: var(--accent-yellow);
-      margin-top: 4px;
-    }
-
-    .roles-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .role-card {
-      border-radius: 12px;
-      border: 2px solid var(--border-color);
-      background-color: var(--panel-dark);
-      padding: 12px;
-    }
-
-    .role-card strong {
-      display: block;
-      font-family: 'Fredoka', sans-serif;
-      color: var(--accent-yellow);
-      font-size: 0.9rem;
-    }
-
-    .role-card span {
-      display: block;
-      margin-top: 4px;
-      font-size: 0.78rem;
-      color: var(--text-soft);
-    }
-
-    .controls-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .control-key {
-      border-radius: 10px;
-      border: 2px solid var(--border-color);
-      background-color: var(--panel-dark);
-      padding: 6px 12px;
-      font-family: monospace;
-      font-size: 0.78rem;
-      color: var(--text-main);
-    }
-
-    .sidebar-card {
-      border-radius: 16px;
-      border: var(--border-game);
-      background-color: var(--panel-dark);
-      padding: 18px;
-    }
-
-    .sidebar-card + .sidebar-card {
-      margin-top: 16px;
-    }
-
-    .sidebar-card h4 {
-      font-size: 0.88rem;
-      text-transform: uppercase;
-      color: var(--accent-yellow);
-      margin-bottom: 8px;
-    }
-
-    .sidebar-card p {
-      font-size: 0.86rem;
-      color: var(--text-soft);
-    }
-
-    .sidebar-btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .sidebar-btn-row .arcade-btn {
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 0.75rem;
-      flex: 1;
-    }
-
-    /* Informe Técnico UX en documento (sin PDF original) */
-    .report-panel {
-      margin-top: 28px;
-      border-radius: 20px;
-      border: var(--border-game);
-      background-color: #ffffff;
-      color: #1e293b;
-      padding: 28px;
-      display: none;
-    }
-
-    .report-panel.open {
-      display: block;
-    }
-
-    .report-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-
-    .report-doc-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border-radius: 10px;
-      border: 2px solid #0f172a;
-      padding: 8px 14px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-
-    .report-doc-section {
-      margin-bottom: 20px;
-    }
-
-    .report-doc-section h4 {
-      color: #4c1d95;
-      font-size: 1.05rem;
-      margin-bottom: 6px;
-      border-left: 4px solid #ff477e;
-      padding-left: 10px;
-    }
-
-    .report-doc-section p,
-    .report-doc-section li {
-      font-size: 0.9rem;
-      line-height: 1.65;
-      color: #334155;
-    }
-
-    .report-doc-section ul {
-      padding-left: 20px;
-      margin-top: 6px;
-    }
-
-    /* Diseño CV Profesional dentro del modal */
-    .cv-sheet {
-      background-color: #ffffff;
-      color: #1e293b;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 2px solid #0f172a;
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-    }
-
-    .cv-sidebar {
-      background-color: #143d66;
-      color: #f8fafc;
-      padding: 28px 24px;
-    }
-
-    .cv-sidebar h3 {
-      font-size: 0.92rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #ffb703;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.18);
-      padding-bottom: 6px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    .cv-sidebar h3:first-child {
-      margin-top: 0;
-    }
-
-    .cv-sidebar p,
-    .cv-sidebar li {
-      font-size: 0.82rem;
-      line-height: 1.55;
-      color: #e2e8f0;
-    }
-
-    .cv-sidebar ul {
-      padding-left: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cv-contact-list {
-      list-style: none !important;
-      padding-left: 0 !important;
-    }
-
-    .cv-contact-list li {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      word-break: break-word;
-    }
-
-    .cv-contact-list i {
-      color: #ffb703;
-      width: 16px;
-      text-align: center;
-    }
-
-    .cv-main {
-      padding: 28px 30px;
-    }
-
-    .cv-main-header {
-      border-bottom: 3px solid #143d66;
-      padding-bottom: 14px;
-      margin-bottom: 20px;
-    }
-
-    .cv-main-header h2 {
-      font-size: 1.65rem;
-      color: #0f172a;
-      line-height: 1.15;
-    }
-
-    .cv-main-header p {
-      margin-top: 4px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #143d66;
-    }
-
-    .cv-main-section + .cv-main-section {
-      margin-top: 22px;
-    }
-
-    .cv-main-section h3 {
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #143d66;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 4px;
-      margin-bottom: 12px;
-    }
-
-    .cv-entry + .cv-entry {
-      margin-top: 16px;
-    }
-
-    .cv-entry h4 {
-      font-size: 0.95rem;
-      color: #0f172a;
-    }
-
-    .cv-entry-sub {
-      font-size: 0.78rem;
-      color: #64748b;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-
-    .cv-entry ul {
-      padding-left: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .cv-entry li {
-      font-size: 0.83rem;
-      color: #334155;
-      line-height: 1.5;
-    }
-
-    /* Responsividad */
-    @media (max-width: 960px) {
-      .hero-grid,
-      .about-grid,
-      .modal-columns,
-      .cv-sheet {
-        grid-template-columns: 1fr;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bernardo Urrutia — Unity &amp; Game Developer</title>
+    <meta
+      name="description"
+      content="Portafolio profesional de Bernardo Urrutia: desarrollo de videojuegos en Unity, programación en C#, modelado 3D en Blender, diseño de niveles y QA Testing."
+    />
+    <meta property="og:title" content="Bernardo Urrutia — Unity &amp; Game Developer" />
+    <meta
+      property="og:description"
+      content="Portafolio profesional de Bernardo Urrutia: desarrollo de videojuegos en Unity, programación en C#, modelado 3D en Blender, diseño de niveles y QA Testing."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lexend:wght@300;400;500;600;700;800&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['Fredoka', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              sans: ['Lexend', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              pixel: ['"Press Start 2P"', 'ui-monospace', 'monospace'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --bg-color: #0c081f;
+        --bg-grid: rgba(157, 78, 221, 0.06);
+        --card-bg: #1a123a;
+        --card-hover-bg: #241a4e;
+        --accent-pink: #ff477e;
+        --accent-purple: #9d4edd;
+        --accent-yellow: #ffb703;
+        --accent-mint: #2ec4b6;
+        --text-main: #f5f3ff;
+        --text-muted: #b4aed6;
+        --border-color: #100a26;
       }
 
-      .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
+      html {
+        scroll-behavior: smooth;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family: 'Lexend', sans-serif;
       }
 
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links,
-      .nav-cta {
-        display: none;
-      }
-
-      .mobile-toggle {
-        display: inline-flex;
-      }
-
-      .hero-title {
-        font-size: 2.35rem;
-      }
-
-      .roles-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .modal-media {
-        height: 240px;
-      }
-    }
-
-    /* Impresión limpia según lo que esté abierto */
-    @media print {
       body {
-        background: #ffffff !important;
-        background-image: none !important;
-        color: #0f172a !important;
+        background-color: var(--bg-color);
+        background-image:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%23ffb703' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' opacity='0.08'%3E%3Cpath d='M26 22v12M20 28h12'/%3E%3Ccircle cx='118' cy='30' r='6'/%3E%3Cpolygon points='72,72 78,84 66,84'/%3E%3Crect x='22' y='112' width='12' height='12' rx='2'/%3E%3Cpath d='M116 112l10 10M126 112l-10 10'/%3E%3Ccircle cx='80' cy='24' r='2' fill='%23ffb703'/%3E%3Ccircle cx='144' cy='82' r='2' fill='%23ffb703'/%3E%3Ccircle cx='34' cy='76' r='2' fill='%23ffb703'/%3E%3C/g%3E%3C/svg%3E"),
+          linear-gradient(var(--bg-grid) 2px, transparent 2px),
+          linear-gradient(90deg, var(--bg-grid) 2px, transparent 2px);
+        background-size: 160px 160px, 40px 40px, 40px 40px;
+        color: var(--text-main);
+        overflow-x: hidden;
       }
 
-      body.printing-report header,
-      body.printing-report main,
-      body.printing-report footer,
-      body.printing-report .bg-decorations,
-      body.printing-report #cv-modal,
-      body.printing-report #project-modal .modal-header,
-      body.printing-report #project-modal .modal-media,
-      body.printing-report #project-modal .modal-columns,
-      body.printing-report .report-toolbar {
-        display: none !important;
+      h1, h2, h3, h4 {
+        font-family: 'Fredoka', sans-serif;
       }
 
-      body.printing-report #project-modal {
-        position: static !important;
-        display: block !important;
-        background: #ffffff !important;
-        padding: 0 !important;
+      :focus-visible {
+        outline: 2px solid #ffb703;
+        outline-offset: 2px;
       }
 
-      body.printing-report #project-modal .modal-shell {
-        max-height: none !important;
-        border: none !important;
-        box-shadow: none !important;
+      .arcade-card {
+        background-color: var(--card-bg);
+        border: 3px solid var(--border-color);
+        box-shadow: 0px 6px 0px #05030d;
+        transition:
+          transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+          box-shadow 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+          background-color 0.2s ease,
+          border-color 0.2s ease;
       }
 
-      body.printing-report .report-panel {
-        display: block !important;
-        border: none !important;
-        padding: 0 !important;
+      .arcade-card:hover {
+        background-color: var(--card-hover-bg);
+        box-shadow: 0px 8px 0px #05030d;
       }
 
-      body.printing-cv header,
-      body.printing-cv main,
-      body.printing-cv footer,
-      body.printing-cv .bg-decorations,
-      body.printing-cv #project-modal,
-      body.printing-cv #cv-modal .modal-header {
-        display: none !important;
+      .arcade-btn {
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 700;
+        border: 3px solid var(--border-color);
+        box-shadow: 0px 5px 0px #05030d;
+        transition:
+          transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
       }
 
-      body.printing-cv #cv-modal {
-        position: static !important;
-        display: block !important;
-        background: #ffffff !important;
-        padding: 0 !important;
+      .arcade-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0px 7px 0px #05030d;
       }
 
-      body.printing-cv #cv-modal .modal-shell {
-        max-height: none !important;
-        border: none !important;
-        box-shadow: none !important;
+      .arcade-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0px 2px 0px #05030d;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <!-- Decoraciones sutiles -->
-  <div class="bg-decorations" aria-hidden="true">
-    <i class="fa-solid fa-star bg-icon" style="top:14%; left:6%; font-size:28px; color:#ffb703;"></i>
-    <i class="fa-solid fa-gamepad bg-icon" style="top:42%; right:6%; font-size:32px; color:#9d4edd; animation-delay:1.8s;"></i>
-    <i class="fa-solid fa-bolt bg-icon" style="top:76%; left:7%; font-size:24px; color:#ff477e; animation-delay:3.2s;"></i>
-  </div>
+      @keyframes floatStar {
+        0%, 100% {
+          transform: translateY(0) rotate(0deg) scale(1);
+        }
+        50% {
+          transform: translateY(-16px) rotate(12deg) scale(1.1);
+        }
+      }
 
-  <!-- Navegación -->
-  <header class="navbar">
-    <div class="navbar-inner">
-      <a href="#inicio" class="brand">
-        <i class="fa-solid fa-gamepad controller-wag"></i>
-        <span>Portafolio.DEV</span>
-      </a>
+      .float-star {
+        animation: floatStar 6s ease-in-out infinite;
+      }
 
-      <ul class="nav-links">
-        <li><a href="#sobre-mi">Sobre Mí</a></li>
-        <li><a href="#habilidades">Habilidades</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
+      @keyframes controllerWag {
+        0%, 100% {
+          transform: rotate(-8deg);
+        }
+        50% {
+          transform: rotate(8deg);
+        }
+      }
 
-      <div style="display:flex; align-items:center; gap:10px;">
-        <a href="#contacto" class="nav-cta">Contactame</a>
-        <button id="mobile-menu-btn" class="mobile-toggle" type="button" aria-label="Abrir menú">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+      .controller-wag {
+        animation: controllerWag 2.4s ease-in-out infinite;
+      }
+
+      /* Scrollbar estético acorde al tema Arcade Purple */
+      html,
+      .arcade-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #9d4edd #100a26;
+      }
+
+      html::-webkit-scrollbar,
+      .arcade-scroll::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      html::-webkit-scrollbar-track,
+      .arcade-scroll::-webkit-scrollbar-track {
+        background: #100a26;
+        border-left: 2px solid #05030d;
+      }
+
+      html::-webkit-scrollbar-thumb,
+      .arcade-scroll::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #9d4edd 0%, #ff477e 100%);
+        border-radius: 9999px;
+        border: 2px solid #100a26;
+      }
+
+      html::-webkit-scrollbar-thumb:hover,
+      .arcade-scroll::-webkit-scrollbar-thumb:hover {
+        background: #ffb703;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="relative min-h-screen overflow-x-hidden bg-[#0c081f] text-[#f5f3ff] antialiased selection:bg-[#ffb703] selection:text-[#0c081f]">
+    <!-- Figuras gamer decorativas en color amarillo -->
+    <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <i class="fa-solid fa-gamepad float-star absolute top-[12%] left-[4%] -rotate-12 text-3xl text-[#ffb703]/25 drop-shadow-[0_0_12px_rgba(255,183,3,0.2)]"></i>
+
+      <!-- Space Invader pixel art -->
+      <svg
+        viewBox="0 0 11 8"
+        class="float-star absolute top-[15%] right-[5%] h-8 w-11 text-[#ffb703]/22 drop-shadow-[0_0_10px_rgba(255,183,3,0.18)]"
+        style="animation-delay: 1.4s"
+        fill="currentColor"
+      >
+        <path d="M2 0h1v1H2zm6 0h1v1H8zM3 1h1v1H3zm4 0h1v1H7zM2 2h7v1H2zM1 3h2v1H1zm3 0h3v1H4zm4 0h2v1H8zM0 4h11v1H0zM0 5h1v2H0zm2 0h7v1H2zm8 0h1v2h-1zM2 6h1v1H2zm6 0h1v1H8zM3 7h2v1H3zm3 0h2v1H6z" />
+      </svg>
+
+      <!-- Cruceta D-Pad -->
+      <svg
+        viewBox="0 0 24 24"
+        class="float-star absolute top-[32%] left-[7%] h-8 w-8 rotate-12 text-[#ffb703]/20"
+        style="animation-delay: 2.6s"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linejoin="round"
+      >
+        <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" />
+        <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+      </svg>
+
+      <!-- Joystick arcade SVG -->
+      <svg
+        viewBox="0 0 24 24"
+        class="float-star absolute top-[36%] right-[6%] h-9 w-9 rotate-6 text-[#ffb703]/22"
+        style="animation-delay: 2s"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="6" r="3" />
+        <path d="M12 9v6" />
+        <rect x="4" y="15" width="16" height="5" rx="2" />
+      </svg>
+
+      <i class="fa-solid fa-star float-star absolute top-[24%] left-[48%] text-xl text-[#ffb703]/16" style="animation-delay: 0.8s"></i>
+      <i class="fa-solid fa-coins float-star absolute top-[49%] left-[3%] -rotate-6 text-2xl text-[#ffb703]/20" style="animation-delay: 3.1s"></i>
+      <i class="fa-solid fa-trophy float-star absolute top-[54%] right-[4%] rotate-12 text-3xl text-[#ffb703]/22" style="animation-delay: 1.1s"></i>
+      <i class="fa-solid fa-heart float-star absolute top-[66%] left-[8%] -rotate-12 text-2xl text-[#ffb703]/20" style="animation-delay: 2.4s"></i>
+      <i class="fa-solid fa-ghost float-star absolute top-[72%] right-[7%] rotate-6 text-3xl text-[#ffb703]/22" style="animation-delay: 3.5s"></i>
+      <i class="fa-solid fa-shield-halved float-star absolute top-[82%] left-[5%] rotate-12 text-3xl text-[#ffb703]/20" style="animation-delay: 1.8s"></i>
+      <i class="fa-solid fa-bolt float-star absolute top-[87%] right-[9%] -rotate-12 text-2xl text-[#ffb703]/22" style="animation-delay: 1.2s"></i>
+      <i class="fa-solid fa-star float-star absolute bottom-[6%] left-[22%] text-2xl text-[#ffb703]/18" style="animation-delay: 2.9s"></i>
+      <i class="fa-solid fa-gamepad float-star absolute bottom-[5%] right-[24%] rotate-12 text-2xl text-[#ffb703]/18" style="animation-delay: 0.5s"></i>
+    </div>
+
+    <!-- Navbar -->
+    <header class="fixed top-4 left-1/2 z-40 w-[calc(100%-24px)] max-w-5xl -translate-x-1/2 rounded-full border-[3px] border-[#100a26] bg-[#1a123a]/90 shadow-[0_8px_24px_rgba(0,0,0,0.5)] backdrop-blur-md">
+      <div class="flex items-center justify-between gap-6 px-5 py-3 sm:px-7">
+        <a
+          href="#inicio"
+          class="inline-flex shrink-0 items-center gap-2 whitespace-nowrap font-display text-lg font-bold text-[#ffb703] [text-shadow:2px_2px_0px_#05030d] sm:text-xl"
+        >
+          <i class="fa-solid fa-gamepad controller-wag text-xl text-[#ffb703]"></i>
+          <span>Portafolio.DEV</span>
+        </a>
+
+        <nav class="hidden items-center gap-5 md:flex" aria-label="Navegación principal">
+          <a href="#sobre-mi" class="shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 font-display text-sm font-semibold text-[#f5f3ff] transition-all duration-200 hover:scale-105 hover:bg-[#ff477e] hover:text-white">Sobre Mí</a>
+          <a href="#habilidades" class="shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 font-display text-sm font-semibold text-[#f5f3ff] transition-all duration-200 hover:scale-105 hover:bg-[#ff477e] hover:text-white">Habilidades</a>
+          <a href="#proyectos" class="shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 font-display text-sm font-semibold text-[#f5f3ff] transition-all duration-200 hover:scale-105 hover:bg-[#ff477e] hover:text-white">Proyectos</a>
+          <a href="#contacto" class="shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 font-display text-sm font-semibold text-[#f5f3ff] transition-all duration-200 hover:scale-105 hover:bg-[#ff477e] hover:text-white">Contacto</a>
+        </nav>
+
+        <div class="flex shrink-0 items-center gap-3">
+          <a
+            href="#contacto"
+            class="hidden shrink-0 items-center justify-center whitespace-nowrap rounded-full border-2 border-[#100a26] bg-[#ffb703] px-4 py-1.5 font-display text-xs font-bold uppercase text-[#0c081f] shadow-[0_3px_0_#05030d] transition-transform hover:-translate-y-0.5 hover:bg-[#ffd166] sm:inline-flex"
+          >
+            Contactame
+          </a>
+
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#100a26] bg-[#241a4e] text-[#f5f3ff] md:hidden"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div id="mobile-menu" class="mobile-menu">
-      <a href="#sobre-mi">Sobre Mí</a>
-      <a href="#habilidades">Habilidades</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#contacto">Contacto</a>
-    </div>
-  </header>
+      <div id="mobile-menu" class="mx-3 mb-3 hidden rounded-2xl border-2 border-[#100a26] bg-[#150e31] p-3 md:hidden">
+        <nav class="flex flex-col gap-1" aria-label="Navegación móvil">
+          <a href="#sobre-mi" class="mobile-nav-link rounded-xl px-4 py-2.5 font-display text-sm font-semibold text-[#f5f3ff] transition-colors hover:bg-[#ff477e] hover:text-white">Sobre Mí</a>
+          <a href="#habilidades" class="mobile-nav-link rounded-xl px-4 py-2.5 font-display text-sm font-semibold text-[#f5f3ff] transition-colors hover:bg-[#ff477e] hover:text-white">Habilidades</a>
+          <a href="#proyectos" class="mobile-nav-link rounded-xl px-4 py-2.5 font-display text-sm font-semibold text-[#f5f3ff] transition-colors hover:bg-[#ff477e] hover:text-white">Proyectos</a>
+          <a href="#contacto" class="mobile-nav-link rounded-xl px-4 py-2.5 font-display text-sm font-semibold text-[#f5f3ff] transition-colors hover:bg-[#ff477e] hover:text-white">Contacto</a>
+        </nav>
+      </div>
+    </header>
 
-  <main>
-    <!-- HERO SECTION -->
-    <section id="inicio">
-      <div class="container">
-        <div class="hero-grid">
-          <div>
-            <span class="hero-badge font-pixel">READY PLAYER ONE</span>
-            <h1 class="hero-title">Hola, soy <span>Bernardo Urrutia</span></h1>
-            <p class="hero-desc">
+    <main class="relative z-10">
+      <!-- HERO SECTION -->
+      <section id="inicio" class="relative mx-auto max-w-6xl px-5 pt-28 pb-16 sm:px-6 lg:pt-32 lg:pb-20">
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="text-center lg:col-span-5 lg:text-left">
+            <span class="inline-block rounded-xl border-[3px] border-[#100a26] bg-[#ff477e] px-4 py-2 font-pixel text-[11px] font-bold tracking-wider text-white shadow-[0_6px_0_#05030d]">
+              READY PLAYER ONE
+            </span>
+
+            <h1 class="mt-6 font-display text-4xl font-bold leading-[1.1] text-[#f5f3ff] [text-shadow:4px_4px_0px_#100a26] sm:text-5xl lg:text-[3.35rem]">
+              Hola, soy <span class="text-[#ffb703]">Bernardo Urrutia</span>
+            </h1>
+
+            <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#b4aed6] sm:text-lg lg:mx-0">
               Unity Developer, creador de videojuegos, entornos 3D y especialista QA. Conoce mi proyecto principal jugable justo aquí arriba.
             </p>
 
-            <div class="hero-actions">
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">
-                <i class="fa-solid fa-envelope"></i> Contactame
+            <div class="mt-7 flex flex-wrap items-center justify-center gap-3.5 lg:justify-start">
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#ffb703] px-5 py-3 text-sm uppercase text-[#0c081f] hover:bg-[#ffd166]"
+              >
+                <i class="fa-solid fa-envelope"></i>
+                Contactame
               </a>
-              <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink">
-                <i class="fa-brands fa-github"></i> GitHub
+
+              <a
+                href="https://github.com/Ghost-z94"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#ff477e] px-4 py-3 text-sm uppercase text-white hover:bg-[#ff7096]"
+              >
+                <i class="fa-brands fa-github"></i>
+                GitHub
               </a>
-              <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
-                <i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube
+
+              <a
+                href="https://www.youtube.com/@ghostkiller7122"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#241a4e] px-4 py-3 text-sm uppercase text-[#f5f3ff] hover:bg-[#312468]"
+              >
+                <i class="fa-brands fa-youtube text-[#ff477e]"></i>
+                YouTube
               </a>
-              <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-linkedin">
-                <i class="fa-brands fa-linkedin"></i> LinkedIn
+
+              <a
+                href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#0a66c2] px-4 py-3 text-sm uppercase text-white hover:bg-[#1978d8]"
+              >
+                <i class="fa-brands fa-linkedin"></i>
+                LinkedIn
               </a>
-              <button type="button" onclick="openCvModal()" class="arcade-btn btn-purple">
-                <i class="fa-solid fa-file-lines"></i> Currículum (CV)
+
+              <button
+                type="button"
+                onclick="downloadOriginalFile('CV_Bernardo_Urrutia_Rebolledo.pdf', 'CV_Bernardo_Urrutia_Rebolledo.pdf')"
+                class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#9d4edd] px-4 py-3 text-sm uppercase text-white hover:bg-[#b56bf2]"
+              >
+                <i class="fa-solid fa-download"></i>
+                Currículum (.pdf)
               </button>
             </div>
           </div>
 
-          <!-- Juego Desarrollado en Portada -->
-          <div>
-            <div class="arcade-card featured-card">
-              <div class="featured-header">
-                <div class="featured-header-left font-pixel">
-                  <i class="fa-solid fa-gamepad"></i>
-                  <span>JUEGO DESARROLLADO</span>
+          <!-- Tarjeta Principal Destacada: Agreas -->
+          <div class="lg:col-span-7">
+            <div class="arcade-card overflow-hidden rounded-3xl">
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b-[3px] border-[#100a26] bg-[#140d2e] px-5 py-3.5">
+                <div class="flex items-center gap-2.5">
+                  <i class="fa-solid fa-gamepad text-lg text-[#ffb703]"></i>
+                  <span class="font-pixel text-[10px] tracking-wide text-[#ffb703] sm:text-xs">
+                    JUEGO DESARROLLADO
+                  </span>
                 </div>
-                <div class="featured-header-actions">
-                  <button id="toggle-audio-btn" type="button" class="mini-btn mini-btn-dark">
-                    <i id="audio-icon" class="fa-solid fa-volume-xmark"></i>
-                    <span id="audio-label">Sin audio</span>
-                  </button>
-                  <button type="button" onclick="openProjectModal('agreas-horror')" class="mini-btn mini-btn-yellow">
-                    <i class="fa-solid fa-expand"></i>
-                    <span>Ficha completa</span>
-                  </button>
-                </div>
+
+                <button
+                  id="hero-audio-btn"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#100a26] bg-[#241a4e] px-3 py-1.5 font-display text-xs font-semibold text-[#f5f3ff] transition-colors hover:border-[#ffb703] hover:text-[#ffb703]"
+                >
+                  <i id="hero-audio-icon" class="fa-solid fa-volume-xmark"></i>
+                  <span id="hero-audio-label">Sin audio</span>
+                </button>
               </div>
 
-              <div class="video-wrapper">
+              <div class="relative aspect-video w-full border-b-[3px] border-[#100a26] bg-[#0c081f]">
                 <iframe
-                  id="hero-gameplay-frame"
+                  id="hero-agreas-iframe"
                   src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0"
                   title="Agreas — Horror Multijugador Gameplay"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
+                  allowfullscreen
+                  class="h-full w-full border-0"
+                ></iframe>
               </div>
 
-              <div class="featured-body">
-                <div class="featured-top">
-                  <h2>Agreas — Horror Multijugador</h2>
-                  <span class="badge-pill">Unity · C# · IA</span>
+              <div class="p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <h2 class="font-display text-2xl font-bold text-[#ffb703] sm:text-3xl">
+                    Agreas — Horror Multijugador
+                  </h2>
+                  <span class="rounded-lg border-2 border-[#100a26] bg-[#ff477e] px-3 py-1 font-display text-xs font-bold uppercase text-white">
+                    Unity · C# · IA
+                  </span>
                 </div>
-                <p class="featured-summary">
+
+                <p class="mt-2.5 text-sm leading-relaxed text-[#d7d2f2] sm:text-base">
                   Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.
                 </p>
-                <div class="featured-footer">
-                  <div class="tags-list">
-                    <span class="tag-chip">Unity</span>
-                    <span class="tag-chip">C#</span>
-                    <span class="tag-chip">NavMesh AI</span>
-                    <span class="tag-chip">Whiteboxing</span>
-                    <span class="tag-chip">QA Playtesting</span>
-                  </div>
-                  <a href="https://www.youtube.com/watch?v=TzulSeYVWsY" target="_blank" rel="noopener noreferrer" class="link-yellow">
-                    Ver en YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">Unity</span>
+                  <span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">C#</span>
+                  <span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">NavMesh AI</span>
+                  <span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">Whiteboxing</span>
+                  <span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">QA Playtesting</span>
+                </div>
+
+                <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t-2 border-[#100a26] pt-4">
+                  <button
+                    type="button"
+                    onclick="openProjectModal('agreas-horror')"
+                    class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#ffb703] px-5 py-3 text-sm uppercase text-[#0c081f] hover:bg-[#ffd166]"
+                  >
+                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                    <span>Ver ficha completa</span>
+                  </button>
+
+                  <a
+                    href="https://www.youtube.com/watch?v=TzulSeYVWsY"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#100a26] bg-[#241a4e] px-4 py-2.5 font-display text-xs font-bold uppercase text-[#ffb703] transition-colors hover:border-[#ffb703]"
+                  >
+                    Ver en YouTube
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SOBRE MÍ -->
-    <section id="sobre-mi">
-      <div class="container">
-        <h2 class="section-title">SOBRE <span>MÍ</span></h2>
+      <!-- SOBRE MÍ -->
+      <section id="sobre-mi" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 lg:py-20">
+        <h2 class="mb-12 text-center font-display text-3xl font-bold uppercase tracking-wide text-[#f5f3ff] [text-shadow:3px_3px_0px_#100a26] sm:text-4xl">
+          SOBRE <span class="text-[#ffb703]">MÍ</span>
+        </h2>
 
-        <div class="about-grid">
-          <div class="arcade-card rpg-box">
-            <span class="rpg-label font-pixel">INFO PERSONAJE</span>
-            <p>
-              ¡Hola! Soy un desarrollador de Unity con <strong style="color:#ffb703;">4 años de experiencia</strong> activa en programación y modelado 3D, enfocado en diseñar experiencias jugables inmersivas y técnicamente impecables.
-            </p>
-            <p>
-              Además de la programación, cuento con una profunda especialización en <strong style="color:#ffb703;">QA Tester (Quality Assurance)</strong>. Esto me da una habilidad clave: detectar fallas críticas en fases tempranas, analizar el rendimiento de código y resolver bugs de manera eficiente para entregar productos finales pulidos.
-            </p>
+        <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+          <div class="arcade-card relative rounded-3xl p-7 pt-9 sm:p-9 lg:col-span-7">
+            <span class="absolute -top-4 left-6 rounded-lg border-[3px] border-[#100a26] bg-[#ff477e] px-3.5 py-1.5 font-pixel text-[10px] font-bold text-white shadow-[2px_2px_0px_#100a26]">
+              INFO PERSONAJE
+            </span>
 
-            <div class="about-cv-bar">
-              <button type="button" onclick="openCvModal()" class="arcade-btn btn-purple">
-                <i class="fa-solid fa-file-lines"></i> Ver Currículum
+            <div class="space-y-4 text-base leading-relaxed text-[#f5f3ff]">
+              <p>
+                ¡Hola! Soy un desarrollador de Unity con
+                <strong class="text-[#ffb703]">4 años de experiencia</strong> activa en programación y modelado 3D, enfocado en diseñar experiencias jugables inmersivas y técnicamente impecables.
+              </p>
+              <p class="text-[#d7d2f2]">
+                Además de la programación, cuento con una profunda especialización en
+                <strong class="text-[#ffb703]">QA Tester (Quality Assurance)</strong>. Esto me da una habilidad clave: detectar fallas críticas en fases tempranas, analizar el rendimiento de código y resolver bugs de manera eficiente para entregar productos finales pulidos.
+              </p>
+            </div>
+
+            <div class="mt-6 flex flex-wrap items-center gap-3 border-t-2 border-[#100a26] pt-5">
+              <button
+                type="button"
+                onclick="downloadOriginalFile('CV_Bernardo_Urrutia_Rebolledo.pdf', 'CV_Bernardo_Urrutia_Rebolledo.pdf')"
+                class="arcade-btn inline-flex items-center gap-2 rounded-xl bg-[#9d4edd] px-4 py-2.5 text-xs uppercase text-white hover:bg-[#b56bf2]"
+              >
+                <i class="fa-solid fa-download"></i>
+                Descargar Currículum (.pdf)
               </button>
-              <a href="CV_Bernardo_Urrutia_Rebolledo.pdf" download="CV_Bernardo_Urrutia_Rebolledo.pdf" class="about-cv-dl">
-                <i class="fa-solid fa-download"></i> Descargar CV (.pdf)
-              </a>
             </div>
           </div>
 
-          <div class="about-cards">
-            <div class="arcade-card about-mini-card">
-              <i class="fa-solid fa-gamepad"></i>
-              <h3>Trayectoria</h3>
-              <p>4 años desarrollando activamente y puliendo dinámicas jugables en Unity.</p>
+          <div class="flex flex-col gap-5 lg:col-span-5">
+            <div class="arcade-card rounded-2xl p-6 hover:-rotate-1 hover:scale-[1.02]">
+              <i class="fa-solid fa-gamepad mb-3 text-3xl text-[#ffb703]"></i>
+              <h3 class="font-display text-xl font-bold text-[#f5f3ff]">Trayectoria</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-[#b4aed6]">
+                4 años desarrollando activamente y puliendo dinámicas jugables en Unity.
+              </p>
             </div>
 
-            <div class="arcade-card about-mini-card">
-              <i class="fa-solid fa-graduation-cap"></i>
-              <h3>Formación Académica</h3>
-              <p>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad en Videojuegos) — Universidad Bernardo O'Higgins (UBO).</p>
+            <div class="arcade-card rounded-2xl p-6 hover:rotate-1 hover:scale-[1.02]">
+              <i class="fa-solid fa-graduation-cap mb-3 text-3xl text-[#ffb703]"></i>
+              <h3 class="font-display text-xl font-bold text-[#f5f3ff]">Formación Académica</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-[#b4aed6]">
+                Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad en Videojuegos) — Universidad Bernardo O'Higgins (UBO).
+              </p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- INVENTARIO DE HABILIDADES -->
-    <section id="habilidades">
-      <div class="container">
-        <h2 class="section-title">INVENTARIO <span>DE HABILIDADES</span></h2>
+      <!-- HABILIDADES -->
+      <section id="habilidades" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 lg:py-20">
+        <h2 class="mb-6 text-center font-display text-3xl font-bold uppercase tracking-wide text-[#f5f3ff] [text-shadow:3px_3px_0px_#100a26] sm:text-4xl">
+          INVENTARIO <span class="text-[#ffb703]">DE HABILIDADES</span>
+        </h2>
 
-        <div class="filter-wrap">
-          <div class="filter-bar" role="tablist" aria-label="Filtrar habilidades">
-            <button type="button" class="filter-btn active-yellow" data-skill-filter="todas">Todas</button>
-            <button type="button" class="filter-btn" data-skill-filter="motor">Motor y Código</button>
-            <button type="button" class="filter-btn" data-skill-filter="arte">Arte 3D y Diseño</button>
+        <div class="mb-10 flex justify-center">
+          <div role="tablist" aria-label="Filtrar habilidades" class="inline-flex flex-wrap justify-center gap-2 rounded-2xl border-[3px] border-[#100a26] bg-[#1a123a] p-1.5 shadow-[0_5px_0_#05030d]">
+            <button type="button" data-skill-filter="todas" class="skill-tab-btn rounded-xl bg-[#ffb703] px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#0c081f] shadow-[0_2px_0_#05030d] transition-all">Todas</button>
+            <button type="button" data-skill-filter="motor" class="skill-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white">Motor y Código</button>
+            <button type="button" data-skill-filter="arte" class="skill-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white">Arte 3D y Diseño</button>
           </div>
         </div>
 
-        <div id="skills-grid" class="skills-grid">
-          <article class="arcade-card skill-card" data-skill-group="motor">
-            <i class="fa-brands fa-unity skill-icon"></i>
-            <h3>Unity Engine</h3>
-            <p>Arquitectura de escenas, físicas, NavMesh, prefabs y optimización de frame-time.</p>
-            <span class="skill-level level-adv font-pixel">Avanzado</span>
-          </article>
+        <div id="skills-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"></div>
+      </section>
 
-          <article class="arcade-card skill-card" data-skill-group="motor">
-            <i class="fa-solid fa-code skill-icon"></i>
-            <h3>C# / VS Code</h3>
-            <p>Máquinas de estado, IA de enemigos, controladores y patrones limpios orientados a componentes.</p>
-            <span class="skill-level level-adv font-pixel">Avanzado</span>
-          </article>
+      <!-- PROYECTOS -->
+      <section id="proyectos" class="mx-auto max-w-6xl px-5 py-16 sm:px-6 lg:py-20">
+        <h2 class="mb-6 text-center font-display text-3xl font-bold uppercase tracking-wide text-[#f5f3ff] [text-shadow:3px_3px_0px_#100a26] sm:text-4xl">
+          GALERÍA DE <span class="text-[#ffb703]">NIVELES Y MODELOS</span>
+        </h2>
 
-          <article class="arcade-card skill-card" data-skill-group="arte">
-            <i class="fa-solid fa-cubes skill-icon"></i>
-            <h3>Blender 3D</h3>
-            <p>Modelado hard-surface y estilizado, retopología, UVs e iluminación de dioramas.</p>
-            <span class="skill-level level-adv font-pixel">Avanzado</span>
-          </article>
-
-          <article class="arcade-card skill-card" data-skill-group="motor">
-            <i class="fa-solid fa-circle-nodes skill-icon"></i>
-            <h3>Unreal Engine</h3>
-            <p>Prototipado de niveles, Blueprints e iluminación en tiempo real.</p>
-            <span class="skill-level level-mid font-pixel">Intermedio</span>
-          </article>
-
-          <article class="arcade-card skill-card" data-skill-group="arte">
-            <i class="fa-solid fa-wand-magic-sparkles skill-icon"></i>
-            <h3>Adobe Photoshop</h3>
-            <p>Edición de texturas PBR, sprites de interfaz y composición de presentaciones.</p>
-            <span class="skill-level level-mid font-pixel">Intermedio</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- GALERÍA DE NIVELES Y MODELOS -->
-    <section id="proyectos">
-      <div class="container">
-        <h2 class="section-title">GALERÍA DE <span>NIVELES Y MODELOS</span></h2>
-
-        <div class="filter-wrap">
-          <div class="filter-bar" role="tablist" aria-label="Filtrar proyectos">
-            <button type="button" class="filter-btn active-pink" data-project-filter="todos">Todos</button>
-            <button type="button" class="filter-btn" data-project-filter="unity">Unity &amp; Gameplay</button>
-            <button type="button" class="filter-btn" data-project-filter="3d">Modelado 3D</button>
-            <button type="button" class="filter-btn" data-project-filter="ia">IA y Comportamiento</button>
+        <div class="mb-10 flex justify-center">
+          <div role="tablist" aria-label="Filtrar proyectos" class="inline-flex flex-wrap justify-center gap-2 rounded-2xl border-[3px] border-[#100a26] bg-[#1a123a] p-1.5 shadow-[0_5px_0_#05030d]">
+            <button type="button" data-project-filter="todos" class="project-tab-btn rounded-xl bg-[#ff477e] px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-white shadow-[0_2px_0_#05030d] transition-all">Todos</button>
+            <button type="button" data-project-filter="unity" class="project-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white">Unity &amp; Gameplay</button>
+            <button type="button" data-project-filter="3d" class="project-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white">Modelado 3D</button>
+            <button type="button" data-project-filter="ia" class="project-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white">IA y Comportamiento</button>
           </div>
         </div>
 
-        <div class="projects-grid">
-          <!-- 1. Agreas -->
-          <article class="arcade-card project-card" data-project-category="unity">
-            <div class="project-media">
-              <iframe
-                src="https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=0&modestbranding=1&rel=0"
-                title="Agreas — Horror Multijugador"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-              <span class="project-sticker">Gameplay 60fps</span>
-            </div>
-            <div class="project-content">
-              <div>
-                <h3>Agreas — Horror Multijugador</h3>
-                <p>Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en mecánicas de persecución, IA en C# y maquetación espacial en tiempo real.</p>
-              </div>
-              <div class="project-bottom">
-                <div class="tags-list">
-                  <span class="tag-chip">Unity</span>
-                  <span class="tag-chip">C#</span>
-                  <span class="tag-chip">NavMesh AI</span>
-                  <span class="tag-chip">QA Playtesting</span>
-                </div>
-                <div class="project-actions">
-                  <button type="button" class="inspect-btn" onclick="openProjectModal('agreas-horror')">
-                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
-                  </button>
-                  <a href="https://www.youtube.com/watch?v=TzulSeYVWsY" target="_blank" rel="noopener noreferrer" class="link-yellow">
-                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
+        <div id="projects-grid" class="grid grid-cols-1 gap-7 md:grid-cols-2"></div>
+      </section>
 
-          <!-- 2. Escenario Diorama -->
-          <article class="arcade-card project-card" data-project-category="3d">
-            <div class="project-media">
-              <iframe
-                src="https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark"
-                title="Escenario Diorama"
-                allow="autoplay; fullscreen; xr-spatial-tracking"
-                allowfullscreen></iframe>
-              <span class="project-sticker">Diorama 3D</span>
-            </div>
-            <div class="project-content">
-              <div>
-                <h3>Escenario Diorama</h3>
-                <p>Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante mediante composición modular y balance cromático.</p>
-              </div>
-              <div class="project-bottom">
-                <div class="tags-list">
-                  <span class="tag-chip">Blender</span>
-                  <span class="tag-chip">Modelado 3D</span>
-                  <span class="tag-chip">Iluminación</span>
-                  <span class="tag-chip">Diorama</span>
-                </div>
-                <div class="project-actions">
-                  <button type="button" class="inspect-btn" onclick="openProjectModal('escenario-diorama')">
-                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
-                  </button>
-                  <a href="https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8" target="_blank" rel="noopener noreferrer" class="link-yellow">
-                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
+      <!-- CONTACTO -->
+      <section id="contacto" class="mx-auto max-w-4xl px-5 py-16 sm:px-6 lg:py-20">
+        <div class="arcade-card relative overflow-hidden rounded-[36px] px-6 pt-16 pb-12 text-center sm:px-12">
+          <span class="absolute top-5 left-1/2 -translate-x-1/2 -rotate-2 whitespace-nowrap rounded-lg border-[3px] border-[#100a26] bg-[#ffb703] px-4 py-1.5 font-pixel text-[11px] font-bold text-[#0c081f] shadow-[4px_4px_0px_#100a26]">
+            STAGE CLEAR!
+          </span>
 
-          <!-- 3. Comportamiento de IA -->
-          <article class="arcade-card project-card" data-project-category="ia">
-            <div class="project-media">
-              <img src="ComportamientoIA.gif" alt="Comportamiento de IA — Rutas y Patrullaje" />
-              <span class="project-sticker">IA &amp; C#</span>
-            </div>
-            <div class="project-content">
-              <div>
-                <h3>Comportamiento de IA — Rutas y Patrullaje</h3>
-                <p>Desarrollo del comportamiento de Inteligencia Artificial en Unity y C#, enfocado en rutas dinámicas de patrullaje, detección por línea de visión, transición de estados (patrulla, alerta y persecución) y navegación fluida sobre obstáculos.</p>
-              </div>
-              <div class="project-bottom">
-                <div class="tags-list">
-                  <span class="tag-chip">Unity</span>
-                  <span class="tag-chip">IA en C#</span>
-                  <span class="tag-chip">NavMesh</span>
-                  <span class="tag-chip">State Machine</span>
-                </div>
-                <div class="project-actions">
-                  <button type="button" class="inspect-btn" onclick="openProjectModal('comportamiento-ia')">
-                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
+          <h2 class="mt-4 font-display text-3xl font-bold uppercase text-[#f5f3ff] [text-shadow:3px_3px_0px_#100a26] sm:text-4xl">
+            ¡CONECTEMOS!
+          </h2>
 
-          <!-- 4. Creación de Mundo Inmersivo -->
-          <article class="arcade-card project-card" data-project-category="3d">
-            <div class="project-media">
-              <iframe
-                src="https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark"
-                title="Creación de Mundo Inmersivo"
-                allow="autoplay; fullscreen; xr-spatial-tracking"
-                allowfullscreen></iframe>
-              <span class="project-sticker">Modelo 3D</span>
-            </div>
-            <div class="project-content">
-              <div>
-                <h3>Creación de Mundo Inmersivo</h3>
-                <p>Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.</p>
-              </div>
-              <div class="project-bottom">
-                <div class="tags-list">
-                  <span class="tag-chip">Blender</span>
-                  <span class="tag-chip">World Building</span>
-                  <span class="tag-chip">Modular Assets</span>
-                  <span class="tag-chip">Diseño 3D</span>
-                </div>
-                <div class="project-actions">
-                  <button type="button" class="inspect-btn" onclick="openProjectModal('creacion-mundo-inmersivo')">
-                    <i class="fa-solid fa-expand"></i> Inspeccionar detalle
-                  </button>
-                  <a href="https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272" target="_blank" rel="noopener noreferrer" class="link-yellow">
-                    Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACTO -->
-    <section id="contacto">
-      <div class="container">
-        <div class="arcade-card contact-box">
-          <span class="stage-clear-badge font-pixel">STAGE CLEAR!</span>
-          <h2>¡CONECTEMOS!</h2>
-          <p>
+          <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-[#f5f3ff] sm:text-lg">
             ¿Quieres agregar un Unity Developer y QA a tu equipo de desarrollo, o tienes un proyecto de videojuego en mente? ¡Conectemos en mis redes o escríbeme directamente!
           </p>
 
-          <div class="contact-actions">
-            <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-pink">
-              <i class="fa-brands fa-github"></i> GitHub
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="https://github.com/Ghost-z94"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#ff477e] px-5 py-3 text-sm uppercase text-white hover:bg-[#ff7096]"
+            >
+              <i class="fa-brands fa-github"></i>
+              GitHub
             </a>
-            <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
-              <i class="fa-brands fa-youtube" style="color:#ff477e;"></i> YouTube
+
+            <a
+              href="https://www.youtube.com/@ghostkiller7122"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#241a4e] px-5 py-3 text-sm uppercase text-white hover:bg-[#312468]"
+            >
+              <i class="fa-brands fa-youtube text-[#ff477e]"></i>
+              YouTube
             </a>
-            <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-linkedin">
-              <i class="fa-brands fa-linkedin"></i> LinkedIn
+
+            <a
+              href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#0a66c2] px-5 py-3 text-sm uppercase text-white hover:bg-[#1978d8]"
+            >
+              <i class="fa-brands fa-linkedin"></i>
+              LinkedIn
             </a>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow">
-              <i class="fa-solid fa-envelope"></i> Enviar Correo
+
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=brebolledo437@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#ffb703] px-6 py-3 text-sm uppercase text-[#0c081f] hover:bg-[#ffd166]"
+            >
+              <i class="fa-solid fa-envelope"></i>
+              Enviar Correo
             </a>
-            <button type="button" onclick="openCvModal()" class="arcade-btn btn-purple">
-              <i class="fa-solid fa-file-lines"></i> Ver CV
+
+            <button
+              type="button"
+              onclick="downloadOriginalFile('CV_Bernardo_Urrutia_Rebolledo.pdf', 'CV_Bernardo_Urrutia_Rebolledo.pdf')"
+              class="arcade-btn inline-flex items-center gap-2 rounded-2xl bg-[#9d4edd] px-5 py-3 text-sm uppercase text-white hover:bg-[#b56bf2]"
+            >
+              <i class="fa-solid fa-download"></i>
+              Descargar CV (.pdf)
             </button>
           </div>
 
-          <button id="copy-email-btn" type="button" class="copy-email-btn">
-            <i id="copy-email-icon" class="fa-regular fa-copy"></i>
-            <span id="copy-email-text">Copiar correo (brebolledo437@gmail.com)</span>
-          </button>
+          <div class="mt-6 flex items-center justify-center">
+            <button
+              id="copy-email-btn"
+              type="button"
+              class="inline-flex items-center gap-2 rounded-xl border-2 border-[#100a26] bg-[#140d2e] px-4 py-2 text-xs font-medium text-[#b4aed6] transition-colors hover:border-[#ffb703] hover:text-[#ffb703]"
+            >
+              <i id="copy-email-icon" class="fa-regular fa-copy"></i>
+              <span id="copy-email-text">Copiar correo (brebolledo437@gmail.com)</span>
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-socials">
-        <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Bernardo Urrutia" class="footer-icon-link linkedin">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/Ghost-z94" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Bernardo Urrutia" class="footer-icon-link">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://www.youtube.com/@ghostkiller7122" target="_blank" rel="noopener noreferrer" aria-label="YouTube de Bernardo Urrutia" class="footer-icon-link">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-      </div>
-      <p class="font-display" style="color:#f5f3ff; font-size:0.92rem; font-weight:500;">
-        Bernardo Urrutia © 2026. Todos los derechos reservados. · Unity Developer &amp; QA Tester
-      </p>
-    </div>
-  </footer>
-
-  <!-- MODAL FICHA COMPLETA -->
-  <div id="project-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
-    <div class="modal-shell" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <div>
-          <p id="modal-project-meta" class="modal-meta"></p>
-          <h2 id="modal-project-title" class="modal-title"></h2>
-        </div>
-        <button id="modal-close-btn" type="button" class="modal-close" aria-label="Cerrar visor">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="modal-body arcade-scroll">
-        <div id="modal-media-box" class="modal-media"></div>
-        <div id="modal-content-box" class="modal-content"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL CURRÍCULUM VITAE -->
-  <div id="cv-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
-    <div class="modal-shell" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <div>
-          <p class="modal-meta">Currículum Vitae · En búsqueda de práctica profesional</p>
-          <h2 id="cv-modal-title" class="modal-title">Bernardo Axel Antonio Urrutia Rebolledo</h2>
-        </div>
-        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
-          <a href="CV_Bernardo_Urrutia_Rebolledo.pdf" download="CV_Bernardo_Urrutia_Rebolledo.pdf" class="arcade-btn btn-yellow" style="border-radius:12px; padding:8px 14px; font-size:0.75rem;">
-            <i class="fa-solid fa-download"></i> Descargar CV (.pdf)
+    <!-- FOOTER -->
+    <footer class="border-t-[3px] border-[#100a26] bg-[#070414] py-10 text-center text-[#b4aed6]">
+      <div class="mx-auto flex max-w-5xl flex-col items-center gap-4 px-6">
+        <div class="flex items-center justify-center gap-3">
+          <a
+            href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn de Bernardo Urrutia"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#100a26] bg-[#1a123a] text-[#f5f3ff] transition-colors hover:border-[#0a66c2] hover:bg-[#0a66c2] hover:text-white"
+          >
+            <i class="fa-brands fa-linkedin-in"></i>
           </a>
-          <button type="button" onclick="printSection('printing-cv')" class="arcade-btn btn-dark" style="border-radius:12px; padding:8px 14px; font-size:0.75rem;">
-            <i class="fa-solid fa-print"></i> Imprimir
-          </button>
-          <button id="cv-close-btn" type="button" class="modal-close" aria-label="Cerrar currículum">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+
+          <a
+            href="https://github.com/Ghost-z94"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub de Bernardo Urrutia"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#100a26] bg-[#1a123a] text-[#f5f3ff] transition-colors hover:border-[#ff477e] hover:bg-[#ff477e] hover:text-white"
+          >
+            <i class="fa-brands fa-github"></i>
+          </a>
+
+          <a
+            href="https://www.youtube.com/@ghostkiller7122"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube de Bernardo Urrutia"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#100a26] bg-[#1a123a] text-[#f5f3ff] transition-colors hover:border-[#ffb703] hover:text-[#ffb703]"
+          >
+            <i class="fa-brands fa-youtube"></i>
+          </a>
         </div>
+
+        <p class="font-display text-sm font-medium text-[#f5f3ff]">
+          Bernardo Urrutia © 2026. Todos los derechos reservados. · Unity Developer &amp; QA Tester
+        </p>
       </div>
+    </footer>
 
-      <div class="modal-body arcade-scroll" style="padding:20px;">
-        <div class="cv-sheet">
-          <aside class="cv-sidebar">
-            <h3>Acerca de mí</h3>
-            <p>
-              Estudiante de Ingeniería en Realidad Virtual y Diseño de Juegos Digitales en la Universidad Bernardo O'Higgins (UBO). Desarrollador con 4 años de experiencia activa en Unity y C#, enfocado en transformar ideas en experiencias interactivas pulidas. Combino la programación lógica con la maquetación 3D e integración de modelos desde Blender. Especializado en QA Testing (Quality Assurance), analizando el rendimiento de código, identificando fallas en fases tempranas y resolviendo bugs eficientemente. En búsqueda de práctica profesional.
-            </p>
-
-            <h3>Motivación</h3>
-            <p>
-              Formar parte de un equipo de desarrollo de videojuegos o entornos interactivos donde pueda poner en práctica mis conocimientos técnicos en Unity, C# y QA, perteneciendo a un equipo colaborativo que me permita crecer laboral y personalmente.
-            </p>
-
-            <h3>Habilidades</h3>
-            <ul>
-              <li><strong>Desarrollo &amp; Programación:</strong> Unity Engine, C#, IA con NavMesh AI, prototipado rápido (Whiteboxing / Blockout).</li>
-              <li><strong>Quality Assurance (QA):</strong> QA Playtesting, análisis de rendimiento de código, detección y resolución de bugs.</li>
-              <li><strong>Arte 3D &amp; Herramientas:</strong> Blender (modelado e integración 3D).</li>
-              <li><strong>Competencias Personales:</strong> Trabajo en equipo, resolución de problemas, organización y adaptabilidad.</li>
-            </ul>
-
-            <h3>Contacto</h3>
-            <ul class="cv-contact-list">
-              <li><i class="fa-solid fa-phone"></i> <span>(+56) 949102768</span></li>
-              <li><i class="fa-solid fa-envelope"></i> <span>brebolledo437@gmail.com</span></li>
-              <li><i class="fa-brands fa-linkedin"></i> <a href="https://www.linkedin.com/in/bernardo-urrutia-ab4488328/" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">linkedin.com/in/bernardo-urrutia-ab4488328/</a></li>
-            </ul>
-          </aside>
-
-          <div class="cv-main">
-            <div class="cv-main-header">
-              <h2>Bernardo Axel Antonio Urrutia Rebolledo</h2>
-              <p>Unity Developer · Modelador 3D · QA Tester</p>
-            </div>
-
-            <div class="cv-main-section">
-              <h3>Experiencia Laboral y Proyectos</h3>
-
-              <div class="cv-entry">
-                <h4>AGREAS — Videojuego Multijugador (Proyecto Principal)</h4>
-                <p class="cv-entry-sub">Unity Developer &amp; QA Tester | Unity, C#, NavMesh AI</p>
-                <ul>
-                  <li>Prototipado rápido de escenario (whiteboxing / blockout) para el testeo de mecánicas y dinámicas en tiempo real.</li>
-                  <li>Programación de Inteligencia Artificial en C# con NavMesh AI para navegación y lógica de entidades.</li>
-                  <li>Pruebas de QA Playtesting para evaluar rendimiento de código, fluidez jugable y resolución de bugs.</li>
-                </ul>
-              </div>
-
-              <div class="cv-entry">
-                <h4>Desarrollador Independiente de Videojuegos</h4>
-                <p class="cv-entry-sub">Unity Developer | 4 años de trayectoria activa (2020 - 2027)</p>
-                <ul>
-                  <li>4 años desarrollando activamente proyectos interactivos y puliendo dinámicas jugables en Unity.</li>
-                  <li>Modelado de assets 3D en Blender e integración directa en el motor para construcción de escenarios.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="cv-main-section">
-              <h3>Educación</h3>
-
-              <div class="cv-entry">
-                <h4>Universidad Bernardo O'Higgins (UBO) — 2023 - 2027 (En curso)</h4>
-                <ul>
-                  <li>Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (Especialidad en Videojuegos).</li>
-                  <li>Formación orientada a programación C#, maquetación espacial, entornos inmersivos y aseguramiento de calidad.</li>
-                </ul>
-              </div>
-            </div>
+    <!-- MODAL DE FICHA DE PROYECTO -->
+    <div
+      id="project-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-project-title"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-[#05030d]/85 p-4 backdrop-blur-sm sm:p-6"
+    >
+      <div
+        id="project-modal-panel"
+        class="flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border-[3px] border-[#100a26] bg-[#1a123a] shadow-[0_12px_0_#05030d]"
+      >
+        <div class="flex items-start justify-between gap-4 border-b-[3px] border-[#100a26] bg-[#140d2e] px-6 py-4">
+          <div>
+            <p id="modal-project-meta" class="font-display text-xs font-semibold uppercase tracking-wide text-[#ff477e]"></p>
+            <h2 id="modal-project-title" class="mt-1 font-display text-xl font-bold text-[#ffb703] sm:text-2xl"></h2>
           </div>
+          <button
+            id="project-modal-close"
+            type="button"
+            aria-label="Cerrar visor"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-[#100a26] bg-[#241a4e] text-[#f5f3ff] transition-colors hover:bg-[#ff477e] hover:text-white"
+          >
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
         </div>
+
+        <div id="project-modal-body" class="arcade-scroll overflow-y-auto"></div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // Datos completos de proyectos
-    const PROJECTS_DATA = {
-      'agreas-horror': {
-        meta: 'Unity & Gameplay · 2025 · Unity Developer & QA',
-        title: 'Agreas — Horror Multijugador',
-        mediaType: 'youtube',
-        mediaUrl: 'https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0',
-        externalUrl: 'https://www.youtube.com/watch?v=TzulSeYVWsY',
-        summary: 'Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.',
-        highlights: [
-          'Máquina de estados en C# para patrullaje, alerta y persecución dinámica.',
-          'Iteración rápida de blockout espacial para medir tiempos de escape y tensión.',
-          'Pruebas de estrés de colisiones y sincronización en escenarios oscuros.'
-        ],
-        qaFocus: 'Validación de colisiones en corredores estrechos, ajuste de línea de visión del agente perseguidor y prevención de bloqueos de navegación (NavMesh edge cases) en sesiones multijugador.',
-        tools: ['Unity', 'C#', 'NavMesh AI', 'Whiteboxing', 'QA Playtesting'],
-        roles: [
-          { name: 'Vida', effect: 'Cura aliados heridos y revive jugadores caídos en el último minuto.' },
-          { name: 'Distracción', effect: 'Bengalas y bombas de ruido para atraer y desviar al demonio.' },
-          { name: 'Exploración', effect: 'Mapa de las alcantarillas y spray para marcar rutas seguras.' },
-          { name: 'Energía', effect: 'Recarga las linternas del equipo frente a recursos limitados.' }
-        ],
-        controls: ['WASD · Movimiento', 'Shift · Correr', 'E · Interactuar', 'ESC · Salida'],
-        githubRepo: 'https://github.com/Ghost-z94/Agrea/tree/main',
-        githubZip: 'https://github.com/Ghost-z94/Agrea/archive/refs/heads/main.zip',
-        hasReport: true
-      },
-      'escenario-diorama': {
-        meta: 'Modelado 3D · 2024 · 3D Environment Artist',
-        title: 'Escenario Diorama',
-        mediaType: 'sketchfab',
-        mediaUrl: 'https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark',
-        externalUrl: 'https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8',
-        summary: 'Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante mediante composición modular y balance cromático.',
-        highlights: [
-          'Composición isométrica pensada para lectura inmediata desde múltiples ángulos.',
-          'Jerarquía lumínica cálida con contraste controlado entre sombras suaves y puntos focales.',
-          'Malla limpia lista para importación directa en motores en tiempo real.'
-        ],
-        qaFocus: 'Optimización de topología y recuento poligonal para tiempo real, revisión de normales invertidas, UVs sin solapamiento y control de densidad de texels.',
-        tools: ['Blender', 'Modelado 3D', 'Iluminación', 'Diorama']
-      },
-      'comportamiento-ia': {
-        meta: 'IA y Comportamiento · 2025 · Unity AI & C# Programmer',
-        title: 'Comportamiento de IA — Rutas y Patrullaje',
-        mediaType: 'gif',
-        mediaUrl: 'ComportamientoIA.gif',
-        summary: 'Desarrollo del comportamiento de Inteligencia Artificial en Unity y C#, enfocado en rutas dinámicas de patrullaje, detección por línea de visión, transición de estados (patrulla, alerta y persecución) y navegación fluida sobre obstáculos.',
-        highlights: [
-          'Máquina de estados finitos en C# para alternar entre patrullaje, sospecha y persecución.',
-          'Cálculo dinámico de rutas con NavMesh Agent y validación de línea de visión (Raycast).',
-          'Ajuste de radios de detección y velocidades para equilibrar la tensión del jugador.'
-        ],
-        qaFocus: 'Validación de trayectorias sobre NavMesh en pasillos estrechos, prevención de bloqueos entre waypoints, precisión de raycasts de visión y estabilidad de frame-rate.',
-        tools: ['Unity', 'IA en C#', 'NavMesh', 'State Machine']
-      },
-      'creacion-mundo-inmersivo': {
-        meta: 'Modelado 3D · 2024 · 3D World Builder',
-        title: 'Creación de Mundo Inmersivo',
-        mediaType: 'sketchfab',
-        mediaUrl: 'https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark',
-        externalUrl: 'https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272',
-        summary: 'Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.',
-        highlights: [
-          'Kit modular reutilizable que acelera la construcción de distritos urbanos.',
-          'Líneas visuales guía para orientar al jugador sin depender de marcadores intrusivos.',
-          'Inspección interactiva en 360 grados con visor 3D integrado.'
-        ],
-        qaFocus: 'Validación de escala respecto al controlador de personaje, alineación precisa de piezas modulares en grilla y prevención de costuras visibles (z-fighting).',
-        tools: ['Blender', 'World Building', 'Modular Assets', 'Diseño 3D']
+    <script>
+      const SKILLS = [
+        {
+          id: 'unity',
+          name: 'Unity Engine',
+          group: 'motor',
+          level: 'Avanzado',
+          icon: 'fa-solid fa-gamepad',
+          detail: 'Arquitectura de escenas, físicas, NavMesh, prefabs y optimización de frame-time.',
+        },
+        {
+          id: 'csharp',
+          name: 'C# / VS Code',
+          group: 'motor',
+          level: 'Avanzado',
+          icon: 'fa-solid fa-code',
+          detail: 'Máquinas de estado, IA de enemigos, controladores y patrones limpios orientados a componentes.',
+        },
+        {
+          id: 'blender',
+          name: 'Blender 3D',
+          group: 'arte',
+          level: 'Avanzado',
+          icon: 'fa-solid fa-cubes',
+          detail: 'Modelado hard-surface y estilizado, retopología, UVs e iluminación de dioramas.',
+        },
+        {
+          id: 'unreal',
+          name: 'Unreal Engine',
+          group: 'motor',
+          level: 'Intermedio',
+          icon: 'fa-solid fa-layer-group',
+          detail: 'Prototipado de niveles, Blueprints e iluminación en tiempo real.',
+        },
+        {
+          id: 'photoshop',
+          name: 'Adobe Photoshop',
+          group: 'arte',
+          level: 'Intermedio',
+          icon: 'fa-solid fa-wand-magic-sparkles',
+          detail: 'Edición de texturas PBR, sprites de interfaz y composición de presentaciones.',
+        },
+      ];
+
+      const PROJECTS = [
+        {
+          id: 'agreas-horror',
+          title: 'Agreas — Horror Multijugador',
+          category: 'unity',
+          categoryLabel: 'Unity & Gameplay',
+          sticker: 'Gameplay 60fps',
+          year: '2025',
+          role: 'Unity Developer & QA',
+          summary:
+            'Prototipado rápido de escenario (whiteboxing / blockout) para Agreas, un videojuego de terror multijugador. Enfocado en el testeo de mecánicas de persecución, comportamiento de Inteligencia Artificial en C# y maquetación espacial en tiempo real.',
+          qaFocus:
+            'Validación de colisiones en corredores estrechos, ajuste de línea de visión del agente perseguidor y prevención de bloqueos de navegación (NavMesh edge cases) en sesiones multijugador.',
+          tools: ['Unity', 'C#', 'NavMesh AI', 'Whiteboxing', 'QA Playtesting'],
+          highlights: [
+            'Máquina de estados en C# para patrullaje, alerta y persecución dinámica.',
+            'Iteración rápida de blockout espacial para medir tiempos de escape y tensión.',
+            'Pruebas de estrés de colisiones y sincronización en escenarios oscuros.',
+          ],
+          mediaType: 'youtube',
+          embedUrl:
+            'https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=1&loop=1&playlist=TzulSeYVWsY&controls=0&modestbranding=1&rel=0',
+          externalUrl: 'https://www.youtube.com/watch?v=TzulSeYVWsY',
+          gameDownload: {
+            repoUrl: 'https://github.com/Ghost-z94/Agrea/tree/main',
+            zipUrl: 'https://github.com/Ghost-z94/Agrea/archive/refs/heads/main.zip',
+            label: 'Proyecto Unity en GitHub',
+            description:
+              'Descarga el proyecto completo del juego o explora las escenas y scripts C# en el repositorio oficial.',
+          },
+          technicalReport: {
+            subtitle: 'Descarga el informe técnico UX completo en formato PDF.',
+            pdfPath: 'Informe_Tecnico_UX_AGREAS.pdf',
+            downloadName: 'Informe_Tecnico_UX_AGREAS.pdf',
+          },
+          details: {
+            roles: [
+              { name: 'Vida', effect: 'Cura aliados heridos y revive jugadores caídos en el último minuto.' },
+              { name: 'Distracción', effect: 'Bengalas y bombas de ruido para atraer y desviar al demonio.' },
+              { name: 'Exploración', effect: 'Mapa de las alcantarillas y spray para marcar rutas seguras.' },
+              { name: 'Energía', effect: 'Recarga las linternas del equipo frente a recursos limitados.' },
+            ],
+            controls: ['WASD · Movimiento', 'Shift · Correr', 'E · Interactuar', 'ESC · Salida'],
+            gallery: [
+              { src: 'assets/report/heur_visibilidad_hud.png', caption: 'Boceto HUD minimalista (ritual, vida y batería)' },
+              { src: 'assets/report/heur_mapa_colores.png', caption: 'Diseño de mapa con pasadizos secretos y zonas de riesgo' },
+            ],
+          },
+        },
+        {
+          id: 'escenario-diorama',
+          title: 'Escenario Diorama',
+          category: '3d',
+          categoryLabel: 'Modelado 3D',
+          sticker: 'Diorama 3D',
+          year: '2024',
+          role: '3D Environment Artist',
+          summary:
+            'Diseño de entorno desarrollado en tiempo de estudio, enfocado en proyectar sensaciones de tranquilidad, calidez e iluminación hogareña relajante mediante composición modular y balance cromático.',
+          qaFocus:
+            'Optimización de topología y recuento poligonal para tiempo real, revisión de normales invertidas, UVs sin solapamiento y control de densidad de texels.',
+          tools: ['Blender', 'Modelado 3D', 'Iluminación', 'Diorama'],
+          highlights: [
+            'Composición isométrica pensada para lectura inmediata desde múltiples ángulos.',
+            'Jerarquía lumínica cálida con contraste controlado entre sombras suaves y puntos focales.',
+            'Malla limpia lista para importación directa en motores en tiempo real.',
+          ],
+          mediaType: 'sketchfab',
+          embedUrl: 'https://sketchfab.com/models/382eff76f95c4b3ba54842195d137dd8/embed?preload=1&ui_theme=dark',
+          externalUrl: 'https://sketchfab.com/3d-models/382eff76f95c4b3ba54842195d137dd8',
+        },
+        {
+          id: 'comportamiento-ia',
+          title: 'Comportamiento de IA — Rutas y Patrullaje',
+          category: 'ia',
+          categoryLabel: 'IA y Comportamiento',
+          sticker: 'IA & C#',
+          year: '2025',
+          role: 'Unity AI & C# Programmer',
+          summary:
+            'Desarrollo del comportamiento de Inteligencia Artificial en Unity y C#, enfocado en rutas dinámicas de patrullaje, detección por línea de visión, transición de estados (patrulla, alerta y persecución) y navegación fluida sobre obstáculos.',
+          qaFocus:
+            'Validación de trayectorias sobre NavMesh en pasillos estrechos, prevención de bloqueos entre waypoints, precisión de raycasts de visión y estabilidad de frame-rate.',
+          tools: ['Unity', 'IA en C#', 'NavMesh', 'State Machine'],
+          highlights: [
+            'Máquina de estados finitos en C# para alternar entre patrullaje, sospecha y persecución.',
+            'Cálculo dinámico de rutas con NavMesh Agent y validación de línea de visión (Raycast).',
+            'Ajuste de radios de detección y velocidades para equilibrar la tensión del jugador.',
+          ],
+          mediaType: 'gif',
+          gifSrc: 'ComportamientoIA.gif',
+        },
+        {
+          id: 'creacion-mundo-inmersivo',
+          title: 'Creación de Mundo Inmersivo',
+          category: '3d',
+          categoryLabel: 'Modelado 3D',
+          sticker: 'Modelo 3D',
+          year: '2024',
+          role: '3D World Builder',
+          summary:
+            'Escenario futurista diseñado para la navegación de personajes y exploración libre. Integra estructuras modulares, estética ciberpunk y una distribución espacial pensada para la inmersión del jugador.',
+          qaFocus:
+            'Validación de escala respecto al controlador de personaje, alineación precisa de piezas modulares en grilla y prevención de costuras visibles (z-fighting).',
+          tools: ['Blender', 'World Building', 'Modular Assets', 'Diseño 3D'],
+          highlights: [
+            'Kit modular reutilizable que acelera la construcción de distritos urbanos.',
+            'Líneas visuales guía para orientar al jugador sin depender de marcadores intrusivos.',
+            'Inspección interactiva en 360 grados con visor 3D integrado.',
+          ],
+          mediaType: 'sketchfab',
+          embedUrl: 'https://sketchfab.com/models/dde769ef7eef46379542d34073a3b272/embed?preload=1&ui_theme=dark',
+          externalUrl: 'https://sketchfab.com/3d-models/dde769ef7eef46379542d34073a3b272',
+        },
+      ];
+
+      async function downloadOriginalFile(url, filename) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = objectUrl;
+          anchor.download = filename;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          URL.revokeObjectURL(objectUrl);
+        } catch (err) {
+          const fallback = document.createElement('a');
+          fallback.href = url;
+          fallback.download = filename;
+          document.body.appendChild(fallback);
+          fallback.click();
+          document.body.removeChild(fallback);
+        }
       }
-    };
 
-    // Menú móvil
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
-    });
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    });
+      function renderBlueprintFallback(canvas) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.fillStyle = '#0c081f';
+        ctx.fillRect(0, 0, w, h);
 
-    // Toggle audio video principal Agreas
-    let heroMuted = true;
-    const toggleAudioBtn = document.getElementById('toggle-audio-btn');
-    const heroFrame = document.getElementById('hero-gameplay-frame');
-    const audioIcon = document.getElementById('audio-icon');
-    const audioLabel = document.getElementById('audio-label');
+        ctx.strokeStyle = 'rgba(157, 78, 221, 0.25)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= w; x += 24) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, h);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= h; y += 24) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
 
-    toggleAudioBtn.addEventListener('click', () => {
-      heroMuted = !heroMuted;
-      heroFrame.src = `https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=${heroMuted ? 1 : 0}&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0`;
-      audioIcon.className = heroMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
-      audioIcon.style.color = heroMuted ? '' : '#ffb703';
-      audioLabel.textContent = heroMuted ? 'Sin audio' : 'Con audio';
-    });
+        ctx.strokeStyle = '#ffb703';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(70, h * 0.72);
+        ctx.lineTo(w * 0.36, h * 0.28);
+        ctx.lineTo(w * 0.68, h * 0.64);
+        ctx.lineTo(w - 75, h * 0.28);
+        ctx.stroke();
+        ctx.setLineDash([]);
 
-    // Filtros de Habilidades
-    const skillButtons = document.querySelectorAll('[data-skill-filter]');
-    const skillCards = document.querySelectorAll('[data-skill-group]');
-    skillButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-skill-filter');
-        skillButtons.forEach(b => b.classList.remove('active-yellow'));
-        btn.classList.add('active-yellow');
-        skillCards.forEach(card => {
-          const group = card.getAttribute('data-skill-group');
-          card.style.display = (filter === 'todas' || group === filter) ? 'flex' : 'none';
+        const nodes = [
+          { x: 70, y: h * 0.72, label: 'WP-01' },
+          { x: w * 0.36, y: h * 0.28, label: 'WP-02' },
+          { x: w * 0.68, y: h * 0.64, label: 'WP-03' },
+          { x: w - 75, y: h * 0.28, label: 'TARGET' },
+        ];
+        nodes.forEach((n, idx) => {
+          ctx.fillStyle = idx === 3 ? '#ff477e' : '#ffb703';
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, 8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#f5f3ff';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText(n.label, n.x - 18, n.y - 14);
         });
-      });
-    });
-
-    // Filtros de Proyectos
-    const projectButtons = document.querySelectorAll('[data-project-filter]');
-    const projectCards = document.querySelectorAll('[data-project-category]');
-    projectButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-project-filter');
-        projectButtons.forEach(b => b.classList.remove('active-pink'));
-        btn.classList.add('active-pink');
-        projectCards.forEach(card => {
-          const cat = card.getAttribute('data-project-category');
-          card.style.display = (filter === 'todos' || cat === filter) ? 'flex' : 'none';
-        });
-      });
-    });
-
-    // Copiar correo
-    const copyBtn = document.getElementById('copy-email-btn');
-    const copyIcon = document.getElementById('copy-email-icon');
-    const copyText = document.getElementById('copy-email-text');
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText('brebolledo437@gmail.com');
-        copyIcon.className = 'fa-solid fa-check';
-        copyIcon.style.color = '#38b000';
-        copyText.textContent = 'Correo copiado: brebolledo437@gmail.com';
-        setTimeout(() => {
-          copyIcon.className = 'fa-regular fa-copy';
-          copyIcon.style.color = '';
-          copyText.textContent = 'Copiar correo (brebolledo437@gmail.com)';
-        }, 2500);
-      } catch (e) {}
-    });
-
-    // Modal CV
-    const cvModal = document.getElementById('cv-modal');
-    const cvCloseBtn = document.getElementById('cv-close-btn');
-
-    window.openCvModal = function() {
-      cvModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
-
-    function closeCvModal() {
-      cvModal.classList.remove('open');
-      if (!modal.classList.contains('open')) {
-        document.body.style.overflow = '';
-      }
-    }
-
-    cvModal.addEventListener('click', closeCvModal);
-    cvCloseBtn.addEventListener('click', closeCvModal);
-
-    // Modal Ficha Completa de Proyectos
-    const modal = document.getElementById('project-modal');
-    const modalMeta = document.getElementById('modal-project-meta');
-    const modalTitle = document.getElementById('modal-project-title');
-    const modalMedia = document.getElementById('modal-media-box');
-    const modalContent = document.getElementById('modal-content-box');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-
-    function closeProjectModal() {
-      modal.classList.remove('open');
-      modalMedia.innerHTML = '';
-      if (!cvModal.classList.contains('open')) {
-        document.body.style.overflow = '';
-      }
-    }
-
-    modal.addEventListener('click', closeProjectModal);
-    modalCloseBtn.addEventListener('click', closeProjectModal);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (cvModal.classList.contains('open')) closeCvModal();
-        if (modal.classList.contains('open')) closeProjectModal();
-      }
-    });
-
-    window.printSection = function(mode) {
-      document.body.classList.remove('printing-cv', 'printing-report');
-      document.body.classList.add(mode);
-      window.print();
-      setTimeout(() => {
-        document.body.classList.remove('printing-cv', 'printing-report');
-      }, 500);
-    };
-
-    function buildTechnicalReportHtml() {
-      return `
-        <div id="agreas-report-panel" class="report-panel">
-          <div class="report-toolbar">
-            <div>
-              <p style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#6d28d9;">Informe Técnico UX · AGREAS</p>
-              <h3 style="font-size:1.2rem; color:#0f172a;">Análisis de Experiencia de Usuario en AGREAS</h3>
-              <p style="font-size:0.8rem; color:#475569;">Bernardo Axel Antonio Urrutia Rebolledo · UBO · 01 de julio del 2026</p>
-            </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" onclick="downloadReportDoc()" class="report-doc-btn" style="background:#0a66c2; color:#fff;">
-                <i class="fa-solid fa-file-word"></i> Descargar Word (.doc)
-              </button>
-              <button type="button" onclick="printSection('printing-report')" class="report-doc-btn" style="background:#ffb703; color:#0c081f;">
-                <i class="fa-solid fa-print"></i> Imprimir
-              </button>
-            </div>
-          </div>
-
-          <div id="report-printable-body">
-            <div class="report-doc-section">
-              <h4>1. Introducción y Pregunta de Investigación</h4>
-              <p>Este informe analiza la experiencia de usuario (UX) y usabilidad de <strong>AGREAS</strong>, un Survival Horror Cooperativo Low Poly ambientado en alcantarillas en el año 2010. La restricción de dispositivos modernos obliga a depender de objetos físicos y coordinación cercana entre jugadores para reunir objetos rituales y sellar al demonio Agreas.</p>
-              <p style="margin-top:8px;"><strong>Pregunta de Investigación:</strong> ¿Cómo es que el diseño de la interfaz junto con el sistema de juego en AGREAS ayudan a aumentar la carga mental para que el jugador sienta terror en la experiencia?</p>
-            </div>
-
-            <div class="report-doc-section">
-              <h4>2. Marco Conceptual (Jesse Schell, 2015)</h4>
-              <ul>
-                <li><strong>Escucha profunda (p. 52):</strong> Comprender la búsqueda de "tensión legible" sin romper el ciclo de control.</li>
-                <li><strong>Proyección empática (p. 54):</strong> Evaluar cómo la baja fidelidad visual puede provocar desorientación espacial en corredores oscuros.</li>
-                <li><strong>La lente del jugador (p. 57):</strong> Pensar como abogado del jugador respecto a expectativas y frustraciones reales.</li>
-              </ul>
-            </div>
-
-            <div class="report-doc-section">
-              <h4>3. Análisis Heurístico (Criterios de Nielsen)</h4>
-              <ul>
-                <li><strong>Visibilidad del estado del sistema (Logrado):</strong> HUD minimalista con objetos restantes del ritual, barra de vida y consumo de batería de linterna.</li>
-                <li><strong>Relación sistema y mundo real (Logrado):</strong> Controles estándar (WASD, Shift, E) y 4 roles aleatorios (Vida, Distracción, Exploración y Energía).</li>
-                <li><strong>Control y libertad del usuario (Mejorable):</strong> La salida funciona con tecla ESC pero carece de menú visible de pausa/salida dentro de pantalla.</li>
-                <li><strong>Consistencia y estándares (Logrado):</strong> Coherencia cromática Low Poly y retroalimentación ambiental sin romper la inmersión.</li>
-                <li><strong>Prevención de errores (Logrado):</strong> Generación aleatoria de objetos, pasadizos secretos y rutas alternativas para evitar bloqueos con el enemigo.</li>
-              </ul>
-            </div>
-
-            <div class="report-doc-section">
-              <h4>4. Investigación de Usuarios (Encuesta n=17 y Entrevista)</h4>
-              <p>Se encuestó a 17 jugadores y se entrevistó a una especialista en Criminología para profundizar en el miedo real y la toma de decisiones bajo presión. Se contrastaron dos perfiles persona (<strong>"Spooker"</strong>, jugador táctico de terror en grupo, y <strong>"Akin"</strong>, jugador inmersivo orientado a atmósfera y sonido).</p>
-            </div>
-
-            <div class="report-doc-section">
-              <h4>5. Propuesta de Valor y Conclusiones</h4>
-              <p>Equilibrar la tensión del terror minimalista con señalética sutil (spray, roles complementarios y claridad mínima en pausa/ESC) evita que la incertidumbre se convierta en frustración por desorientación, fortaleciendo la cooperación y la rejugabilidad.</p>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    window.toggleReportPanel = function() {
-      const panel = document.getElementById('agreas-report-panel');
-      const btnLabel = document.getElementById('report-btn-label');
-      if (!panel) return;
-      const isOpen = panel.classList.toggle('open');
-      if (btnLabel) {
-        btnLabel.textContent = isOpen ? 'Ocultar informe técnico' : 'Abrir informe como documento';
-      }
-      if (isOpen) {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    };
-
-    window.downloadReportDoc = function() {
-      const bodyEl = document.getElementById('report-printable-body');
-      if (!bodyEl) return;
-      const htmlDoc = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" lang="es">
-        <head><meta charset="utf-8"><title>Informe Técnico UX - AGREAS</title></head>
-        <body style="font-family: Calibri, Arial, sans-serif; line-height: 1.5; color: #1e293b;">
-          <h1 style="color:#4c1d95;">Informe Técnico: Análisis de Experiencia de Usuario en AGREAS</h1>
-          <p><strong>Autor:</strong> Bernardo Axel Antonio Urrutia Rebolledo<br>
-          <strong>Carrera:</strong> Ingeniería en Realidad Virtual y Diseño de Juegos Digitales (UBO)<br>
-          <strong>Fecha:</strong> 01 de julio del 2026</p>
-          <hr>
-          ${bodyEl.innerHTML}
-        </body>
-        </html>
-      `;
-      const blob = new Blob(['\ufeff', htmlDoc], { type: 'application/msword' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Informe_Tecnico_UX_AGREAS.doc';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    };
-
-    window.openProjectModal = function(projectId) {
-      const project = PROJECTS_DATA[projectId];
-      if (!project) return;
-
-      modalMeta.textContent = project.meta;
-      modalTitle.textContent = project.title;
-
-      if (project.mediaType === 'youtube' || project.mediaType === 'sketchfab') {
-        modalMedia.innerHTML = `<iframe src="${project.mediaUrl}" title="${project.title}" allow="autoplay; fullscreen; xr-spatial-tracking; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      } else if (project.mediaType === 'gif') {
-        modalMedia.innerHTML = `<img src="${project.mediaUrl}" alt="${project.title}" />`;
       }
 
-      const rolesHtml = project.roles ? `
-        <div class="modal-block">
-          <h3>Roles cooperativos y mecánicas</h3>
-          <div class="roles-grid">
-            ${project.roles.map(r => `<div class="role-card"><strong>${r.name}</strong><span>${r.effect}</span></div>`).join('')}
-          </div>
-        </div>
-      ` : '';
+      function renderSkills(filterGroup = 'todas') {
+        const grid = document.getElementById('skills-grid');
+        if (!grid) return;
 
-      const controlsHtml = project.controls ? `
-        <div class="modal-block">
-          <h3 style="font-size:0.78rem; text-transform:uppercase; color:#b4aed6;">Esquema de controles</h3>
-          <div class="controls-list">
-            ${project.controls.map(c => `<span class="control-key">${c}</span>`).join('')}
-          </div>
-        </div>
-      ` : '';
+        const visible = filterGroup === 'todas' ? SKILLS : SKILLS.filter((s) => s.group === filterGroup);
+        grid.className =
+          visible.length <= 2
+            ? 'mx-auto grid max-w-2xl grid-cols-1 gap-5 sm:grid-cols-2'
+            : visible.length === 3
+              ? 'mx-auto grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3'
+              : 'grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5';
 
-      const githubHtml = project.githubRepo ? `
-        <div class="sidebar-card">
-          <h4><i class="fa-brands fa-github"></i> Proyecto Unity en GitHub</h4>
-          <p>Descarga el proyecto completo del juego o explora las escenas y scripts C# en el repositorio oficial.</p>
-          <div class="sidebar-btn-row">
-            <a href="${project.githubZip}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-green">
-              <i class="fa-solid fa-download"></i> Descargar (.zip)
-            </a>
-            <a href="${project.githubRepo}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-dark">
-              <i class="fa-brands fa-github"></i> Ver GitHub
-            </a>
-          </div>
-        </div>
-      ` : '';
+        grid.innerHTML = visible
+          .map((skill) => {
+            const badgeBg = skill.level === 'Avanzado' ? 'bg-[#38b000]' : 'bg-[#ff9f1c]';
+            return `
+              <article class="arcade-card group flex flex-col items-center rounded-2xl p-6 text-center hover:-translate-y-2 hover:border-[#ffb703]">
+                <i class="${skill.icon} mb-3.5 text-4xl text-[#ff477e] transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6 group-hover:text-[#ffb703]"></i>
+                <h3 class="font-display text-lg font-bold text-[#f5f3ff]">${skill.name}</h3>
+                <p class="mt-1.5 flex-1 text-xs leading-relaxed text-[#b4aed6]">${skill.detail}</p>
+                <span class="mt-4 inline-block rounded-md border-2 border-[#100a26] ${badgeBg} px-2.5 py-1 font-pixel text-[9px] font-bold text-white">${skill.level}</span>
+              </article>
+            `;
+          })
+          .join('');
+      }
 
-      const reportBtnHtml = project.hasReport ? `
-        <div class="sidebar-card">
-          <h4><i class="fa-solid fa-file-lines"></i> Documentación técnica UX</h4>
-          <p>Heurísticas de Nielsen, encuesta cuantitativa (n=17), entrevista, perfiles persona y propuesta de valor UX.</p>
-          <div class="sidebar-btn-row">
-            <button type="button" onclick="toggleReportPanel()" class="arcade-btn btn-pink" style="width:100%;">
-              <i class="fa-solid fa-book-open"></i> <span id="report-btn-label">Abrir informe como documento</span>
-            </button>
-          </div>
-        </div>
-      ` : '';
+      function renderProjects(filterCategory = 'todos') {
+        const grid = document.getElementById('projects-grid');
+        if (!grid) return;
 
-      const externalBtnHtml = project.externalUrl ? `
-        <a href="${project.externalUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn btn-yellow" style="width:100%; border-radius:16px; padding:12px 16px; margin-top:16px; font-size:0.8rem;">
-          Abrir en plataforma original <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-      ` : '';
+        const visible = filterCategory === 'todos' ? PROJECTS : PROJECTS.filter((p) => p.category === filterCategory);
+        grid.innerHTML = visible
+          .map((project) => {
+            let mediaHtml = '';
+            if (project.mediaType === 'sketchfab') {
+              mediaHtml = `<iframe title="${project.title}" src="${project.embedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen class="h-full w-full border-0"></iframe>`;
+            } else if (project.mediaType === 'youtube') {
+              mediaHtml = `<iframe title="${project.title}" src="${project.embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full border-0"></iframe>`;
+            } else if (project.mediaType === 'gif') {
+              mediaHtml = `
+                <img src="${project.gifSrc}" alt="${project.title}" class="h-full w-full object-cover" onerror="this.style.display='none'; const c=this.nextElementSibling; c.style.display='block'; renderBlueprintFallback(c);" />
+                <canvas width="560" height="256" style="display:none" class="h-full w-full"></canvas>
+              `;
+            }
 
-      modalContent.innerHTML = `
-        <div class="modal-columns">
-          <div>
-            <div class="modal-block">
-              <h3>Descripción del proyecto</h3>
-              <p style="font-size:0.92rem; color:#d7d2f2;">${project.summary}</p>
-            </div>
+            const toolsHtml = project.tools
+              .map((t) => `<span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">${t}</span>`)
+              .join('');
 
-            <div class="modal-block">
-              <h3>Lo que se desarrolló</h3>
-              <ul class="modal-list">
-                ${project.highlights.map(h => `<li><i class="fa-solid fa-circle-check"></i><span>${h}</span></li>`).join('')}
-              </ul>
-            </div>
+            const externalHtml = project.externalUrl
+              ? `<a href="${project.externalUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-display text-xs font-bold uppercase text-[#ffb703] hover:underline">Abrir enlace <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i></a>`
+              : '';
 
-            ${rolesHtml}
-            ${controlsHtml}
-          </div>
+            return `
+              <article class="arcade-card flex flex-col overflow-hidden rounded-3xl hover:-translate-y-1.5 hover:border-[#ff477e]">
+                <div class="relative h-64 w-full border-b-[3px] border-[#100a26] bg-[#0c081f]">
+                  ${mediaHtml}
+                  <span class="pointer-events-none absolute top-3.5 right-3.5 z-10 rotate-3 rounded-lg border-[3px] border-[#100a26] bg-[#ffb703] px-3 py-1 font-display text-xs font-bold uppercase text-[#0c081f] shadow-[2px_2px_0px_#100a26]">${project.sticker}</span>
+                </div>
+                <div class="flex flex-1 flex-col justify-between p-6">
+                  <div>
+                    <h3 class="font-display text-2xl font-bold text-[#ffb703]">${project.title}</h3>
+                    <p class="mt-2.5 text-sm leading-relaxed text-[#b4aed6]">${project.summary}</p>
+                  </div>
+                  <div class="mt-5">
+                    <div class="flex flex-wrap gap-2">${toolsHtml}</div>
+                    <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t-2 border-[#100a26] pt-4">
+                      <button type="button" onclick="openProjectModal('${project.id}')" class="inline-flex items-center gap-1.5 rounded-xl border-2 border-[#100a26] bg-[#241a4e] px-3.5 py-2 font-display text-xs font-bold uppercase text-[#f5f3ff] transition-colors hover:border-[#ffb703] hover:text-[#ffb703]">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center text-[11px]"></i>
+                        Inspeccionar detalle
+                      </button>
+                      ${externalHtml}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+      }
 
-          <div>
-            <div class="sidebar-card">
-              <h4>Enfoque QA y Optimización</h4>
-              <p>${project.qaFocus}</p>
-            </div>
+      function openProjectModal(projectId) {
+        const project = PROJECTS.find((p) => p.id === projectId);
+        const modal = document.getElementById('project-modal');
+        const metaEl = document.getElementById('modal-project-meta');
+        const titleEl = document.getElementById('modal-project-title');
+        const bodyEl = document.getElementById('project-modal-body');
+        if (!project || !modal || !metaEl || !titleEl || !bodyEl) return;
 
-            <div style="margin:16px 0;">
-              <h4 style="font-size:0.75rem; text-transform:uppercase; color:#b4aed6; margin-bottom:8px;">Tecnologías</h4>
-              <div class="tags-list">
-                ${project.tools.map(t => `<span class="tag-chip">${t}</span>`).join('')}
+        metaEl.textContent = `${project.categoryLabel} · ${project.year} · ${project.role}`;
+        titleEl.textContent = project.title;
+
+        let mediaHtml = '';
+        const modalEmbedUrl =
+          project.mediaType === 'youtube' && project.embedUrl
+            ? project.embedUrl.replace('controls=0', 'controls=1')
+            : project.embedUrl;
+
+        if (project.mediaType === 'sketchfab') {
+          mediaHtml = `<iframe title="${project.title}" src="${modalEmbedUrl}" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen class="h-full w-full border-0"></iframe>`;
+        } else if (project.mediaType === 'youtube') {
+          mediaHtml = `<iframe title="${project.title}" src="${modalEmbedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="h-full w-full border-0"></iframe>`;
+        } else if (project.mediaType === 'gif') {
+          mediaHtml = `
+            <img src="${project.gifSrc}" alt="${project.title}" class="h-full w-full bg-[#0c081f] object-contain" onerror="this.style.display='none'; const c=this.nextElementSibling; c.style.display='block'; renderBlueprintFallback(c);" />
+            <canvas width="900" height="420" style="display:none" class="h-full w-full"></canvas>
+          `;
+        }
+
+        const highlightsHtml = project.highlights
+          .map((h) => `<li class="flex items-start gap-2.5 text-sm text-[#f5f3ff]"><i class="fa-solid fa-circle-check mt-0.5 shrink-0 text-[#ffb703]"></i><span>${h}</span></li>`)
+          .join('');
+
+        const rolesHtml = project.details?.roles
+          ? `<div>
+               <h3 class="font-display text-base font-bold text-[#f5f3ff]">Roles cooperativos y mecánicas</h3>
+               <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                 ${project.details.roles
+                   .map(
+                     (r) => `<div class="rounded-xl border-2 border-[#100a26] bg-[#140d2e] p-3.5">
+                       <p class="font-display text-sm font-bold text-[#ffb703]">${r.name}</p>
+                       <p class="mt-1 text-xs leading-relaxed text-[#d7d2f2]">${r.effect}</p>
+                     </div>`
+                   )
+                   .join('')}
+               </div>
+             </div>`
+          : '';
+
+        const controlsHtml = project.details?.controls
+          ? `<div>
+               <h3 class="font-display text-xs font-bold uppercase text-[#b4aed6]">Esquema de controles</h3>
+               <div class="mt-2.5 flex flex-wrap gap-2">
+                 ${project.details.controls
+                   .map((c) => `<span class="rounded-xl border-2 border-[#100a26] bg-[#140d2e] px-3 py-1.5 font-mono text-xs text-[#f5f3ff]">${c}</span>`)
+                   .join('')}
+               </div>
+             </div>`
+          : '';
+
+        const galleryHtml = project.details?.gallery
+          ? `<div>
+               <h3 class="font-display text-base font-bold text-[#f5f3ff]">Artefactos de diseño y nivel</h3>
+               <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                 ${project.details.gallery
+                   .map(
+                     (g) => `<figure class="overflow-hidden rounded-xl border-2 border-[#100a26] bg-[#140d2e]">
+                       <div class="flex h-32 items-center justify-center bg-[#0c081f] p-2">
+                         <img src="${g.src}" alt="${g.caption}" class="h-full w-auto object-contain" onerror="this.closest('figure').style.display='none'" />
+                       </div>
+                       <figcaption class="border-t-2 border-[#100a26] px-3 py-2 text-[11px] leading-snug text-[#b4aed6]">${g.caption}</figcaption>
+                     </figure>`
+                   )
+                   .join('')}
+               </div>
+             </div>`
+          : '';
+
+        const toolsHtml = project.tools
+          .map((t) => `<span class="rounded-xl border-2 border-[#ff477e] bg-[#ff477e]/15 px-2.5 py-0.5 text-xs font-semibold text-white">${t}</span>`)
+          .join('');
+
+        const gameDownloadHtml = project.gameDownload
+          ? `<div class="rounded-2xl border-[3px] border-[#100a26] bg-[#140d2e] p-4 space-y-3">
+               <div class="flex items-start gap-2.5">
+                 <i class="fa-brands fa-github mt-0.5 text-lg text-[#ffb703]"></i>
+                 <div>
+                   <h3 class="font-display text-sm font-bold text-[#f5f3ff]">${project.gameDownload.label}</h3>
+                   <p class="mt-1 text-xs leading-relaxed text-[#b4aed6]">${project.gameDownload.description}</p>
+                 </div>
+               </div>
+               <div class="flex flex-wrap gap-2">
+                 <a href="${project.gameDownload.zipUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#38b000] px-3 py-2.5 text-xs uppercase text-white hover:bg-[#46cc08]">
+                   <i class="fa-solid fa-download"></i>
+                   Descargar juego (.zip)
+                 </a>
+                 <a href="${project.gameDownload.repoUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#241a4e] px-3 py-2.5 text-xs uppercase text-[#f5f3ff] hover:bg-[#312468]">
+                   <i class="fa-brands fa-github text-[#ffb703]"></i>
+                   Ver GitHub
+                 </a>
+               </div>
+             </div>`
+          : '';
+
+        const reportDownloadHtml = project.technicalReport
+          ? `<div class="rounded-2xl border-[3px] border-[#100a26] bg-[#140d2e] p-4 space-y-3">
+               <div class="flex items-start gap-2.5">
+                 <i class="fa-solid fa-file-pdf mt-0.5 text-lg text-[#ffb703]"></i>
+                 <div>
+                   <h3 class="font-display text-sm font-bold text-[#f5f3ff]">Documentación técnica UX</h3>
+                   <p class="mt-1 text-xs leading-relaxed text-[#b4aed6]">${project.technicalReport.subtitle}</p>
+                 </div>
+               </div>
+               <button
+                 type="button"
+                 onclick="downloadOriginalFile('${project.technicalReport.pdfPath}', '${project.technicalReport.downloadName}')"
+                 class="arcade-btn inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-[#ff477e] px-3 py-2.5 text-xs uppercase text-white hover:bg-[#ff7096]"
+               >
+                 <i class="fa-solid fa-download"></i>
+                 Descargar informe (.pdf)
+               </button>
+             </div>`
+          : '';
+
+        const externalBtnHtml = project.externalUrl
+          ? `<a href="${project.externalUrl}" target="_blank" rel="noopener noreferrer" class="arcade-btn inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#ffb703] px-4 py-3 text-xs uppercase text-[#0c081f] hover:bg-[#ffd166]">
+               Abrir en plataforma original
+               <i class="fa-solid fa-arrow-up-right-from-square"></i>
+             </a>`
+          : '';
+
+        bodyEl.innerHTML = `
+          <div class="h-[320px] w-full border-b-[3px] border-[#100a26] bg-[#0c081f] sm:h-[430px]">${mediaHtml}</div>
+          <div class="p-6 space-y-8">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+              <div class="space-y-6 lg:col-span-7">
+                <div>
+                  <h3 class="font-display text-base font-bold text-[#f5f3ff]">Descripción del proyecto</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-[#d7d2f2]">${project.summary}</p>
+                </div>
+                <div>
+                  <h3 class="font-display text-base font-bold text-[#f5f3ff]">Lo que se desarrolló</h3>
+                  <ul class="mt-3 space-y-2.5">${highlightsHtml}</ul>
+                </div>
+                ${rolesHtml}
+                ${controlsHtml}
+                ${galleryHtml}
+              </div>
+              <div class="space-y-5 lg:col-span-5">
+                <div class="rounded-2xl border-[3px] border-[#100a26] bg-[#140d2e] p-5">
+                  <h3 class="font-display text-sm font-bold uppercase text-[#ffb703]">Enfoque QA y Optimización</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-[#d7d2f2]">${project.qaFocus}</p>
+                </div>
+                <div>
+                  <h3 class="font-display text-xs font-bold uppercase text-[#b4aed6]">Tecnologías</h3>
+                  <div class="mt-2 flex flex-wrap gap-2">${toolsHtml}</div>
+                </div>
+                ${gameDownloadHtml}
+                ${reportDownloadHtml}
+                ${externalBtnHtml}
               </div>
             </div>
-
-            ${githubHtml}
-            ${reportBtnHtml}
-            ${externalBtnHtml}
           </div>
-        </div>
-        ${project.hasReport ? buildTechnicalReportHtml() : ''}
-      `;
+        `;
 
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    };
-  </script>
-</body>
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProjectModal() {
+        const modal = document.getElementById('project-modal');
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderSkills('todas');
+        renderProjects('todos');
+
+        // Menú móvil
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+          menuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            menuBtn.setAttribute('aria-expanded', String(!isHidden));
+          });
+          document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+            link.addEventListener('click', () => {
+              mobileMenu.classList.add('hidden');
+              menuBtn.setAttribute('aria-expanded', 'false');
+            });
+          });
+        }
+
+        // Toggle audio gameplay Agreas
+        let heroMuted = true;
+        const heroAudioBtn = document.getElementById('hero-audio-btn');
+        const heroAudioIcon = document.getElementById('hero-audio-icon');
+        const heroAudioLabel = document.getElementById('hero-audio-label');
+        const heroIframe = document.getElementById('hero-agreas-iframe');
+        if (heroAudioBtn && heroIframe && heroAudioIcon && heroAudioLabel) {
+          heroAudioBtn.addEventListener('click', () => {
+            heroMuted = !heroMuted;
+            heroIframe.src = `https://www.youtube.com/embed/TzulSeYVWsY?autoplay=1&mute=${heroMuted ? 1 : 0}&loop=1&playlist=TzulSeYVWsY&controls=1&modestbranding=1&rel=0`;
+            heroAudioIcon.className = heroMuted
+              ? 'fa-solid fa-volume-xmark'
+              : 'fa-solid fa-volume-high text-[#ffb703]';
+            heroAudioLabel.textContent = heroMuted ? 'Sin audio' : 'Con audio';
+          });
+        }
+
+        // Tabs de habilidades
+        document.querySelectorAll('.skill-tab-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-skill-filter') || 'todas';
+            document.querySelectorAll('.skill-tab-btn').forEach((b) => {
+              b.className = 'skill-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white';
+            });
+            btn.className = 'skill-tab-btn rounded-xl bg-[#ffb703] px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#0c081f] shadow-[0_2px_0_#05030d] transition-all';
+            renderSkills(filter);
+          });
+        });
+
+        // Tabs de proyectos
+        document.querySelectorAll('.project-tab-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-project-filter') || 'todos';
+            document.querySelectorAll('.project-tab-btn').forEach((b) => {
+              b.className = 'project-tab-btn rounded-xl px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-[#b4aed6] transition-all hover:text-white';
+            });
+            btn.className = 'project-tab-btn rounded-xl bg-[#ff477e] px-4 py-2 font-display text-xs font-bold uppercase whitespace-nowrap text-white shadow-[0_2px_0_#05030d] transition-all';
+            renderProjects(filter);
+          });
+        });
+
+        // Copiar correo
+        const copyBtn = document.getElementById('copy-email-btn');
+        const copyIcon = document.getElementById('copy-email-icon');
+        const copyText = document.getElementById('copy-email-text');
+        if (copyBtn && copyIcon && copyText) {
+          copyBtn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText('brebolledo437@gmail.com');
+              copyIcon.className = 'fa-solid fa-check text-[#38b000]';
+              copyText.textContent = 'Correo copiado: brebolledo437@gmail.com';
+              setTimeout(() => {
+                copyIcon.className = 'fa-regular fa-copy';
+                copyText.textContent = 'Copiar correo (brebolledo437@gmail.com)';
+              }, 2500);
+            } catch (e) {}
+          });
+        }
+
+        // Eventos de modal
+        const modal = document.getElementById('project-modal');
+        const modalPanel = document.getElementById('project-modal-panel');
+        const modalClose = document.getElementById('project-modal-close');
+        if (modal) modal.addEventListener('click', closeProjectModal);
+        if (modalPanel) modalPanel.addEventListener('click', (e) => e.stopPropagation());
+        if (modalClose) modalClose.addEventListener('click', closeProjectModal);
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeProjectModal();
+        });
+      });
+    </script>
+  </body>
 </html>
